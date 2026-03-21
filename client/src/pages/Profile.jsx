@@ -6,10 +6,10 @@ export default function Profile() {
 	    role="Business"
 	    tags={['Awesome Business Certified', 'FUSION Approved']}
 	    email="example@uci.edu"
-	    instagram="instagram.com"
-	    linkedin="linkedin.com"
-	    facebook="facebook.com"
-	    youtube="youtube.com"
+	    instagram="https://www.instagram.com"
+	    linkedin="https://www.linkedin.com"
+	    facebook="https://www.facebook.com"
+	    youtube="https://www.youtube.com"
 	    about="Lorem ipsum dolor sit amet"
 	/>
     );
