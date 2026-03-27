@@ -27,10 +27,13 @@ export default function Home() {
     ];
 
     return (
+        <div>
+            <h1>Home</h1>
         <div className="flex flex-col min-h-screen w-full items-center">
             {dummyData.map((post) => (
                 <PostingCard key={post.id} posting={post} />
             ))}
+        </div>
         </div>
     )
 }
