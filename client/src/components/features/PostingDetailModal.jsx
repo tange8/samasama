@@ -1,4 +1,5 @@
 import React from 'react'
+import { X, Calendar, Image } from 'lucide-react'
 
 export const PostingDetailModal = ({setIsOpen, selectedPost}) => {
     
@@ -46,11 +47,9 @@ export const PostingDetailModal = ({setIsOpen, selectedPost}) => {
         {/* Div surrounding modal content */}
         <div class="h-full overflow-y-auto">
             {/* Div surrounding modal header */}
-            <div class="flex flex-row gap-100 text-[#FF4F00] text-[32px]">
+            <div class="flex flex-row items-center gap-100 text-[#FF4F00] text-[32px]">
                 <h1>View Event</h1>
-                <button
-                    onClick={() => setIsOpen(false)}
-                >X</button>
+                <X class="w-[48px] h-[48px]" onClick={() => setIsOpen(false)}></X>
             </div>
 
             {/* Div surrounding event information */}
@@ -58,7 +57,7 @@ export const PostingDetailModal = ({setIsOpen, selectedPost}) => {
                 <div class="flex flex-col gap-2">
                     <h1 class="text-black text-2xl">{selectedPost.title}</h1>
                     <div class="flex flex-row gap-5 text-[#4A4459]">
-                        <p>Calendar Icon</p>
+                        <Calendar/>
                         <p>{formatDateTime(selectedPost.start_time, selectedPost.end_time)}</p>            
                     </div>
                 </div>
@@ -70,9 +69,9 @@ export const PostingDetailModal = ({setIsOpen, selectedPost}) => {
 
                 <div class="flex flex-col gap-5">
                     <h1 class="text-2xl text-[#FF4F00]">Tags</h1>
-                    <div class="flex flex-row w-fit gap-5 p-2 bg-[#FF4F00] text-white rounded-[10px]">
+                    <div class="flex flex-row w-[134px] h-[29px] items-center justify-center gap-5 p-2 bg-[#FF4F00] text-white rounded-[10px]">
                         <p>Event Tag</p>
-                        <p>X</p>
+                        <X class="stroke-[4px]"/>
                     </div>
                 </div>
                                         
@@ -87,7 +86,7 @@ export const PostingDetailModal = ({setIsOpen, selectedPost}) => {
                 </div>
 
                 <div class="flex items-center justify-center w-full h-[276px] rounded-[5px] bg-gray-300 text-white">
-                    IMAGE
+                    <Image/>
                 </div>
 
             </div>
