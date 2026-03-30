@@ -78,7 +78,7 @@ export const PostingDetailModal = ({setIsOpen, selectedPost}) => {
                 <div className="flex flex-col gap-5">
                     <h1 className="text-2xl text-[#FF4F00]">Mentions</h1>
                     <div className="flex flex-row gap-5 items-center">
-                        <div classNameName="w-[50px] h-[50px] rounded-full bg-[#FF4F00] text-white flex items-center justify-center">
+                        <div className="w-[50px] h-[50px] rounded-full bg-[#FF4F00] text-white flex items-center justify-center">
                             IMG
                         </div>
                         <p>{selectedPost.group_name}</p>
