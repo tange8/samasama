@@ -8,7 +8,7 @@ export default function ProfileBio(profile) {
     return (
 	<div class="bg-[#FFDCBE] w-full h-auto border-[3px] border-[#FF4F00] rounded-[6px] flex flex-col justify-between p-4">
 	    <div class="flex flex-col md:flex-row content-start items-center gap-4 px-2 p-4">
-		<img src="https://static.vecteezy.com/system/resources/previews/005/544/718/non_2x/profile-icon-design-free-vector.jpg" class="w-[150px] h-[150px] rounded-[20px]"/>
+		<img src={profile.profileImage} class="w-[150px] h-[150px] rounded-[20px]"/>
 		<div class="flex flex-col justify-between h-full">
 		    <h1 class="font-black text-3xl md:text-5xl text-center md:text-start">{profile.name}</h1>
 		    <h2 class="text-xl md:text-2xl font-semibold text-center md:text-start p-2">{profile.role}</h2>

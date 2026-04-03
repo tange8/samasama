@@ -2,7 +2,9 @@ import ProfileBio from "../components/features/ProfileBio"
 
 export default function Profile() {
     return (
-	<ProfileBio name="John Doe"
+	<ProfileBio
+	    profileImage = "https://static.vecteezy.com/system/resources/previews/005/544/718/non_2x/profile-icon-design-free-vector.jpg"
+	    name="John Doe"
 	    role="Business"
 	    tags={['Awesome Business Certified', 'FUSION Approved']}
 	    email="example@uci.edu"
