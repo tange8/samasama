@@ -3,7 +3,7 @@ import Layout from "./components/layout/Layout";
 
 // Step 1: Import your pages here
 import Home from './pages/Home'
-
+import Profile from './pages/ProfilePage';
 function App() {
   return (
     <BrowserRouter>
@@ -13,6 +13,7 @@ function App() {
         {/* ── Routes WITH a Navbar ── */}
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
+          <Route path="/profile" element={<Profile />} /> 
         </Route>
 
         {/* ── Routes WITHOUT a Navbar ── */}
