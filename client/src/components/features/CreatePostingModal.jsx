@@ -120,9 +120,13 @@ export const CreatePostingModal = ({setAddEventOpen}) => {
 
     return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-
-    <div className="fixed right-0 top-0 bg-[#FFDCBE] max-w-[859px] h-screen rounded-tl-[15px] rounded-bl-[15px] p-8">
-        
+    <div
+        className="fixed inset-0 z-50"
+        onClick={() => setAddEventOpen(false)}
+    >
+    <div className="fixed right-0 top-0 bg-[#FFDCBE] w-[90vw] min-w-[300px] max-w-[800px] h-screen rounded-tl-[15px] rounded-bl-[15px] p-8"
+        onClick={(e) => e.stopPropagation()}
+    >    
         {/* Div surrounding modal content */}
         <div className="h-full overflow-y-auto">
             {/* Div surrounding modal header */}
@@ -135,11 +139,11 @@ export const CreatePostingModal = ({setAddEventOpen}) => {
             <div className="flex flex-col gap-6">
 
                 {/* Div for name, org, description inputs */}
-                <div className="flex flex-col items-center justify-center gap-8 py-5 px-25">
+                <div className="flex flex-col items-center justify-center gap-8 py-2 px-15">
                     
                     {/* Title: Non-null input */}
-                    <div className="flex flex-col justify-start relative">
-                    <label className="flex flex-row justify-between w-[631px] h-[45px] py-[10px] px-[20px] text-[#79747E] bg-white border border-[#FF4F00] rounded-[20px]">
+                    <div className="flex flex-col justify-start w-full relative">
+                    <label className="flex flex-row justify-between w-full py-2 px-4 text-[#79747E] bg-white border border-[#FF4F00] rounded-[20px]">
                         <input
                         type='text'
                         placeholder='Name your event...'
@@ -152,7 +156,7 @@ export const CreatePostingModal = ({setAddEventOpen}) => {
                     </div>
                     
 
-                    <label className="flex flex-row justify-between w-[631px] h-[45px] py-[10px] px-[20px] text-[#79747E] bg-white border border-[#FF4F00] rounded-[20px]">
+                    <label className="flex flex-row justify-between w-full py-2 px-4 text-[#79747E] bg-white border border-[#FF4F00] rounded-[20px]">
                         <input
                         type='text'
                         placeholder='Your organization...'
@@ -161,7 +165,7 @@ export const CreatePostingModal = ({setAddEventOpen}) => {
                         <Pencil/>
                     </label>
 
-                    <label className="flex flex-row justify-between items-center w-[631px] h-[109px] py-[10px] px-[20px] text-[#79747E] bg-white border border-[#FF4F00] rounded-[20px]">
+                    <label className="flex flex-row justify-between items-center w-full py-2 px-4 text-[#79747E] bg-white border border-[#FF4F00] rounded-[20px]">
                         <textarea
                         rows={4}
                         placeholder='Description...'
@@ -178,8 +182,8 @@ export const CreatePostingModal = ({setAddEventOpen}) => {
                 <div className="flex flex-col justify-center items-center gap-4">
                     
                     {/* Start/end date: Non-null input(s) */}
-                    <div className="flex flex-col justify-start relative">
-                    <div className="flex flex-row justify-between items-center w-[631px] h-[55px] py-[10px] px-[20px] text-[#79747E] bg-white border border-[#FF4F00] rounded-[20px]">
+                    <div className="flex flex-col w-full max-w-[630px] justify-start relative">
+                    <div className="flex flex-row justify-between items-center py-2 px-4 text-[#79747E] bg-white border border-[#FF4F00] rounded-[20px]">
                         <DatePicker 
                             label="Start Date"
                             value={formData.startDate}
@@ -218,10 +222,10 @@ export const CreatePostingModal = ({setAddEventOpen}) => {
                     {(errors.startDate || errors.endDate) && <p className="top-full pl-4 text-[#FF4F00]">* Mising start and/or end date</p>}
                     </div>
                     
-                    <div className="flex flex-col">
-                    <div className="flex flex-row justify-between items-center gap-4">
+                    <div className="flex flex-col w-full max-w-[630px]">
+                    <div className="flex flex-row w-full justify-center items-center gap-4">
                         
-                        <div className="flex flex-col justify-between items-center w-[177px] h-[55px] py-[10px] px-[20px] text-[#79747E] bg-white border border-[#FF4F00] rounded-[20px]">
+                        <div className="basis-[177px] flex-shrink min-w-0 py-2 px-4 text-[#79747E] bg-white border border-[#FF4F00] rounded-[20px]">
                             <TimePicker
                                 label="Start Time"
                                 value={formData.startClock}
@@ -242,7 +246,7 @@ export const CreatePostingModal = ({setAddEventOpen}) => {
                             />
                         </div>
                         <p>to</p>
-                        <div className="flex flex-col justify-between items-center w-[177px] h-[55px] py-[10px] px-[20px] text-[#79747E] bg-white border border-[#FF4F00] rounded-[20px]">
+                        <div className="basis-[177px] flex-shrink min-w-0 py-2 px-4 text-[#79747E] bg-white border border-[#FF4F00] rounded-[20px]">
                             <TimePicker
                                 label="End Time"
                                 value={formData.endClock}
@@ -284,7 +288,7 @@ export const CreatePostingModal = ({setAddEventOpen}) => {
                         <select
                             onChange={handleTagSelect}
                             defaultValue=''
-                            className="w-[631px] h-[45px] py-[10px] px-[20px] text-[#79747E] bg-white border border-[#FF4F00] rounded-[20px] focus:outline-none"
+                            className="w-full max-w-[630px] min-h-[45px] px-4 text-[#79747E] bg-white border border-[#FF4F00] rounded-[20px] focus:outline-none"
                         >
                             <option value="" disabled>Select tags...</option>
                             {options.map((tag) => (
@@ -313,7 +317,7 @@ export const CreatePostingModal = ({setAddEventOpen}) => {
                     </label>
                 </div>
 
-                <div className="flex justify-center items-center w-[631px] h-[45px] mx-auto py-[10px] px-[20px] text-[#79747E] bg-white border border-[#FF4F00] rounded-[20px]">
+                <div className="flex justify-center items-center w-full max-w-[630px] min-h-[45px] mx-auto px-4 text-[#79747E] bg-white border border-[#FF4F00] rounded-[20px]">
                     <label>
                         <input 
                         type='file' 
@@ -337,7 +341,7 @@ export const CreatePostingModal = ({setAddEventOpen}) => {
             </div>
         </div>
     </div>
-
+    </div>
     </LocalizationProvider>
 
   )
