@@ -95,13 +95,13 @@ export const CreatePostingModal = ({setAddEventOpen}) => {
     }
 
   const handleSubmit = async () => {
-    const startTime = combineDateTime(formData.startDate, formData.startClock)
-    const endTime = combineDateTime(formData.endDate, formData.endClock)
-    
     // Confirm required input filled 
     const isValid = validateForm()
     if(!isValid) return
 
+    const startTime = combineDateTime(formData.startDate, formData.startClock)
+    const endTime = combineDateTime(formData.endDate, formData.endClock)
+    
     const payload = {
         title: formData.title,
         description: formData.description,
@@ -227,7 +227,7 @@ export const CreatePostingModal = ({setAddEventOpen}) => {
                                 value={formData.startClock}
                                 onChange={(newValue) => updateField('startClock', newValue)}
                                 slots={{
-                                    openPickerIcon: ChevronDown
+                                    openPickerIcon: () => <ChevronDown/>
                                 }}
                                 slotProps={{
                                     textField: {
@@ -249,7 +249,7 @@ export const CreatePostingModal = ({setAddEventOpen}) => {
                                 onChange={(newValue) => updateField('endClock', newValue)}
                                 minTime={formData.startClock}
                                 slots={{
-                                    openPickerIcon: ChevronDown
+                                    openPickerIcon: () => <ChevronDown/>
                                 }}
                                 slotProps={{
                                     textField: {
@@ -295,7 +295,7 @@ export const CreatePostingModal = ({setAddEventOpen}) => {
                         {/* Map out selected tags */}
                         <div className="flex flex-row gap-2">
                             {formData.tags.map((tag)=> (
-                                <div className="flex flex-row gap-2 p-2 w-fit text-white bg-[#FF4F00] rounded-[10px]"> 
+                                <div key={tag} className="flex flex-row gap-2 p-2 w-fit text-white bg-[#FF4F00] rounded-[10px]"> 
                                     <p>{tag}</p>
                                     <X onClick={() => removeTag(tag)}/>
                                 </div>
