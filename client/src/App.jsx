@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./components/layout/Layout";
+import Profile from "./pages/Profile"
 
 // Step 1: Import your pages here
 import Home from './pages/Home'
@@ -15,6 +16,7 @@ function App() {
         {/* ── Routes WITH a Navbar ── */}
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
+	  <Route path="/profile" element={<Profile />} />
         </Route>
 
         {/* ── Routes WITHOUT a Navbar ── */}
