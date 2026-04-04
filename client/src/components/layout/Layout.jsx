@@ -7,7 +7,7 @@ export default function Layout() {
             <Sidebar />
             
             <main className="flex-grow flex flex-col items-center p-8">
-                <div className="w-full max-w-8xl">
+                <div className="w-full">
                     <Outlet />
                 </div>
             </main>
