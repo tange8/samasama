@@ -6,7 +6,7 @@ const app = express()
 app.use(cors())
 app.use(express.json())
 
-//Please register your routes here
+//Please register your routes here by importing the router and utilizing app.use
 // example:
 // import postingsRouter from './routes/postings.js'
 // app.use('/postings', postingsRouter)
