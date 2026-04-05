@@ -42,6 +42,6 @@ export default function Home() {
                 <PostingCard key={post.id} posting={post} />
             ))}
         </div>
-        </div>
+      
     )
 }

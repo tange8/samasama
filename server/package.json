@@ -1,0 +1,13 @@
+{
+  "name": "samasama-server",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "start": "node src/app.js"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.101.1",
+    "cors": "^2.8.6",
+    "express": "^5.2.1"
+  }
+}
