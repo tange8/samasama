@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import { X, Pencil, ChevronDown } from 'lucide-react'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
-import { TimePicker } from '@mui/x-date-pickers/TimePicker';
+import { TimePicker } from '@mui/x-date-pickers/TimePicker'
+import { motion } from "framer-motion"
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import dayjs from 'dayjs'
@@ -21,14 +22,13 @@ export const CreatePostingModal = ({setAddEventOpen}) => {
   // States for frontend
   const [formData, setFormData] = useState({
     title: '',
-    organization: '',
+    location: '',
     description: '',
     startDate: null, 
     endDate: null,
     startClock: null,
     endClock: null,
-    tags: [],
-    mentionTaggedOrgs: false,
+    mentionOrgs: [],
     attachment: null
   })
   const updateField = (field, value) => {
@@ -38,20 +38,20 @@ export const CreatePostingModal = ({setAddEventOpen}) => {
     }))
   }
 
-  const handleTagSelect = (e) => {
+  const handleOrgSelect = (e) => {
     const value = e.target.value
     // Only add value if not already selected
-    if (value && !formData.tags.includes(value)){
+    if (value && !formData.mentionOrgs.includes(value)){
         // Concat value to tags
-        updateField('tags', [...formData.tags, value])
+        updateField('mentionOrgs', [...formData.mentionOrgs, value])
     }
     // Reset dropdown
     e.target.value = ''
   }
 
-  const removeTag = (tag) => {
+  const removeMentionedOrg = (org) => {
     // Add everything back except tag we're removing
-    updateField('tags', formData.tags.filter((t) => t !== tag))
+    updateField('mentionOrgs', formData.mentionOrgs.filter((o) => o !== org))
   }
 
   // Convert startDate, startClock => startTime (for backend)
@@ -108,11 +108,6 @@ export const CreatePostingModal = ({setAddEventOpen}) => {
         photo_link: formData.attachment,
         start_time: startTime.toISOString(),
         end_time: endTime.toISOString()
-        // Missing frontend aspect for:
-            //  1. location picking
-            //  2. type of event (event/fundraiser)
-        // Missing backend logic for: Recurring daily within range ("Set specific times per day")
-
     }
     // TO DO: replace with API push logic
     console.log(payload)
@@ -121,14 +116,18 @@ export const CreatePostingModal = ({setAddEventOpen}) => {
     return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
     <div
-        className="fixed inset-0 z-50"
+        className="fixed inset-0 z-50 bg-black/20"
         onClick={() => setAddEventOpen(false)}
     >
-    <div className="fixed right-0 top-0 bg-[#FFDCBE] w-[90vw] min-w-[300px] max-w-[800px] h-screen rounded-tl-[15px] rounded-bl-[15px] p-8"
+    <motion.div className="fixed right-0 top-0 bg-[#FFDCBE] w-[90vw] min-w-[300px] max-w-[800px] h-screen rounded-tl-[50px] rounded-bl-[50px] shadow-[-12px_0_20px_rgba(0,0,0,0.15)]"
+        initial={{ x: "100%" }}
+        animate={{ x: 0 }}
+        exit={{ x: "100%" }}
+        transition={{ duration: 0.3, ease: "easeOut" }}
         onClick={(e) => e.stopPropagation()}
     >    
         {/* Div surrounding modal content */}
-        <div className="h-full overflow-y-auto">
+        <div className="h-full overflow-y-auto p-8">
             {/* Div surrounding modal header */}
             <div className="flex flex-row w-full items-center justify-between text-[#FF4F00] text-[32px]">
                 <h1>New Event</h1>
@@ -159,7 +158,7 @@ export const CreatePostingModal = ({setAddEventOpen}) => {
                     <label className="flex flex-row justify-between w-full py-2 px-4 text-[#79747E] bg-white border border-[#FF4F00] rounded-[20px]">
                         <input
                         type='text'
-                        placeholder='Your organization...'
+                        placeholder='Enter location...'
                         className="w-full outline-none"
                         />
                         <Pencil/>
@@ -270,51 +269,38 @@ export const CreatePostingModal = ({setAddEventOpen}) => {
                     </div>
                         {(errors.startClock || errors.endClock) && <p className="top-full pl-4 text-[#FF4F00]">* Missing start and/or end time</p>}
                     </div>
-
-                    <label className="flex flex-row gap-4 items-center">
-                        <input type='checkbox' className="w-[20px] h-[20px] rounded bg-[#FFDCBE] accent-[#FF4F00]"/>
-                        <p className="text-[#4A4459]">Set specific times per day</p>
-                    </label>
                 </div>
             
-                {/* TO DO: Define Tags */}
+                {/* Mentions */}
                 <div className="flex flex-col gap-6">
-                    <h1 className="text-[#FF4F00] text-[24px]">Tags</h1>
-                    <p className="text-[#4A4459]">Select one or more tags</p>
+                    <h1 className="text-[#FF4F00] text-[24px]">Mentions</h1>
+                    <p className="text-[#4A4459]">Want to collaborate with another organization?</p>
 
-                    {/* Tag select dropdown and displayed selected tags */}
+                    {/* Org select dropdown and displayed selected orgs */}
                     <div className="flex flex-col gap-4 justify-center items-center">
-                        {/* Tag multi-select */}
+                        {/* Org multi-select */}
                         <select
-                            onChange={handleTagSelect}
+                            onChange={handleOrgSelect}
                             defaultValue=''
                             className="w-full max-w-[630px] min-h-[45px] px-4 text-[#79747E] bg-white border border-[#FF4F00] rounded-[20px] focus:outline-none"
                         >
-                            <option value="" disabled>Select tags...</option>
-                            {options.map((tag) => (
-                                <option key={tag} value={tag}>{tag}</option>
+                            <option value="" disabled>Select orgs...</option>
+                            {options.map((org) => (
+                                <option key={org} value={org}>{org}</option>
                             ))}
                         </select>
 
                         {/* Map out selected tags */}
                         <div className="flex flex-row gap-2">
-                            {formData.tags.map((tag)=> (
-                                <div key={tag} className="flex flex-row gap-2 p-2 w-fit text-white bg-[#FF4F00] rounded-[10px]"> 
-                                    <p>{tag}</p>
-                                    <X onClick={() => removeTag(tag)}/>
+                            {formData.mentionOrgs.map((org)=> (
+                                <div key={org} className="flex flex-row gap-2 p-2 w-fit text-white bg-[#FF4F00] rounded-[10px]"> 
+                                    <p>{org}</p>
+                                    <X onClick={() => removeMentionedOrg(org)}/>
                                 </div>
                             ))}
 
                         </div>
                     </div>
-                </div>
-
-                <div className="flex flex-col gap-6">
-                    <h1 className="text-[#FF4F00] text-[24px]">Mentions</h1>
-                    <label className="flex flex-row gap-4 items-center">
-                        <input type='checkbox' className="w-[20px] h-[20px] rounded bg-[#FFDCBE] accent-[#FF4F00]"/>
-                        <p className="text-[#4A4459]">Mention other organizational accounts tagged above</p>
-                    </label>
                 </div>
 
                 <div className="flex justify-center items-center w-full max-w-[630px] min-h-[45px] mx-auto px-4 text-[#79747E] bg-white border border-[#FF4F00] rounded-[20px]">
@@ -340,7 +326,7 @@ export const CreatePostingModal = ({setAddEventOpen}) => {
                 
             </div>
         </div>
-    </div>
+    </motion.div>
     </div>
     </LocalizationProvider>
 
