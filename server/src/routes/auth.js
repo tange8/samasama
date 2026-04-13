@@ -51,29 +51,34 @@ router.post("/register", async(req, res) => {
 router.post("/login", async (req, res) => {
     try {
         const { email, password } = req.body
-
+        console.log("Email: ", email)
+        console.log("Password: ", password)
+        
         if (!email || !password) {
             return res.status(400).json({ message: "Need email and password" })
         }
 
-        const { error } = await supabaseAdmin.auth.signInWithPassword({
+        const { data, error } = await supabaseAdmin.auth.signInWithPassword({
             email,
             password
         })
 
         if (error) {
             console.error("Error: ", error.message)
-            res.status(500).json({ message: "Error logging in" })
+            return res.status(401).json({ message: error.message })
         }
 
-        res.status(200).json({ message: "Logged in" })
+        return res.status(200).json({
+            message: "Logged in",
+            user: data.user,
+            session: data.session
+        })
+
     } catch (error) {
         console.error("Error: ", error.message)
         res.status(500).json({ error: "Internal server error"})
     }
 })
-
-export default router;
 
 // logout
 router.post("/logout", async (req, res) => {
@@ -82,7 +87,7 @@ router.post("/logout", async (req, res) => {
 
         if ( error ) {
             console.error("Error: ", error.message)
-            res.status(500).json({ message: "Error Logging out" })
+            return res.status(500).json({ message: "Error Logging out" })
         }
 
         res.status(200).json({ message: "Log out successful" })
@@ -92,3 +97,5 @@ router.post("/logout", async (req, res) => {
         res.status(500).json({ error: "Internal server error" })
     }
 })
+
+export default router;
