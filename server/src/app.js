@@ -1,5 +1,6 @@
 import express from 'express'
 import cors from 'cors'
+import profilesRouter from './routes/profiles.js'
 
 const app = express()
 
@@ -14,5 +15,6 @@ app.use(express.json())
 app.listen(5173, () => {
   console.log('Server running on port 5173')
 })
+app.use('/api/profiles', profilesRouter)
 
 export default app
