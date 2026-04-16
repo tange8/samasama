@@ -1,6 +1,7 @@
 import express from 'express'
 import cors from 'cors'
 import authRouter from "./routes/auth.js"
+import profilesRouter from './routes/profiles.js'
 
 const app = express()
 
@@ -20,5 +21,6 @@ app.listen(3000, () => {
 app.get('/api/health', (req, res) => {
   res.status(200).json({success: true})
 })
+app.use('/api/profiles', profilesRouter)
 
 export default app
