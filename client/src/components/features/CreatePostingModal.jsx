@@ -11,7 +11,7 @@ dayjs.extend(advancedFormat)
 
 export const CreatePostingModal = ({setAddEventOpen}) => {
   const options = ['Kababayan', 'Fusion', 'Pass', 'Puso'];
-  
+
   const [errors, setErrors] = useState({
     title: '',
     startDate: '',
@@ -128,7 +128,19 @@ export const CreatePostingModal = ({setAddEventOpen}) => {
     >    
         {/* Div surrounding modal content */}
         <div className="h-full overflow-y-auto p-8">
-            {/* Div surrounding modal header */}
+            {/* Div surrounding modal header: 
+                **TO DO**: Change header based on user type
+                    Business -> Fundraiser
+                    Org -> Event
+            */}
+            <div className="flex flex-row gap-5 items-center pb-4">
+                <div className="w-[50px] h-[50px] rounded-full bg-[#FF4F00] text-white flex items-center justify-center">
+                    IMG
+                </div>
+                <div>
+                    <p>Org/business name</p>
+                </div>
+            </div>
             <div className="flex flex-row w-full items-center justify-between text-[#FF4F00] text-[32px]">
                 <h1>New Event</h1>
                 <X className="w-[48px] h-[48px]" onClick={() => setAddEventOpen(false)}></X>
@@ -183,6 +195,8 @@ export const CreatePostingModal = ({setAddEventOpen}) => {
                     {/* Start/end date: Non-null input(s) */}
                     <div className="flex flex-col w-full max-w-[630px] justify-start relative">
                     <div className="flex flex-row justify-between items-center py-2 px-4 text-[#79747E] bg-white border border-[#FF4F00] rounded-[20px]">
+                        
+                        {/* May change -> New calendar component */}
                         <DatePicker 
                             label="Start Date"
                             value={formData.startDate}
@@ -216,8 +230,9 @@ export const CreatePostingModal = ({setAddEventOpen}) => {
                                     }
                                 }
                             }}
-                        />
+                        />                        
                     </div>
+
                     {(errors.startDate || errors.endDate) && <p className="top-full pl-4 text-[#FF4F00]">* Mising start and/or end date</p>}
                     </div>
                     
