@@ -1,7 +1,6 @@
 import express from 'express';
-import {createClient} from '@supabase/supabase-js'
+import { supabaseAdmin } from '../../config/supabaseAdmin.js'
 
-const supabase = createClient('https://pzazipbuaqshnkqgixzt.supabase.co')
 
 const router = express.Router();
 
@@ -11,7 +10,7 @@ router.get('/:role/:id', async (req, res) => {
 
   const table = role === 'student' ? 'students' : 'groups';
 
-  const { data, error } = await supabase
+  const { data, error } = await supabaseAdmin
     .from(table)
     .select('*')
     .eq('id', id)
@@ -29,7 +28,7 @@ router.put('/:role/:id', async (req, res) => {
 
   const table = role === 'student' ? 'students' : 'groups';
 
-  const { data, error } = await supabase
+  const { data, error } = await supabaseAdmin
     .from(table)
     .update(updates)
     .eq('id', id)
@@ -45,7 +44,7 @@ router.put('/:role/:id', async (req, res) => {
 router.get('/student/:id/follows', async (req, res) => {
   const { id } = req.params;
 
-  const { data, error } = await supabase
+  const { data, error } = await supabaseAdmin
     .from('follows')
     .select('groups(*)') // join groups table
     .eq('student_id', id);
@@ -59,7 +58,7 @@ router.get('/student/:id/follows', async (req, res) => {
 router.delete('/student/:id/follows/:groupId', async (req, res) => {
   const { id, groupId } = req.params;
 
-  const { error } = await supabase
+  const { error } = await supabaseAdmin
     .from('follows')
     .delete()
     .match({ student_id: id, group_id: groupId });
@@ -74,7 +73,7 @@ router.post('/student/:id/saved', async (req, res) => {
   const { id } = req.params;
   const { posting_id } = req.body;
 
-  const { data, error } = await supabase
+  const { data, error } = await supabaseAdmin
     .from('saved_posts')
     .insert([{ student_id: id, posting_id }]);
 
@@ -88,7 +87,7 @@ router.delete('/student/:id/saved', async (req, res) => {
   const { id } = req.params;
   const { posting_id } = req.body;
 
-  const { data, error } = await supabase
+  const { data, error } = await supabaseAdmin
     .from('saved_posts')
     .delete([{ student_id: id, posting_id }]);
 
