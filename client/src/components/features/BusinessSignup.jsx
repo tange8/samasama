@@ -11,14 +11,38 @@ export default function BusinessSignup ({goBack}) {
     const [phone, setPhone] = useState("");
     const [password, setPassword] = useState("");
 
-    const handleSubmit = () => {
-        console.log("Name: ", name);
-        console.log("Business: ", business);
-        console.log("Email: ", email);
-        console.log("Phone Number: ", phone);
-        console.log("Password: ", password);
+    const handleSubmit = async () => {
+        const names = name.split(" ")
 
-        navigate("/")
+        try {
+            const res = await fetch("http://localhost:3000/api/auth/register", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    email,
+                    password,
+                    first_name: names[0],
+                    last_name: names[1],
+                    role: "business",
+                    businessName: business,
+                    phoneNumber: phone
+                })
+            })
+
+            const data = await res.json()
+
+            if (!res.ok) {
+                setError(data.message)
+                return
+            }
+
+            navigate("/")
+        } catch (error) {
+            setError(error)
+            console.error("Error signing up: ", error);
+        }
     }
 
     return (

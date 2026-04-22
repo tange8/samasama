@@ -8,13 +8,38 @@ export default function StudentSignup ({goBack}) {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [error, setError] = useState("")
 
-    const handleSubmit = () => {
-        console.log("Name: ", name);
-        console.log("Email: ", email);
-        console.log("Password: ", password);
+    const handleSubmit = async () => {
+        const names = name.split(" ")
 
-        navigate("/")
+        try {
+            const res = await fetch("http://localhost:3000/api/auth/register", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    email,
+                    password,
+                    first_name: names[0],
+                    last_name: names[1],
+                    role: "student"
+                })
+            })
+
+            const data = await res.json()
+
+            if (!res.ok) {
+                setError(data.message)
+                return
+            }
+
+            navigate("/")
+        } catch (error) {
+            setError(error)
+            console.error("Error signing up: ", error);
+        }
     }
 
     return (
@@ -53,6 +78,7 @@ export default function StudentSignup ({goBack}) {
             <button className="w-50 h-[50px] bg-[#FFE3CA] border-[3px] border-[#FF9B00] rounded-[11px] cursor-pointer mt-8.25 mb-[27px]" onClick={() => {handleSubmit()}}>
                 <h2 className="text-[24px] text-[#070154]">Create Account</h2>
             </button>
+            <h3 className="text-red-600 mb-[27px]">{error}</h3>
         </div>
     )
 }
