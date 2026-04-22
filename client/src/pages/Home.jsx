@@ -1,4 +1,9 @@
 import PostingCard from "../components/features/PostingCard"
+import { CreatePostingModal } from "../components/features/CreatePostingModal";
+import { useState } from "react";
+import { AnimatePresence } from "framer-motion";
+import { PostingDetailModal } from "../components/features/PostingDetailModal";
+import { Calendar } from "../components/features/Calendar";
 
 export default function Home() {
 
@@ -35,12 +40,34 @@ export default function Home() {
             location: "7 Leaves Cafe, Irvine"
         },
     ];
+    const [addEventOpen, setAddEventOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
+    const [selectedPost, setSelectedPost] = useState(null);
+    const [range, setRange] = useState() 
 
     return (
+        
         <div className="flex flex-col min-h-screen w-full items-center gap-5">
+            <Calendar range={range} setRange={setRange}/>
             {dummyData.map((post) => (
-                <PostingCard key={post.id} posting={post} />
+                <div
+                    key={post.id}
+                    className="contents"
+                    onClick={() => {setIsOpen(true); setSelectedPost(post)}}
+                >
+                <PostingCard key={post.id} posting={post}/>
+                </div>
             ))}
+            <button onClick={() => setAddEventOpen(true)}>+</button>
+            <AnimatePresence>
+            {addEventOpen && (
+                <CreatePostingModal setAddEventOpen={setAddEventOpen}/>
+            )}
+            {isOpen && (
+                <PostingDetailModal setIsOpen={setIsOpen} selectedPost={selectedPost}/>
+            )}
+            </AnimatePresence>
+
         </div>
       
     )
