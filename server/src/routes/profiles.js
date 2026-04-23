@@ -7,7 +7,7 @@ const router = express.Router();
 router.get('/:role/:id', async (req, res) => {
   const { role, id } = req.params;
 
-  const { data, error } = await supabase
+  const { data, error } = await supabaseAdmin
     .from(role)
     .select('*')
     .eq('id', id)
