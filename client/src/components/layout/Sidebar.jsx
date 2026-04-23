@@ -8,7 +8,7 @@ export default function Sidebar() {
         // top-0: Locks it exactly to the top pixel of the monitor.
         // h-screen: Forces the sidebar to span the exact height of the monitor.
         // flex-col: stack items vertically
-        <aside className="w-64 bg-[#FFDDBE] border-r border-[#E5C6AB] flex flex-col p-4 sticky top-0 h-screen shadow-lg">
+        <aside className="w-[300px] bg-[#FFDDBE] border-r border-[#E5C6AB] flex flex-col flex-shrink-0 p-4 sticky top-0 h-screen shadow-lg">
             
             <div className="flex flex-col h-[90%] justify-between p-6">
 
@@ -16,7 +16,7 @@ export default function Sidebar() {
             <nav className="flex flex-col items-center gap-6">
                 {/* Links will go here */}
                 <Link to="/">
-                    <img src={samasama_logo} alt="SamaSama logo" width="100" />
+                    <img src={samasama_logo} alt="SamaSama logo" width="125" />
                 </Link>
                 <Link to="/" className="flex flex-row gap-2 justify-center items-center">
                     <div className="bg-[#070154] p-2 rounded">
@@ -24,7 +24,7 @@ export default function Sidebar() {
                             color="#FFDCBE"
                         />
                     </div>
-                    <p>Home</p>
+                    <p className="hover:text-[#070154] duration-300">Home</p>
                 </Link>
                 <Link to="/profile" className="flex flex-row gap-2 justify-center items-center">
                     <div className="bg-[#FF1B29] p-2 rounded">
@@ -32,28 +32,27 @@ export default function Sidebar() {
                             color="#FFDCBE"
                         />
                     </div>
-                    <p>Profile</p>
+                    <p className="hover:text-[#FF1B29] duration-300">Profile</p>
                 </Link>
 
-                {/* No route to Saved Events page */}
                 <Link to="/events" className="flex flex-row gap-2 justify-center items-center">
                     <div className="bg-[#FF4F00] p-2 rounded">
                         <Calendar
                             color="#FFDCBE"
                         />
                     </div>
-                    <p>Events</p>
+                    <p className="hover:text-[#FF4F00] duration-300">Events</p>
                 </Link>
             </nav>
 
                 {/* Log out; No functionality right now */}
-                <div className="flex flex-row gap-2 justify-center items-center">
+                <div className="flex flex-row gap-2 justify-center items-center cursor-pointer">
                     <div className="bg-[#FF1B29] p-2 rounded">
                         <LogOut
                             color="#FFDCBE"
                         />
                     </div>
-                    <p>Logout</p>
+                    <p className="hover:text-[#FF1B29] duration-300">Logout</p>
                 </div>
             </div>
 
