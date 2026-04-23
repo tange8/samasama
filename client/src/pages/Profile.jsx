@@ -5,21 +5,21 @@ import ProfileContent from '../components/features/ProfileContent';
 export default function Profile() {
     // Supabase connection stuff
 useEffect(() => {
-    if (!user) return;
+    // if (!user) return;
 
     // profile
-    fetch(`http://localhost:3000/api/profiles/student/${user.id}`)
+    fetch('http://localhost:3000/api/profiles/users/69fd2ffd-7059-4c09-93ba-5c7423fcaa59') // TODO: Hardcoded ID for now
 	.then(res => res.json())
 	.then(setProfile)
 	.catch(console.error);
 
 	//    // follows (orgs)
-	//    fetch(`http://localhost:3000/api/profiles/student/${user.id}/follows`)
+	//    fetch('http://localhost:3000/api/profiles/student/${user.id}/follows')
 	// .then(res => res.json())
 	// .then(setSavedOrgs);
 	//
 	//    // saved posts
-	//    fetch(`http://localhost:3000/api/profiles/student/${user.id}/saved`)
+	//    fetch('http://localhost:3000/api/profiles/student/${user.id}/saved')
 	// .then(res => res.json())
 	// .then(setSavedEvents);
 
