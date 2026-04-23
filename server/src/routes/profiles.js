@@ -8,10 +8,8 @@ const router = express.Router();
 router.get('/:role/:id', async (req, res) => {
   const { role, id } = req.params;
 
-  const table = role === 'student' ? 'students' : 'groups';
-
   const { data, error } = await supabaseAdmin
-    .from(table)
+    .from(role)
     .select('*')
     .eq('id', id)
     .single();
@@ -26,10 +24,8 @@ router.put('/:role/:id', async (req, res) => {
   const { role, id } = req.params;
   const updates = req.body;
 
-  const table = role === 'student' ? 'students' : 'groups';
-
   const { data, error } = await supabaseAdmin
-    .from(table)
+    .from(role)
     .update(updates)
     .eq('id', id)
     .select()
