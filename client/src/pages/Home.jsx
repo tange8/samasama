@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useAuth } from "../context/AuthContext";
 import PostingCard from "../components/features/PostingCard"
 import { CreatePostingModal } from "../components/features/CreatePostingModal";
 import { PostingDetailModal } from "../components/features/PostingDetailModal";
@@ -142,10 +143,12 @@ export default function Home() {
     const [addEventOpen, setAddEventOpen] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
     const [selectedPost, setSelectedPost] = useState(null);
-    const [range, setRange] = useState() 
+    const [range, setRange] = useState(); 
+    const { user } = useAuth(null);
 
     return (
         <div className="flex flex-col bg-[#FFDDBE] min-h-screen h-screen w-full overscroll-none py-6 px-15 gap-5">
+    
             <div className="flex flex-col w-full gap-4">
                 <h1 className="text-[#070154] text-2xl font-medium">Welcome back, USERNAME!</h1>
                 <div className="flex flex-row w-full mx-25 gap-15 items-stretch">
@@ -198,11 +201,13 @@ export default function Home() {
                         </div>
 
                         {/* + button: create post */}
+                        { (user?.type == "business" || user?.type == "org_member") && (
                         <div className="flex justify-end mt-auto">
                             <button className="flex justify-center items-center bg-[#FF4F00] rounded w-[60px] h-[60px] cursor-pointer" onClick={() => setAddEventOpen(true)}>
                                 <Plus size={34} color="#FFDCBE"/>
                             </button>
                         </div>
+                        )}
                     </div>
 
                     <AnimatePresence>
