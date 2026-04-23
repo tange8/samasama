@@ -12,7 +12,7 @@ export default function ProfileBio(profile) {
 		<div class="flex flex-col justify-between h-full">
 		    <h1 class="font-black text-3xl md:text-5xl text-center md:text-start">{profile.name}</h1>
 		    <h2 class="text-xl md:text-2xl font-semibold text-center md:text-start p-2">{profile.role}</h2>
-		    <div class="flex flex-wrap gap-4 justify-center">
+		    <div class="flex flex-wrap gap-4 justify-center md:justify-start">
 			{profile.tags.map((tag) =>
 			    <p class="text-sm md:text-base border-[2px] border-[#FF9B00] rounded-[10px] p-1 px-2 text-center">
 				{tag}

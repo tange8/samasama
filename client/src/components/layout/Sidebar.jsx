@@ -13,8 +13,9 @@ export default function Sidebar() {
             </div>
 
             {/* Navigation Links Area */}
-            <nav className="flex flex-col gap-2">
-                {/* Links will go here */}
+            <nav className="flex flex-col gap-4 text-[#070154] text-lg font-semibold">
+                <Link to="/" className="hover:text-[#FF4F00]">Home</Link>
+                <Link to="/profile" className="hover:text-[#FF4F00]">Profile</Link>
             </nav>
 
         </aside>

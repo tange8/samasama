@@ -12,13 +12,37 @@ export default function OrgSignup ({org, goBack}) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    const handleSubmit = () => {
-        console.log("Name: ", name);
-        console.log("Email: ", email);
-        console.log("Password: ", password);
-        console.log("Organization: ", orgSelected);
+    const handleSubmit = async () => {
+        const names = name.split(" ")
 
-        navigate("/")
+        try {
+            const res = await fetch("http://localhost:3000/api/auth/register", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    email,
+                    password,
+                    first_name: names[0],
+                    last_name: names[1],
+                    role: "org_member",
+                    org: orgSelected
+                })
+            })
+
+            const data = await res.json()
+
+            if (!res.ok) {
+                setError(data.message)
+                return
+            }
+
+            navigate("/")
+        } catch (error) {
+            setError(error)
+            console.error("Error signing up: ", error);
+        }
     }
 
     
