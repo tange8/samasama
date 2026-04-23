@@ -1,7 +1,10 @@
 import express from 'express';
-import {createClient} from '@supabase/supabase-js'
+import config from '../../config/supabaseAdmin.cjs';
 
-const supabase = createClient('https://pzazipbuaqshnkqgixzt.supabase.co')
+import {createClient} from '@supabase/supabase-js';
+const supabaseUrl = "https://pzazipbuaqshnkqgixzt.supabase.co";
+const supabaseServiceKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB6YXppcGJ1YXFzaG5rcWdpeHp0Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3MTUzNzAzNiwiZXhwIjoyMDg3MTEzMDM2fQ.Tr1h1cXeGcAs969jz_GF4MrRayuG5GQAWpjJ6hTwmrc";
+const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
 const router = express.Router();
 
@@ -9,10 +12,8 @@ const router = express.Router();
 router.get('/:role/:id', async (req, res) => {
   const { role, id } = req.params;
 
-  const table = role === 'student' ? 'students' : 'groups';
-
   const { data, error } = await supabase
-    .from(table)
+    .from(role)
     .select('*')
     .eq('id', id)
     .single();
@@ -27,10 +28,8 @@ router.put('/:role/:id', async (req, res) => {
   const { role, id } = req.params;
   const updates = req.body;
 
-  const table = role === 'student' ? 'students' : 'groups';
-
   const { data, error } = await supabase
-    .from(table)
+    .from(role)
     .update(updates)
     .eq('id', id)
     .select()
