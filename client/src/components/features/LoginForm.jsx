@@ -1,20 +1,71 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function LoginForm() {
+    const [ email, setEmail ] = useState("")
+    const [ password, setPassword ] = useState("")
+    const [ error, setError ] = useState("")
+
     const navigate = useNavigate();
+
+    const handleLogin = async () => {
+        if (!email) {
+            setError("Need email to log in")
+        } else if (!password) {
+            setError("Need password to log in")
+        } else if (!email && !password) {
+            setError("Need email and password to log in")
+        }
+
+        try {
+            const res = await fetch("http://localhost:3000/api/auth/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    email,
+                    password
+                })
+            })
+
+            const data = await res.json()
+
+            if (!res.ok) {
+                setError(data.message)
+                return
+            }
+
+            navigate("/")
+
+            
+        } catch (error) {
+            console.error("Error logging in: ", error.message)
+        }
+    }
 
     return (
         <div className="flex flex-col items-center h-115 w-160 bg-[#FFE3CA] border-[3px] border-[#070154] rounded-[11px] ">
             <h1 className="mt-9.5 text-[32px] font-extrabold">Log In</h1>
             <div className="flex flex-col mt-4.5">
                 <h2 className="text-[#070154] text-[24px]">Email Address</h2>
-                <input className="w-100 h-10 border-[3px] border-[#FF4F00] bg-[#FFDCBE] rounded-md p-1.5"/>
+                <input 
+                    className="w-100 h-10 border-[3px] border-[#FF4F00] bg-[#FFDCBE] rounded-md p-1.5"
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                />
             </div>
             <div className="flex flex-col mt-6.25">
                 <h2 className="text-[#070154] text-[24px]">Password</h2>
-                <input className="w-100 h-10 border-[3px] border-[#FF4F00] bg-[#FFDCBE] rounded-md p-1.5"/>
+                <input 
+                    className="w-100 h-10 border-[3px] border-[#FF4F00] bg-[#FFDCBE] rounded-md p-1.5"
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                />
             </div>
-            <button className="w-37.5 h-12.5 bg-[#FFE3CA] border-[3px] border-[#FF9B00] rounded-[11px] mt-7 cursor-pointer">
+            <button className="w-37.5 h-12.5 bg-[#FFE3CA] border-[3px] border-[#FF9B00] rounded-[11px] mt-7 cursor-pointer" onClick={() => {handleLogin()}}>
                 <h2 className="text-[24px] text-[#070154]">Log In</h2>
             </button>
 
