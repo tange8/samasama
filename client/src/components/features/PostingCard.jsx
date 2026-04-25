@@ -14,9 +14,9 @@ export default function PostingCard({ posting }) {
         
         {/* Image */}
         <div className="w-[130px] h-[130px] bg-[#D3D3D3] rounded-md flex-shrink-0 overflow-hidden flex items-center justify-center">
-            {posting.image_url ? (
+            {posting.photo_url ? (
                 <img
-                    src={posting.image_url}
+                    src={posting.photo_url}
                     alt="posting"
                     className="w-full h-full object-cover"
                 />
@@ -44,7 +44,7 @@ export default function PostingCard({ posting }) {
         {/* Group Name + Date Range + Location */}
         <div className="flex flex-col max-w-[180px] justify-between text-sm text-gray-700 flex-shrink-0">
             <div className="flex items-center gap-2">
-                <HiOutlineUserGroup className="text-red-500 text-xl flex-shrink-0" /> {posting.group_name}
+                <HiOutlineUserGroup className="text-red-500 text-xl flex-shrink-0" /> {posting.created_by}
             </div>
             <div className="flex items-center gap-2">
                 <HiOutlineClock className="text-orange-600 text-xl flex-shrink-0" /> {formatTime(posting.start_time)} - {formatTime(posting.end_time)}

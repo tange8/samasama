@@ -90,15 +90,15 @@ export const PostingDetailModal = ({setIsOpen, selectedPost}) => {
                         <div className="w-[50px] h-[50px] rounded-full bg-[#FF4F00] text-white flex items-center justify-center">
                             IMG
                         </div>
-                        <p>{selectedPost.group_name}</p>
+                        <p>{selectedPost.created_by}</p>
                     </div>
                 </div>
 
                 <div className="flex items-center justify-center w-full h-[350px] rounded-[10px] bg-gray-300 text-white">
                     {/* Placeholder */}
-                    {selectedPost.image_url ? (
+                    {selectedPost.photo_url ? (
                         <img
-                        src={selectedPost.image_url}
+                        src={selectedPost.photo_url}
                         alt="event"
                         className="w-full h-full object-cover rounded-[10px]"
                         />
