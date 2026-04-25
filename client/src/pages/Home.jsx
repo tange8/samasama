@@ -144,13 +144,13 @@ export default function Home() {
     const [isOpen, setIsOpen] = useState(false);
     const [selectedPost, setSelectedPost] = useState(null);
     const [range, setRange] = useState(); 
-    const { user } = useAuth(null);
+    const { user } = useAuth();
 
     return (
         <div className="flex flex-col bg-[#FFDDBE] min-h-screen h-screen w-full overscroll-none py-6 px-15 gap-5">
     
             <div className="flex flex-col w-full gap-4">
-                <h1 className="text-[#070154] text-2xl font-medium">Welcome back, USERNAME!</h1>
+                <h1 className="text-[#070154] text-2xl font-medium">Welcome back, {user?.name || "Guest"}!</h1>
                 <div className="flex flex-row w-full mx-25 gap-15 items-stretch">
                     <div className="flex flex-col h-full max-h-[calc(100vh-100px)] overflow-y-auto bg-[#FFE3CA] border-3 border-[#FF9B00] rounded-md p-5 gap-4">
                         {/* Search Bar */}
@@ -202,11 +202,11 @@ export default function Home() {
 
                         {/* + button: create post */}
                         { (user?.type == "business" || user?.type == "org_member") && (
-                        <div className="flex justify-end mt-auto">
-                            <button className="flex justify-center items-center bg-[#FF4F00] rounded w-[60px] h-[60px] cursor-pointer" onClick={() => setAddEventOpen(true)}>
-                                <Plus size={34} color="#FFDCBE"/>
-                            </button>
-                        </div>
+                            <div className="flex justify-end mt-auto">
+                                <button className="flex justify-center items-center bg-[#FF4F00] rounded w-[60px] h-[60px] cursor-pointer" onClick={() => setAddEventOpen(true)}>
+                                    <Plus size={34} color="#FFDCBE"/>
+                                </button>
+                            </div>
                         )}
                     </div>
 
