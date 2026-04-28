@@ -146,6 +146,8 @@ export default function Home() {
     const [range, setRange] = useState(); 
     const { user } = useAuth();
 
+    console.log("Testing")
+
     return (
         <div className="flex flex-col bg-[#FFDDBE] min-h-screen h-screen w-full overscroll-none py-6 px-15 gap-5">
     
