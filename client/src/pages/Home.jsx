@@ -144,15 +144,23 @@ export default function Home() {
     const [isOpen, setIsOpen] = useState(false);
     const [selectedPost, setSelectedPost] = useState(null);
     const [range, setRange] = useState(); 
-    const [searchQuery, setSearchQuery] = useState();
-    const [filteredPosts, setFilterdPosts] = useState();
+    const [searchQuery, setSearchQuery] = useState("");
     const { user } = useAuth();
 
-    useEffect(() => {
-        if (searchQuery) {
-            dummyData.filter()
-        }
-    }, [searchQuery])
+    const filteredPosts = dummyData.filter(post => {
+
+        // Search Bar Filtering
+        const searchResults = post.title.toLowerCase().includes(searchQuery.toLowerCase())
+    
+        // Calendar Filtering
+        // const calendarResults = 
+
+        // Organization Filtering
+        // const orgResults = 
+
+
+        return searchResults // && calaendarResults && orgResults
+    })
 
     return (
         <div className="flex flex-col bg-[#FFDDBE] min-h-screen h-screen w-full overscroll-none py-6 px-15 gap-5">
@@ -172,15 +180,28 @@ export default function Home() {
                                 onChange={(e) => setSearchQuery(e.target.value)}
                             />
                         </div>
-                        {dummyData.map((post) => (
-                            <div
-                                key={post.id}
-                                className="w-full"
-                                onClick={() => {setIsOpen(true); setSelectedPost(post)}}
-                            >
-                            <PostingCard key={post.id} posting={post}/>
-                            </div>
-                        ))}
+                        {filteredPosts.length > 0 ? (
+                            filteredPosts.map((post) => (
+                                <div
+                                    key={post.id}
+                                    className="w-full"
+                                    onClick={() => {setIsOpen(true); setSelectedPost(post)}}
+                                >
+                                    <PostingCard key={post.id} posting={post}/>
+                                </div>
+                            ))
+                        ) : (
+                            dummyData.map((post) => (
+                                <div
+                                    key={post.id}
+                                    className="w-full"
+                                    onClick={() => {setIsOpen(true); setSelectedPost(post)}}
+                                >
+                                    <PostingCard key={post.id} posting={post}/>
+                                </div>
+                            ))
+                        )}
+                        
                     </div>
                     <div className="flex flex-col">
                         <div className="flex flex-col gap-15">
