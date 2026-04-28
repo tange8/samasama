@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 import PostingCard from "../components/features/PostingCard"
 import { CreatePostingModal } from "../components/features/CreatePostingModal";
@@ -144,9 +144,15 @@ export default function Home() {
     const [isOpen, setIsOpen] = useState(false);
     const [selectedPost, setSelectedPost] = useState(null);
     const [range, setRange] = useState(); 
+    const [searchQuery, setSearchQuery] = useState();
+    const [filteredPosts, setFilterdPosts] = useState();
     const { user } = useAuth();
 
-    console.log("Testing")
+    useEffect(() => {
+        if (searchQuery) {
+            dummyData.filter()
+        }
+    }, [searchQuery])
 
     return (
         <div className="flex flex-col bg-[#FFDDBE] min-h-screen h-screen w-full overscroll-none py-6 px-15 gap-5">
@@ -162,6 +168,8 @@ export default function Home() {
                                 type="text"
                                 placeholder="Search for clubs, events, etc."
                                 className="bg-transparent outline-none w-full"
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
                             />
                         </div>
                         {dummyData.map((post) => (
