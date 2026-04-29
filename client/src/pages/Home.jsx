@@ -144,6 +144,7 @@ export default function Home() {
     const [isOpen, setIsOpen] = useState(false);
     const [selectedPost, setSelectedPost] = useState(null);
     const [range, setRange] = useState(); 
+    const [orgQuery, setOrgQuery] = useState([]);
     const [searchQuery, setSearchQuery] = useState("");
     const { user } = useAuth();
 
@@ -153,13 +154,17 @@ export default function Home() {
         const searchResults = post.title.toLowerCase().includes(searchQuery.toLowerCase())
     
         // Calendar Filtering
-        // const calendarResults = 
+        const start_date = new Date(post.start_time)
+        const end_date = new Date(post.end_time)
+        start_date.setHours(0, 0, 0, 0)
+        end_date.setHours(0, 0, 0, 0)
+
+        const calendarResults = !range?.from || !range?.to || (end_date <= range?.to) && (start_date >= range?.from)
 
         // Organization Filtering
-        // const orgResults = 
+        const orgResults = orgQuery.length === 0 || orgQuery.some(org => post.created_by.toLowerCase().includes(org.toLowerCase()))
 
-
-        return searchResults // && calaendarResults && orgResults
+        return searchResults && calendarResults && orgResults
     })
 
     return (
@@ -222,6 +227,13 @@ export default function Home() {
                                             <p>{org.name}</p>
                                         </div>
                                         <input
+                                            onChange={(e) => {
+                                                if (e.target.checked) {
+                                                    setOrgQuery([...orgQuery, org.name]);
+                                                } else {
+                                                    setOrgQuery(orgQuery.filter(o => o !== org.name));
+                                                }
+                                            }}
                                             type="checkbox"
                                             className="w-[20px] h-[20px] border-2 border-[#070154] accent-[#070154] cursor-pointer"
                                         />
