@@ -42,7 +42,9 @@ router.get('/user/:id/follows', async (req, res) => {
   const { data, error } = await supabaseAdmin
     .from('follows')
     .select('groups(*)') // join groups table
-    .eq('student_id', id);
+    .eq('user_id', id);
+
+    console.log(data);
 
   if (error) return res.status(500).json({ error: error.message });
 
@@ -56,7 +58,7 @@ router.delete('/user/:id/follows/:groupId', async (req, res) => {
   const { error } = await supabaseAdmin
     .from('follows')
     .delete()
-    .match({ student_id: id, group_id: groupId });
+    .match({ user_id: id, group_id: groupId });
 
   if (error) return res.status(500).json({ error: error.message });
 
@@ -70,7 +72,7 @@ router.post('/user/:id/saved', async (req, res) => {
 
   const { data, error } = await supabaseAdmin
     .from('saved_posts')
-    .insert([{ student_id: id, posting_id }]);
+    .insert([{ user_id: id, posting_id }]);
 
   if (error) return res.status(500).json({ error: error.message });
 
