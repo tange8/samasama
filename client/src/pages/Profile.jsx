@@ -66,7 +66,7 @@ export default function Profile() {
 	      image_url: item.postings.photo_url,
 	      title: item.postings.title,
 	      description: item.postings.description,
-	      group_name: item.postings.groups.name,
+	      created_by: item.postings.groups.name,
 	      start_time: item.postings.start_time,
 	      end_time: item.postings.end_time,
 	      location: item.postings.location
