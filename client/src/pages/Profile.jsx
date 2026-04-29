@@ -59,10 +59,22 @@ export default function Profile() {
 	.catch(console.error);
 
 
-        // fetch(`http://localhost:3000/api/profiles/user/${userId}/saved`)
-        //     .then(res => res.json())
-        //     .then(data => setSavedEvents(data))
-        //     .catch(console.error);
+	fetch(`http://localhost:3000/api/profiles/user/${userId}/saved`)
+	  .then(res => res.json())
+	  .then(data => {
+	    const cleaned = data.map(item => ({
+	      image_url: item.postings.photo_url,
+	      title: item.postings.title,
+	      description: item.postings.description,
+	      group_name: item.postings.group_id,
+	      start_time: item.postings.start_time,
+	      end_time: item.postings.end_time,
+	      location: item.postings.location
+	    }));
+
+	    setSavedEvents(cleaned);
+	  })
+	  .catch(console.error);
     }, []);
 
     if (!profile) {

@@ -65,6 +65,28 @@ router.delete('/user/:id/follows/:groupId', async (req, res) => {
   res.status(200).json({ message: 'Unfollowed' });
 });
 
+// GET /api/profiles/user/:id/saved
+router.get('/user/:id/saved', async (req, res) => {
+  const { id } = req.params;
+
+  const { data, error } = await supabaseAdmin
+    .from('saved_posts')
+    .select(`
+      *,
+      postings (*),
+      users (*)
+    `)
+    .eq('user_id', id);
+
+  console.log(data);
+
+  if (error) {
+    return res.status(500).json({ error: error.message });
+  }
+
+  res.status(200).json(data);
+});
+
 // POST /api/profiles/user/:id/saved
 router.post('/user/:id/saved', async (req, res) => {
   const { id } = req.params;
@@ -74,15 +96,14 @@ router.post('/user/:id/saved', async (req, res) => {
     .from('saved_posts')
     .insert([{ user_id: id, posting_id }]);
 
-  if (error) return res.status(500).json({ error: error.message });
+  if (error) return res.status(500).json({ error: error });
 
   res.status(200).json(data);
 });
 
-// DELETE /api/profiles/user/:id/saved
-router.delete('/user/:id/saved', async (req, res) => {
-  const { id } = req.params;
-  const { posting_id } = req.body;
+// DELETE /api/profiles/user/:id/saved/:postingId
+router.delete('/user/:id/saved/:postingId', async (req, res) => {
+  const { id, posting_id } = req.params;
 
   const { data, error } = await supabaseAdmin
     .from('saved_posts')
