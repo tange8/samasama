@@ -13,7 +13,7 @@ router.get('/:role/:id', async (req, res) => {
     .eq('id', id)
     .single();
 
-  if (error) return res.status(500).json({ error: error.message });
+  if (error) return res.status(500).json({ error: error });
 
   res.status(200).json(data);
 });
@@ -30,7 +30,7 @@ router.put('/:role/:id', async (req, res) => {
     .select()
     .single();
 
-  if (error) return res.status(500).json({ error: error.message });
+  if (error) return res.status(500).json({ error: error });
 
   res.status(200).json(data);
 });
@@ -44,9 +44,7 @@ router.get('/user/:id/follows', async (req, res) => {
     .select('groups(*)') // join groups table
     .eq('user_id', id);
 
-    console.log(data);
-
-  if (error) return res.status(500).json({ error: error.message });
+  if (error) return res.status(500).json({ error: error });
 
   res.status(200).json(data);
 });
@@ -60,7 +58,7 @@ router.delete('/user/:id/follows/:groupId', async (req, res) => {
     .delete()
     .match({ user_id: id, group_id: groupId });
 
-  if (error) return res.status(500).json({ error: error.message });
+  if (error) return res.status(500).json({ error: error });
 
   res.status(200).json({ message: 'Unfollowed' });
 });
@@ -108,7 +106,7 @@ router.delete('/user/:id/saved/:postingId', async (req, res) => {
     .from('saved_posts')
     .delete([{ student_id: id, posting_id }]);
 
-  if (error) return res.status(500).json({ error: error.message });
+  if (error) return res.status(500).json({ error: error });
 
   res.status(200).json(data);
 });
