@@ -1,5 +1,5 @@
 import express from 'express';
-import supabaseAdmin from '../../config/supabaseAdmin.js'
+import { supabaseAdmin } from '../../config/supabaseAdmin.js'
 
 const router = express.Router();
 
@@ -13,7 +13,7 @@ router.get('/:role/:id', async (req, res) => {
     .eq('id', id)
     .single();
 
-  if (error) return res.status(500).json({ error: error.message });
+  if (error) return res.status(500).json({ error: error });
 
   res.status(200).json(data);
 });
@@ -30,7 +30,7 @@ router.put('/:role/:id', async (req, res) => {
     .select()
     .single();
 
-  if (error) return res.status(500).json({ error: error.message });
+  if (error) return res.status(500).json({ error: error });
 
   res.status(200).json(data);
 });
@@ -44,7 +44,7 @@ router.get('/user/:id/follows', async (req, res) => {
     .select('groups(*)') // join groups table
     .eq('student_id', id);
 
-  if (error) return res.status(500).json({ error: error.message });
+  if (error) return res.status(500).json({ error: error });
 
   res.status(200).json(data);
 });
@@ -58,7 +58,7 @@ router.delete('/user/:id/follows/:groupId', async (req, res) => {
     .delete()
     .match({ student_id: id, group_id: groupId });
 
-  if (error) return res.status(500).json({ error: error.message });
+  if (error) return res.status(500).json({ error: error });
 
   res.status(200).json({ message: 'Unfollowed' });
 });
@@ -72,7 +72,7 @@ router.post('/user/:id/saved', async (req, res) => {
     .from('saved_posts')
     .insert([{ student_id: id, posting_id }]);
 
-  if (error) return res.status(500).json({ error: error.message });
+  if (error) return res.status(500).json({ error: error });
 
   res.status(200).json(data);
 });
@@ -86,7 +86,7 @@ router.delete('/user/:id/saved', async (req, res) => {
     .from('saved_posts')
     .delete([{ student_id: id, posting_id }]);
 
-  if (error) return res.status(500).json({ error: error.message });
+  if (error) return res.status(500).json({ error: error });
 
   res.status(200).json(data);
 });
