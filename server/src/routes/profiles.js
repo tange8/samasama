@@ -1,5 +1,5 @@
 import express from 'express';
-import { supabaseAdmin } from '../../config/supabaseAdmin.js'
+import supabaseAdmin from '../../config/supabaseAdmin.js'
 
 const router = express.Router();
 
@@ -35,8 +35,8 @@ router.put('/:role/:id', async (req, res) => {
   res.status(200).json(data);
 });
 
-// GET /student/:id/follows
-router.get('/student/:id/follows', async (req, res) => {
+// GET /user/:id/follows
+router.get('/user/:id/follows', async (req, res) => {
   const { id } = req.params;
 
   const { data, error } = await supabaseAdmin
@@ -49,8 +49,8 @@ router.get('/student/:id/follows', async (req, res) => {
   res.status(200).json(data);
 });
 
-// DELETE /student/:id/follows/:groupId
-router.delete('/student/:id/follows/:groupId', async (req, res) => {
+// DELETE /user/:id/follows/:groupId
+router.delete('/user/:id/follows/:groupId', async (req, res) => {
   const { id, groupId } = req.params;
 
   const { error } = await supabaseAdmin
@@ -63,8 +63,8 @@ router.delete('/student/:id/follows/:groupId', async (req, res) => {
   res.status(200).json({ message: 'Unfollowed' });
 });
 
-// POST /api/profiles/student/:id/saved
-router.post('/student/:id/saved', async (req, res) => {
+// POST /api/profiles/user/:id/saved
+router.post('/user/:id/saved', async (req, res) => {
   const { id } = req.params;
   const { posting_id } = req.body;
 
@@ -77,8 +77,8 @@ router.post('/student/:id/saved', async (req, res) => {
   res.status(200).json(data);
 });
 
-// DELETE /api/profiles/student/:id/saved
-router.delete('/student/:id/saved', async (req, res) => {
+// DELETE /api/profiles/user/:id/saved
+router.delete('/user/:id/saved', async (req, res) => {
   const { id } = req.params;
   const { posting_id } = req.body;
 
