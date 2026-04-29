@@ -34,12 +34,31 @@ export default function Profile() {
 	    setProfile(mappedProfile);
 	})
 	.catch(console.error);
-        //
-        // fetch(`http://localhost:3000/api/profiles/user/${userId}/follows`)
-        //     .then(res => res.json())
-        //     .then(data => setSavedOrgs(data))
-        //     .catch(console.error);
-        //
+
+        fetch(`http://localhost:3000/api/profiles/user/${userId}/follows`)
+            .then(res => res.json())
+	.then(data => {
+	  const cleaned = data.map(item => {
+	    const group = item.groups;
+
+	    return {
+	      id: group.id,
+	      name: group.name,
+	      description: group.description || 'No description provided',
+
+	      // hardcoded defaults for now (since DB doesn't have them yet)
+	      logoUrl: '',
+	      type: group.entity_type === 'organization' ? 'Organization' : 'Group',
+	      meeting_time: 'Unknown',   // placeholder until DB supports it
+	      location: 'Unknown'      // placeholder until DB supports it
+	    };
+	  });
+
+	  setSavedOrgs(cleaned);
+	})
+	.catch(console.error);
+
+
         // fetch(`http://localhost:3000/api/profiles/user/${userId}/saved`)
         //     .then(res => res.json())
         //     .then(data => setSavedEvents(data))
