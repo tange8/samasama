@@ -81,7 +81,19 @@ router.post("/register", async(req, res) => {
                     }
                 }
 
-                return res.status(200).json({ message: "Organization uploaded successfully" })
+                return res.status(200).json({ 
+                    message: "Organization uploaded successfully",
+                    user: {
+                        id: user.id,
+                        email,
+                        name: `${first_name} ${last_name}`,
+                        first_name,
+                        last_name,
+                        type: role,
+                        org
+                    },
+                    session: data.session
+                })
             } else if (role === "business") {
                 // adding business to groups table
                 if (!businessName || !phoneNumber) {
@@ -103,11 +115,35 @@ router.post("/register", async(req, res) => {
                     return res.status(500).json({ message: busError.message })
                 }
 
-                return res.status(200).json({ message: "Business uploaded successfully." })
+                return res.status(200).json({ 
+                    message: "Business uploaded successfully.",
+                    user: {
+                        id: user.id,
+                        email,
+                        name: `${first_name} ${last_name}`,
+                        first_name,
+                        last_name,
+                        type: role,
+                        businessName,
+                        phoneNumber
+                    },
+                    session: data.session
+                })
             }
         
 
-        return res.status(200).json({ message: "User uploaded successfully." })
+        return res.status(200).json({ 
+            message: "User uploaded successfully.",
+            user: {
+                id: user.id,
+                email,
+                name: `${first_name} ${last_name}`,
+                first_name,
+                last_name,
+                type: role
+            },
+            session: data.session
+        })
 
     } catch (error) {
         console.error("Error: ", error)
