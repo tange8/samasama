@@ -231,7 +231,7 @@ export default function Home() {
 
                         {/* + button: create post */}
                         { (user?.type == "business" || user?.type == "org_member") && (
-                            <div className="flex justify-end mt-auto">
+                            <div className="flex justify-end ml-auto mt-auto">
                                 <button className="flex justify-center items-center bg-[#FF4F00] rounded w-[60px] h-[60px] cursor-pointer" onClick={() => setAddEventOpen(true)}>
                                     <Plus size={34} color="#FFDCBE"/>
                                 </button>
