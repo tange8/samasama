@@ -12,7 +12,7 @@ router.get('/', async (req, res) => {
             .from('postings')
             .select(`
                 *,
-                groups(name)
+                group:groups!group_id(name)
             `)
             .order('start_time', { ascending: true })
 
@@ -66,7 +66,7 @@ router.get('/:id', async (req, res) => {
             .from('postings')
             .select(`
                 *,
-                groups(name)
+                group:groups!group_id(name)
             `)
             .eq('id', id)
             .single()
