@@ -147,12 +147,12 @@ export default function Home() {
     const { user } = useAuth();
 
     return (
-        <div className="flex flex-col bg-[#FFDDBE] min-h-screen h-screen w-fit overscroll-none py-6 px-6 gap-5">
+        <div className="flex flex-col bg-[#FFDDBE] min-h-screen py-6 px-6 gap-5">
     
             <div className="flex flex-col gap-4">
                 <h1 className="text-[#070154] text-2xl font-medium">Welcome back, {user?.name || "Guest"}!</h1>
-                <div className="flex flex-row gap-5">
-                    <div className="flex flex-col h-full max-h-[calc(100vh-100px)] overflow-y-auto bg-[#FFE3CA] border-3 border-[#FF9B00] rounded-md p-5 gap-4">
+                <div className="flex gap-5">
+                    <div className="flex flex-col flex-[2] min-w-0 h-full max-h-[calc(100vh-100px)] overflow-y-auto bg-[#FFE3CA] border-3 border-[#FF9B00] rounded-md p-5 gap-4">
                         {/* Search Bar */}
                         <div className="flex flex-row bg-[#FFDDBE] border-3 border-[#FF4F00] rounded-md p-2 gap-4">
                             <Search color="#FF4F00"/>
@@ -171,7 +171,7 @@ export default function Home() {
                             </div>
                         ))}
                     </div>
-                    <div className="flex flex-col  gap-4">
+                    <div className="flex flex-col flex-1 min-w-[250px] max-w-[350px] gap-4 items-center">
                         <Calendar range={range} setRange={setRange}/>
 
                         {/* Alyansa filtering checkboxes */}
