@@ -131,14 +131,36 @@ router.post("/login", async (req, res) => {
             password
         })
 
+        console.log(data.user.id)
+
         if (error) {
             console.error("Error: ", error.message)
             return res.status(401).json({ message: error.message })
         }
 
+        const { data: profile, error: profileError } = await supabaseAdmin
+            .from("users")
+            .select("*")
+            .eq("id", data.user.id)
+            .single()
+
+        console.log(profile)
+
+        if (profileError) {
+            console.error("Error: ", profileError.mesage)
+            return res.status(401).json({ message: profileError.message })
+        }
+
         return res.status(200).json({
             message: "Logged in",
-            user: data.user,
+            user: {
+                id: data.user.id,
+                email: data.user.email,
+                name: `${profile.first_name} ${profile.last_name}`,
+                first_name: profile.first_name,
+                last_name: profile.last_name,
+                type: profile.role
+            },
             session: data.session
         })
 
