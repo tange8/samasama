@@ -7,13 +7,13 @@ const router = express.Router();
 router.get('/:role/:id', async (req, res) => {
   const { role, id } = req.params;
 
-  const { data, error } = await supabase
+  const { data, error } = await supabaseAdmin
     .from(role)
     .select('*')
     .eq('id', id)
     .single();
 
-  if (error) return res.status(500).json({ error: error.message });
+  if (error) return res.status(500).json({ error: error });
 
   res.status(200).json(data);
 });
@@ -30,63 +30,83 @@ router.put('/:role/:id', async (req, res) => {
     .select()
     .single();
 
-  if (error) return res.status(500).json({ error: error.message });
+  if (error) return res.status(500).json({ error: error });
 
   res.status(200).json(data);
 });
 
-// GET /student/:id/follows
-router.get('/student/:id/follows', async (req, res) => {
+// GET /user/:id/follows
+router.get('/user/:id/follows', async (req, res) => {
   const { id } = req.params;
 
   const { data, error } = await supabaseAdmin
     .from('follows')
     .select('groups(*)') // join groups table
-    .eq('student_id', id);
+    .eq('user_id', id);
 
-  if (error) return res.status(500).json({ error: error.message });
+  if (error) return res.status(500).json({ error: error });
 
   res.status(200).json(data);
 });
 
-// DELETE /student/:id/follows/:groupId
-router.delete('/student/:id/follows/:groupId', async (req, res) => {
+// DELETE /user/:id/follows/:groupId
+router.delete('/user/:id/follows/:groupId', async (req, res) => {
   const { id, groupId } = req.params;
 
   const { error } = await supabaseAdmin
     .from('follows')
     .delete()
-    .match({ student_id: id, group_id: groupId });
+    .match({ user_id: id, group_id: groupId });
 
-  if (error) return res.status(500).json({ error: error.message });
+  if (error) return res.status(500).json({ error: error });
 
   res.status(200).json({ message: 'Unfollowed' });
 });
 
-// POST /api/profiles/student/:id/saved
-router.post('/student/:id/saved', async (req, res) => {
+// GET /api/profiles/user/:id/saved
+router.get('/user/:id/saved', async (req, res) => {
+  const { id } = req.params;
+
+  const { data, error } = await supabaseAdmin
+    .from('saved_posts')
+    .select(`
+      *,
+      postings (title, description, group_id, photo_url, start_time, end_time, location, type, groups!group_id(*))
+    `)
+    .eq('user_id', id);
+
+  console.log(data);
+
+  if (error) {
+    return res.status(500).json({ error: error.message });
+  }
+
+  res.status(200).json(data);
+});
+
+// POST /api/profiles/user/:id/saved
+router.post('/user/:id/saved', async (req, res) => {
   const { id } = req.params;
   const { posting_id } = req.body;
 
   const { data, error } = await supabaseAdmin
     .from('saved_posts')
-    .insert([{ student_id: id, posting_id }]);
+    .insert([{ user_id: id, posting_id }]);
 
-  if (error) return res.status(500).json({ error: error.message });
+  if (error) return res.status(500).json({ error: error });
 
   res.status(200).json(data);
 });
 
-// DELETE /api/profiles/student/:id/saved
-router.delete('/student/:id/saved', async (req, res) => {
-  const { id } = req.params;
-  const { posting_id } = req.body;
+// DELETE /api/profiles/user/:id/saved/:postingId
+router.delete('/user/:id/saved/:postingId', async (req, res) => {
+  const { id, posting_id } = req.params;
 
   const { data, error } = await supabaseAdmin
     .from('saved_posts')
     .delete([{ student_id: id, posting_id }]);
 
-  if (error) return res.status(500).json({ error: error.message });
+  if (error) return res.status(500).json({ error: error });
 
   res.status(200).json(data);
 });
