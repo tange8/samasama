@@ -7,6 +7,7 @@ export default function ProfileBio(profile) {
 
     return (
 	<div class="bg-[#FFDCBE] w-full h-auto border-[3px] border-[#FF4F00] rounded-[6px] flex flex-col justify-between p-4">
+	    {/** Top section **/}
 	    <div class="flex flex-col md:flex-row content-start items-center gap-4 px-2 p-4">
 		<img src={profile.profileImage} class="w-[150px] h-[150px] rounded-[20px]"/>
 		<div class="flex flex-col justify-between h-full">
@@ -22,6 +23,7 @@ export default function ProfileBio(profile) {
 		</div>
 	    </div>
 	    <div class="w-full h-[1px] bg-black my-2" />
+	    {/** Middle section **/}
 	    <div class="flex flex-col md:flex-row justify-between font-semibold text-center md:text-start gap-4 my-4">
 		<div class="flex flex-col w-full gap-2">
 		    <p class="w-full text-2xl">
@@ -47,6 +49,7 @@ export default function ProfileBio(profile) {
 		</div>
 	    </div>
 	    <div class="w-full h-[1px] bg-black" />
+	    {/** Lower section **/}
 	    <div class="flex flex-col gap-2 my-2">
 		<h2 class="text-2xl font-semibold">
 		    About
