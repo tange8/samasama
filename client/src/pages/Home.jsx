@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 import PostingCard from "../components/features/PostingCard"
 import { CreatePostingModal } from "../components/features/CreatePostingModal";
@@ -144,7 +144,23 @@ export default function Home() {
     const [isOpen, setIsOpen] = useState(false);
     const [selectedPost, setSelectedPost] = useState(null);
     const [range, setRange] = useState(); 
+    const [searchQuery, setSearchQuery] = useState("");
     const { user } = useAuth();
+
+    const filteredPosts = dummyData.filter(post => {
+
+        // Search Bar Filtering
+        const searchResults = post.title.toLowerCase().includes(searchQuery.toLowerCase())
+    
+        // Calendar Filtering
+        // const calendarResults = 
+
+        // Organization Filtering
+        // const orgResults = 
+
+
+        return searchResults // && calaendarResults && orgResults
+    })
 
     return (
         <div className="flex flex-col bg-[#FFDDBE] min-h-screen py-6 px-6 gap-5">
@@ -160,16 +176,32 @@ export default function Home() {
                                 type="text"
                                 placeholder="Search for clubs, events, etc."
                                 className="bg-transparent outline-none w-full"
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
                             />
                         </div>
-                        {dummyData.map((post) => (
-                            <div
-                                key={post.id}
-                                onClick={() => {setIsOpen(true); setSelectedPost(post)}}
-                            >
-                            <PostingCard key={post.id} posting={post}/>
-                            </div>
-                        ))}
+                        {filteredPosts.length > 0 ? (
+                            filteredPosts.map((post) => (
+                                <div
+                                    key={post.id}
+                                    className="w-full"
+                                    onClick={() => {setIsOpen(true); setSelectedPost(post)}}
+                                >
+                                    <PostingCard key={post.id} posting={post}/>
+                                </div>
+                            ))
+                        ) : (
+                            dummyData.map((post) => (
+                                <div
+                                    key={post.id}
+                                    className="w-full"
+                                    onClick={() => {setIsOpen(true); setSelectedPost(post)}}
+                                >
+                                    <PostingCard key={post.id} posting={post}/>
+                                </div>
+                            ))
+                        )}
+                        
                     </div>
                     <div className="flex flex-col flex-1 min-w-[250px] max-w-[350px] gap-4 items-center">
                         <Calendar range={range} setRange={setRange}/>
