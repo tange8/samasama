@@ -12,7 +12,7 @@ export const Calendar = ({range, setRange}) => {
             navLayout="around"
             selected={range}
             onSelect={setRange}
-            className="bg-[#FFE3CA] w-[400px] h-fit rounded-[10px] border border-[#070154] border-[3px] p-4"
+            className="bg-[#FFE3CA] w-[300px] h-[300px] rounded-[10px] border border-[#070154] border-[3px] p-4"
             classNames={{
                 month: 'relative w-full',
                 month_caption: 'flex p-2 justify-center items-center',
@@ -30,7 +30,7 @@ export const Calendar = ({range, setRange}) => {
                 range_end: 'bg-[#FF4F00] text-white',
                 range_middle: 'bg-[#FFDDBE]',
                 
-                day: 'text-center rounded w-[51px] h-[51px]',
+                day: 'text-center rounded w-[40px] h-[40px]',
                 outside: 'text-[#B3B3B3]',
                 weekdays: 'text-[#757575]',
             }}

@@ -163,11 +163,11 @@ export default function Home() {
     })
 
     return (
-        <div className="flex flex-col bg-[#FFDDBE] min-h-screen h-screen w-full overscroll-none py-6 px-15 gap-5">
+        <div className="flex flex-col bg-[#FFDDBE] min-h-screen h-screen w-fit overscroll-none py-6 px-6 gap-5">
     
-            <div className="flex flex-col w-full gap-4">
+            <div className="flex flex-col gap-4">
                 <h1 className="text-[#070154] text-2xl font-medium">Welcome back, {user?.name || "Guest"}!</h1>
-                <div className="flex flex-row w-full mx-25 gap-15 items-stretch">
+                <div className="flex flex-row gap-5">
                     <div className="flex flex-col h-full max-h-[calc(100vh-100px)] overflow-y-auto bg-[#FFE3CA] border-3 border-[#FF9B00] rounded-md p-5 gap-4">
                         {/* Search Bar */}
                         <div className="flex flex-row bg-[#FFDDBE] border-3 border-[#FF4F00] rounded-md p-2 gap-4">
@@ -203,14 +203,13 @@ export default function Home() {
                         )}
                         
                     </div>
-                    <div className="flex flex-col">
-                        <div className="flex flex-col gap-15">
+                    <div className="flex flex-col  gap-4">
                         <Calendar range={range} setRange={setRange}/>
 
                         {/* Alyansa filtering checkboxes */}
-                        <div className="flex flex-col w-full justify-center items-center bg-[#FFE3CA] border-3 border-[#FF4F00] rounded-md p-4 gap-4">
+                        <div className="flex flex-col w-full justify-center items-center bg-[#FFE3CA] border-3 border-[#FF4F00] rounded-md p-4 gap-2">
                             <p className="font-semibold">Alyansa</p>
-                            <div className="grid grid-cols-2 gap-x-6">
+                            <div className="grid grid-cols-2 gap-y-2 gap-x-4">
                                 {alyansa.map((org) => (
                                     <label key={org.name} className="flex flex-row justify-between items-center gap-4 cursor-pointer">
                                         <div className="flex flex-row items-center gap-2">
@@ -219,16 +218,15 @@ export default function Home() {
                                                 src={org.img}
                                                 alt={org.alt}
                                             />
-                                            <p>{org.name}</p>
+                                            <p className="text-[12px]">{org.name}</p>
                                         </div>
                                         <input
                                             type="checkbox"
-                                            className="w-[20px] h-[20px] border-2 border-[#070154] accent-[#070154] cursor-pointer"
+                                            className="w-[15px] h-[15px] border-2 border-[#070154] accent-[#070154] cursor-pointer"
                                         />
                                     </label>
                                 ))}
                             </div>
-                        </div>
                         </div>
 
                         {/* + button: create post */}
