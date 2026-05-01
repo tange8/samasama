@@ -47,7 +47,7 @@ export const PostingDetailModal = ({setIsOpen, selectedPost}) => {
         onClick={() => setIsOpen(false)}
     >
     {/* Div surrounding entire modal */}
-    <motion.div className="fixed right-0 top-0 bg-[#FFDCBE] w-[90vw] min-w-[300px] max-w-[800px] h-screen rounded-tl-[50px] rounded-bl-[50px]"
+    <motion.div className="fixed overflow-hidden right-0 top-0 bg-[#FFDCBE] w-[90vw] min-w-[300px] max-w-[600px] h-screen rounded-tl-[50px] rounded-bl-[50px]"
         initial={{ x: "100%" }}
         animate={{ x: 0 }}
         exit={{ x: "100%" }}

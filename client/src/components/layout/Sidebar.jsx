@@ -1,14 +1,23 @@
-import { Link } from "react-router-dom";  // to link to pages
+import { Link, useNavigate } from "react-router-dom";  // to link to pages
 import { House, User, Calendar, LogOut } from "lucide-react"
 import samasama_logo from "../../assets/samasama_logo.svg"
+import { useAuth } from "../../context/AuthContext";
 
 export default function Sidebar() {
+    const { logout } = useAuth()
+    const navigate = useNavigate()
+
+    const handleLogout = () => {
+        logout();
+        navigate("/login")
+    }
+    
     return (
         // sticky: Tells the browser to lock this element in place when scrolling.
         // top-0: Locks it exactly to the top pixel of the monitor.
         // h-screen: Forces the sidebar to span the exact height of the monitor.
         // flex-col: stack items vertically
-        <aside className="w-[300px] bg-[#FFDDBE] border-r border-[#E5C6AB] flex flex-col flex-shrink-0 p-4 sticky top-0 h-screen shadow-lg">
+        <aside className="w-[200px] bg-[#FFDDBE] border-r border-[#E5C6AB] flex flex-col flex-shrink-0 p-4 sticky top-0 h-screen shadow-lg">
             
             <div className="flex flex-col h-[90%] justify-between p-6">
 
@@ -16,7 +25,7 @@ export default function Sidebar() {
             <nav className="flex flex-col items-center gap-6">
                 {/* Links will go here */}
                 <Link to="/">
-                    <img src={samasama_logo} alt="SamaSama logo" width="125" />
+                    <img src={samasama_logo} alt="SamaSama logo" width="110" />
                 </Link>
                 <Link to="/" className="flex flex-row gap-2 justify-center items-center">
                     <div className="bg-[#070154] p-2 rounded">
@@ -46,14 +55,17 @@ export default function Sidebar() {
             </nav>
 
                 {/* Log out; No functionality right now */}
-                <div className="flex flex-row gap-2 justify-center items-center cursor-pointer">
+                <button 
+                    onClick={handleLogout}
+                    className="flex flex-row gap-2 justify-center items-center cursor-pointer"
+                >
                     <div className="bg-[#FF1B29] p-2 rounded">
                         <LogOut
                             color="#FFDCBE"
                         />
                     </div>
                     <p className="hover:text-[#FF1B29] duration-300">Logout</p>
-                </div>
+                </button>
             </div>
 
         </aside>

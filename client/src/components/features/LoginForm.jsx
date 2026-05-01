@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 
 export default function LoginForm() {
     const [ email, setEmail ] = useState("")
@@ -7,6 +8,7 @@ export default function LoginForm() {
     const [ error, setError ] = useState("")
 
     const navigate = useNavigate();
+    const { login } = useAuth();
 
     const handleLogin = async () => {
         if (!email) {
@@ -36,6 +38,7 @@ export default function LoginForm() {
                 return
             }
 
+            login(data.user)
             navigate("/")
 
             

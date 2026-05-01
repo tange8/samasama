@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { IoMdArrowBack, IoMdArrowDropdown } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 
 export default function OrgSignup ({org, goBack}) {
     const navigate = useNavigate();
+    const { login } = useAuth()
 
     const [orgSelected, setOrgSelected] = useState(org);
     const [dropdown, setDropDown] = useState(false)
@@ -38,6 +40,7 @@ export default function OrgSignup ({org, goBack}) {
                 return
             }
 
+            login(data.user)
             navigate("/")
         } catch (error) {
             setError(error)
