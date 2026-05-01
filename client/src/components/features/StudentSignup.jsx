@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { IoMdArrowBack } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 
 export default function StudentSignup ({goBack}) {
     const navigate = useNavigate();
+    const { login } = useAuth()
 
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
@@ -35,6 +37,7 @@ export default function StudentSignup ({goBack}) {
                 return
             }
 
+            login(data.user)
             navigate("/")
         } catch (error) {
             setError(error)

@@ -1,9 +1,11 @@
 import { IoMdArrowBack } from "react-icons/io";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 
 export default function BusinessSignup ({goBack}) {
     const navigate = useNavigate();
+    const { login } = useAuth()
 
     const [name, setName] = useState("");
     const [business, setBusiness] = useState("");
@@ -38,6 +40,7 @@ export default function BusinessSignup ({goBack}) {
                 return
             }
 
+            login(data.user)
             navigate("/")
         } catch (error) {
             setError(error)

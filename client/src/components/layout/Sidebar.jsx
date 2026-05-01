@@ -1,8 +1,17 @@
-import { Link } from "react-router-dom";  // to link to pages
+import { Link, useNavigate } from "react-router-dom";  // to link to pages
 import { House, User, Calendar, LogOut } from "lucide-react"
 import samasama_logo from "../../assets/samasama_logo.svg"
+import { useAuth } from "../../context/AuthContext";
 
 export default function Sidebar() {
+    const { logout } = useAuth()
+    const navigate = useNavigate()
+
+    const handleLogout = () => {
+        logout();
+        navigate("/login")
+    }
+    
     return (
         // sticky: Tells the browser to lock this element in place when scrolling.
         // top-0: Locks it exactly to the top pixel of the monitor.
@@ -46,14 +55,17 @@ export default function Sidebar() {
             </nav>
 
                 {/* Log out; No functionality right now */}
-                <div className="flex flex-row gap-2 justify-center items-center cursor-pointer">
+                <button 
+                    onClick={handleLogout}
+                    className="flex flex-row gap-2 justify-center items-center cursor-pointer"
+                >
                     <div className="bg-[#FF1B29] p-2 rounded">
                         <LogOut
                             color="#FFDCBE"
                         />
                     </div>
                     <p className="hover:text-[#FF1B29] duration-300">Logout</p>
-                </div>
+                </button>
             </div>
 
         </aside>
