@@ -2,6 +2,7 @@ import express from 'express'
 import cors from 'cors'
 import authRouter from "./routes/auth.js"
 import profilesRouter from './routes/profiles.js'
+import postingsRouter from './routes/postings.js'
 
 const app = express()
 
@@ -13,6 +14,8 @@ console.log("Auth router running")
 // example:
 // import postingsRouter from './routes/postings.js'
 // app.use('/postings', postingsRouter)
+
+app.use('/api/postings', postingsRouter)
 
 app.listen(3000, () => {
   console.log('Server running on port 3000')
