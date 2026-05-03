@@ -1,6 +1,9 @@
 import { HiOutlineUserGroup, HiOutlineClock } from "react-icons/hi2";
 import { HiOutlineLocationMarker } from "react-icons/hi";
 import { CiImageOn } from "react-icons/ci";
+import { Rating } from '@mui/material';
+import { useState } from "react";
+
 
 export default function PostingCard({ posting }) {
     const formatTime = (timeString) => {
@@ -43,6 +46,14 @@ export default function PostingCard({ posting }) {
 
         {/* Group Name + Date Range + Location */}
         <div className="flex flex-col max-w-[180px] justify-between text-sm text-gray-700 flex-shrink-0">
+            <div
+                className="ml-auto"
+                onClick={(e) => e.stopPropagation()}
+            >
+                <Rating 
+                    max={1}
+                     />
+            </div>
             <div className="flex items-center gap-2">
                 <HiOutlineUserGroup className="text-red-500 text-xl flex-shrink-0" /> {posting.created_by}
             </div>
