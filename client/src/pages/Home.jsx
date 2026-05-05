@@ -8,115 +8,17 @@ import { AnimatePresence } from "framer-motion";
 import { Search, Plus } from "lucide-react"
 
 export default function Home() {
+    const [allPostings, setAllPostings] = useState([])
 
-    const dummyData = [
-    {
-        id: "p1",
-        title: "FUSION General Meeting #1",
-        description:
-        "Come join our first general meeting of the quarter! We’ll introduce the board, upcoming events, and socials.",
-        group_id: "a1b2c3d4-1111-1111-1111-111111111111",
-        photo_url: "https://i.redd.it/k5v48axtppqc1.jpeg",
-        start_time: "2026-04-02T17:00:00Z",
-        end_time: "2026-04-02T21:00:00Z",
-        location: "Dr. White Room",
-        created_by: "Fusion",
-        type: "event",
-        collab_group_id: null,
-    },
-    {
-        id: "p2",
-        title: "Boba Fundraiser 🍹",
-        description:
-        "Support Kababayan by buying boba at 7 Leaves! All proceeds go to future cultural events.",
-        group_id: "a1b2c3d4-2222-2222-2222-222222222222",
-        photo_url: "https://tb-static.uber.com/prod/image-proc/processed_images/7ed678eb0be2e2f1ee382620ae0b1d59/783282f6131ef2258e5bcd87c46aa87e.jpeg",
-        start_time: "2026-04-05T12:00:00Z",
-        end_time: "2026-04-05T21:00:00Z",
-        location: "7 Leaves Cafe, Irvine",
-        created_by: "Kababayan",
-        type: "fundraiser",
-        collab_group_id: "a1b2c3d4-1111-1111-1111-111111111111",
-    },
-    {
-        id: "p3",
-        title: "PUSO Dance Workshop",
-        description:
-        "Learn choreography and basics of cultural fusion dance styles. Beginners welcome!",
-        group_id: "a1b2c3d4-3333-3333-3333-333333333333",
-        photo_url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT2chTvOJFLYcOnQZIhEEcmnUrWYRk4LsS9Bg&s",
-        start_time: "2026-04-10T18:00:00Z",
-        end_time: "2026-04-10T20:00:00Z",
-        location: "Student Center Stage",
-        created_by: "Puso",
-        type: "event",
-        collab_group_id: null,
-    },
-    {
-        id: "p4",
-        title: "PASS Karaoke Night 🎤",
-        description:
-        "Come sing your heart out with PASS! Food, music, and community vibes.",
-        group_id: "a1b2c3d4-4444-4444-4444-444444444444",
-        photo_url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSfWQucwmmMTc15vdadYt9zmrtnklbROxCFsQ&s",
-        start_time: "2026-04-12T19:00:00Z",
-        end_time: "2026-04-12T23:00:00Z",
-        location: "APAD Lounge",
-        created_by: "Pass",
-        type: "event",
-        collab_group_id: null,
-    },
-    {
-        id: "p5",
-        title: "Alyansa Cultural Night 🌙",
-        description:
-            "Join all Alyansa orgs for a night of performances, food, and cultural showcases celebrating Filipino heritage and student talent.",
-        group_id: "a1b2c3d4-1111-1111-1111-111111111111",
-        photo_url:
-            "https://images.unsplash.com/photo-1523580494863-6f3031224c94",
-        start_time: "2026-04-18T18:00:00Z",
-        end_time: "2026-04-18T22:00:00Z",
-        location: "UCI Student Center Terrace",
-        created_by: "Fusion",
-        type: "event",
-        collab_group_id: "a1b2c3d4-2222-2222-2222-222222222222",
-    }
-    ];
+    useEffect(() => {
+        const fetchPostings = async () => {
+        const res = await fetch('http://localhost:3000/api/postings')
+        const data = await res.json()
+        setAllPostings(data)
+        }
 
-    const dummyUsers = [
-        {
-            id: "a1b2c3d4-1111-1111-1111-111111111111",
-            name: "FUSION",
-            description: "Filipinx student cultural organization at UCI",
-            entity_type: "club",
-            created_by: "u1",
-            phone_number: "555-111-2222",
-        },
-        {
-            id: "a1b2c3d4-2222-2222-2222-222222222222",
-            name: "Kababayan",
-            description: "Filipino American cultural organization",
-            entity_type: "club",
-            created_by: "u2",
-            phone_number: "555-222-3333",
-        },
-        {
-            id: "a1b2c3d4-3333-3333-3333-333333333333",
-            name: "PUSO",
-            description: "Performing arts and cultural org",
-            entity_type: "club",
-            created_by: "u3",
-            phone_number: "555-333-4444",
-        },
-        {
-            id: "a1b2c3d4-4444-4444-4444-444444444444",
-            name: "PASS",
-            description: "Philippine American student society",
-            entity_type: "club",
-            created_by: "u4",
-            phone_number: "555-444-5555",
-        },
-    ];
+        fetchPostings()
+    }, [])
 
     const alyansa = [
         {
@@ -148,7 +50,7 @@ export default function Home() {
     const [searchQuery, setSearchQuery] = useState("");
     const { user } = useAuth();
 
-    const filteredPosts = dummyData.filter(post => {
+    const filteredPosts = allPostings.filter(post => {
 
         // Search Bar Filtering
         const searchResults = post.title.toLowerCase().includes(searchQuery.toLowerCase())
@@ -196,7 +98,7 @@ export default function Home() {
                                 </div>
                             ))
                         ) : (
-                            dummyData.map((post) => (
+                            allPostings.map((post) => (
                                 <div
                                     key={post.id}
                                     className="w-full"

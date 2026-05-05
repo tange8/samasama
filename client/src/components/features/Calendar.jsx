@@ -11,13 +11,13 @@ export const Calendar = ({range, setRange}) => {
             navLayout="around"
             selected={range}
             onSelect={setRange}
-            className="bg-[#FFE3CA] w-full max-w-[350px] max-h-[300px] rounded-[10px] border border-[#070154] border-[3px] p-4"
+            className="bg-[#FFE3CA] w-full max-w-[350px] max-h-[350px] rounded-[10px] border border-[#070154] border-[3px] p-4"
             classNames={{
                 month: 'relative w-full',
                 month_caption: 'flex p-2 justify-center items-center',
                 caption_label: 'hidden',
-                button_previous: 'absolute top-1 left-4 rounded p-1 hover:bg-[#FFDDBE]',
-                button_next: 'absolute top-1 right-4 rounded p-1 hover:bg-[#FFDDBE]',
+                button_previous: 'absolute top-1 left-1 rounded p-1 hover:bg-[#FFDDBE]',
+                button_next: 'absolute top-1 right-1 rounded p-1 hover:bg-[#FFDDBE]',
 
                 dropdowns: 'flex gap-2',
                 months_dropdown: 'bg-[#FFDDBE] border border-[#070154] rounded',
