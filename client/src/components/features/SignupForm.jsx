@@ -76,8 +76,11 @@ export default function SignupForm() {
                             </div>
                         )}  
                     </div>
-                    <button className="w-37.5 h-12.5 bg-[#FFE3CA] border-[3px] border-[#FF9B00] rounded-[11px] cursor-pointer mt-[27px] ml-[454px]">
-                        <h2 className="text-[24px] text-[#070154]" onClick={handleNext}>Next</h2>
+                    <button
+                        className="w-37.5 h-12.5 bg-[#FFE3CA] border-[3px] border-[#FF9B00] rounded-[11px] cursor-pointer mt-[27px] ml-[454px]"
+                        onClick={handleNext}
+                    >
+                        <h2 className="text-[24px] text-[#070154]">Next</h2>
                     </button>
                     {errMsg && (
                         <p className="text-red-600 mb-3 mt-2">{errMsg}</p>   

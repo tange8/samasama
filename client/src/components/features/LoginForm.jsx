@@ -11,12 +11,12 @@ export default function LoginForm() {
     const { login } = useAuth();
 
     const handleLogin = async () => {
-        if (!email) {
-            setError("Need email to log in")
-        } else if (!password) {
-            setError("Need password to log in")
-        } else if (!email && !password) {
-            setError("Need email and password to log in")
+        if (!email && !password) {
+            setError("Need email and password to log in");
+            return;
+        } else if (!email) {
+            setError("Need email to log in");
+            return;
         }
 
         try {

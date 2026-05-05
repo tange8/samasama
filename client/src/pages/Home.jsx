@@ -94,7 +94,10 @@ export default function Home() {
                                     className="w-full"
                                     onClick={() => {setIsOpen(true); setSelectedPost(post)}}
                                 >
-                                    <PostingCard key={post.id} posting={post}/>
+                                    <PostingCard 
+                                        key={post.id} 
+                                        posting={post} 
+                                    />
                                 </div>
                             ))
                         ) : (

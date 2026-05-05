@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ProfileBio from '../components/features/ProfileBio';
 import ProfileContent from '../components/features/ProfileContent';
+import { useAuth } from '../context/AuthContext';
 
 export default function Profile() {
 
@@ -12,70 +13,72 @@ export default function Profile() {
 
     // debug role switcher
     const [currentRole, setCurrentRole] = useState('student');
+    const { user } = useAuth(); // Added useAuth hook
 
     useEffect(() => {
-        const userId = '69fd2ffd-7059-4c09-93ba-5c7423fcaa59'; // hardcoded id for now
+        // Added guard clause to wait for user to load
+        if (!user || !user.id) return;
 
-	fetch(`http://localhost:3000/api/profiles/users/${userId}`)
-	    .then(res => res.json())
-	    .then(data => {
-		const mappedProfile = {
-		  ...data,
-		  name: `${data.first_name} ${data.last_name}`,
-		  profile_image: "https://static.vecteezy.com/system/resources/previews/005/544/718/non_2x/profile-icon-design-free-vector.jpg",
-		  tags: [],
-		  instagram: "",
-		  linkedin: "",
-		  facebook: "",
-		  youtube: "",
-		  about: ""
-	    };
-
-	    setProfile(mappedProfile);
-	})
-	.catch(console.error);
-
-        fetch(`http://localhost:3000/api/profiles/user/${userId}/follows`)
+        // Replaced hardcoded userId with user.id
+        fetch(`http://localhost:3000/api/profiles/users/${user.id}`)
             .then(res => res.json())
-	.then(data => {
-	  const cleaned = data.map(item => {
-	    const group = item.groups;
+            .then(data => {
+                const mappedProfile = {
+                    ...data,
+                    name: `${data.first_name} ${data.last_name}`,
+                    profile_image: "https://static.vecteezy.com/system/resources/previews/005/544/718/non_2x/profile-icon-design-free-vector.jpg",
+                    tags: [],
+                    instagram: "",
+                    linkedin: "",
+                    facebook: "",
+                    youtube: "",
+                    about: ""
+                };
 
-	    return {
-	      id: group.id,
-	      name: group.name,
-	      description: group.description || 'No description provided',
+                setProfile(mappedProfile);
+            })
+            .catch(console.error);
 
-	      // hardcoded defaults for now (since DB doesn't have them yet)
-	      logoUrl: '',
-	      type: group.entity_type === 'organization' ? 'Organization' : 'Group',
-	      meeting_time: 'Unknown',   // placeholder until DB supports it
-	      location: 'Unknown'      // placeholder until DB supports it
-	    };
-	  });
+        // Replaced hardcoded userId with user.id
+        fetch(`http://localhost:3000/api/profiles/user/${user.id}/follows`)
+            .then(res => res.json())
+            .then(data => {
+                const cleaned = data.map(item => {
+                    const group = item.groups;
 
-	  setSavedOrgs(cleaned);
-	})
-	.catch(console.error);
+                    return {
+                        id: group.id,
+                        name: group.name,
+                        description: group.description || 'No description provided',
+                        logoUrl: '',
+                        type: group.entity_type === 'organization' ? 'Organization' : 'Group',
+                        meeting_time: 'Unknown',
+                        location: 'Unknown'
+                    };
+                });
 
+                setSavedOrgs(cleaned);
+            })
+            .catch(console.error);
 
-	fetch(`http://localhost:3000/api/profiles/user/${userId}/saved`)
-	  .then(res => res.json())
-	  .then(data => {
-	    const cleaned = data.map(item => ({
-	      image_url: item.postings.photo_url,
-	      title: item.postings.title,
-	      description: item.postings.description,
-	      created_by: item.postings.groups.name,
-	      start_time: item.postings.start_time,
-	      end_time: item.postings.end_time,
-	      location: item.postings.location
-	    }));
+        // Replaced hardcoded userId with user.id
+        fetch(`http://localhost:3000/api/profiles/user/${user.id}/saved`)
+            .then(res => res.json())
+            .then(data => {
+                const cleaned = data.map(item => ({
+                    image_url: item.postings.photo_url,
+                    title: item.postings.title,
+                    description: item.postings.description,
+                    created_by: item.postings.groups.name,
+                    start_time: item.postings.start_time,
+                    end_time: item.postings.end_time,
+                    location: item.postings.location
+                }));
 
-	    setSavedEvents(cleaned);
-	  })
-	  .catch(console.error);
-    }, []);
+                setSavedEvents(cleaned);
+            })
+            .catch(console.error);
+    }, [user]); // Added user to the dependency array
 
     if (!profile) {
         return <div>Loading...</div>;

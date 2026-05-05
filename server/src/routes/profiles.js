@@ -100,15 +100,16 @@ router.post('/user/:id/saved', async (req, res) => {
 
 // DELETE /api/profiles/user/:id/saved/:postingId
 router.delete('/user/:id/saved/:postingId', async (req, res) => {
-  const { id, posting_id } = req.params;
+  const { id, postingId } = req.params;
 
-  const { data, error } = await supabaseAdmin
+  const { error } = await supabaseAdmin
     .from('saved_posts')
-    .delete([{ student_id: id, posting_id }]);
+    .delete()
+    .match({ user_id: id, posting_id: postingId });
 
-  if (error) return res.status(500).json({ error: error });
+  if (error) return res.status(500).json({ error: error.message });
 
-  res.status(200).json(data);
+  res.status(200).json({ message: 'Unsaved successfully' });
 });
 
 export default router;
