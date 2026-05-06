@@ -5,8 +5,7 @@ import Header from "../../assets/Header.svg";
 export default function Layout() {
     return (
         <div className="flex flex-col min-h-screen w-full">
-            <img src={Header} alt="" className="w-full z-50 block" />
-            <div className="flex flex-1 w-fullbg-[#FFDDBE]">
+            <div className="flex flex-1 w-full bg-[#FFDDBE]">
                 <Sidebar />
                 
                 <main className="flex-grow flex flex-col items-center">

@@ -9,10 +9,14 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Events from "./pages/Events";
 
+import Header from "./assets/Header.svg";
+
 function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
+        <img src={Header} alt="" className="w-full z-50 block" />
+
         <Routes>
           {/* Step 2: Add more routes here */}
           
