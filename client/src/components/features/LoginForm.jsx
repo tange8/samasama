@@ -68,12 +68,12 @@ export default function LoginForm() {
                     onChange={(e) => setPassword(e.target.value)}
                 />
             </div>
-            <button className="w-37.5 h-12.5 bg-[#FFE3CA] border-[3px] border-[#FF9B00] rounded-[11px] mt-7 cursor-pointer" onClick={() => {handleLogin()}}>
+            <button className="w-37.5 h-12.5 bg-gradient-to-b from-[#FFE3CA] to-[#F3923B] hover:from-[#F3923B] transition-colors duration-300 border-[3px] border-[#FF9B00] rounded-[11px] mt-7 cursor-pointer" onClick={() => {handleLogin()}}>
                 <h2 className="text-[24px] text-[#070154]">Log In</h2>
             </button>
 
-            <button className="w-110 h-12.5 bg-[#FFE3CA] border-[3px] border-[#FF9B00] rounded-[11px] mt-7 mb-9.25 cursor-pointer" onClick={() => navigate("/signup")}>
-                <h2 className="text-[24px] text-[#070154]">Don't have an account? Sign up here</h2>
+            <button className="w-110 h-12.5 bg-[#FFE3CA] rounded-[11px] mt-7 mb-9.25 cursor-pointer" onClick={() => navigate("/signup")}>
+                <h2 className="text-[24px] text-[#070154] hover:text-[#FF4F00] transition-colors duration-300">Don't have an account? Sign up here</h2>
             </button>
         </div>
     )

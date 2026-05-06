@@ -99,7 +99,7 @@ export default function BusinessSignup ({goBack}) {
                     onChange={(e) => setPassword(e.target.value)}
                 />
             </div>
-            <button className="w-50 h-[50px] bg-[#FFE3CA] border-[3px] border-[#FF9B00] rounded-[11px] cursor-pointer mt-[25px] mb-[23px]" onClick={() => {handleSubmit()}}>
+            <button className="w-50 h-[50px] bg-[#FFE3CA] border-[3px] border-[#FF9B00] rounded-[11px] cursor-pointer mt-[25px] mb-[23px] bg-gradient-to-b from-[#FFE3CA] to-[#F3923B] hover:from-[#F3923B] transition-colors duration-300" onClick={() => {handleSubmit()}}>
                 <h2 className="text-[24px] text-[#070154]">Create Account</h2>
             </button>
         </div>

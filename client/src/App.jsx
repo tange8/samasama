@@ -15,7 +15,9 @@ function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
+        <div className="flex flex-col h-screen overflow-hidden">
         <img src={Header} alt="" className="w-full z-50 block" />
+        <div className="flex-1 min-h-0">  {/* fills remaining height exactly */}
 
         <Routes>
           {/* Step 2: Add more routes here */}
@@ -33,6 +35,8 @@ function App() {
           <Route path="/signup" element={<Signup/>}/>
           
         </Routes>
+        </div>
+        </div>
       </BrowserRouter>
     </AuthProvider>
   );

@@ -78,7 +78,7 @@ export default function StudentSignup ({goBack}) {
                     onChange={(e) => setPassword(e.target.value)}
                 />
             </div>
-            <button className="w-50 h-[50px] bg-[#FFE3CA] border-[3px] border-[#FF9B00] rounded-[11px] cursor-pointer mt-8.25 mb-[27px]" onClick={() => {handleSubmit()}}>
+            <button className="w-50 h-[50px] bg-[#FFE3CA] border-[3px] border-[#FF9B00] rounded-[11px] cursor-pointer mt-8.25 mb-[27px] bg-gradient-to-b from-[#FFE3CA] to-[#F3923B] hover:from-[#F3923B] transition-colors duration-300" onClick={() => {handleSubmit()}}>
                 <h2 className="text-[24px] text-[#070154]">Create Account</h2>
             </button>
             <h3 className="text-red-600 mb-[27px]">{error}</h3>

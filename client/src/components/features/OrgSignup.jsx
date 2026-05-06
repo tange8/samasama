@@ -109,7 +109,7 @@ export default function OrgSignup ({org, goBack}) {
                     </div>
                 )}  
             </div>
-            <button className="w-50 h-[50px] bg-[#FFE3CA] border-[3px] border-[#FF9B00] rounded-[11px] cursor-pointer mt-[31px] mb-[49px]" onClick={() => {handleSubmit()}}>
+            <button className="w-50 h-[50px] bg-[#FFE3CA] border-[3px] border-[#FF9B00] rounded-[11px] cursor-pointer mt-[31px] mb-[49px] bg-gradient-to-b from-[#FFE3CA] to-[#F3923B] hover:from-[#F3923B] transition-colors duration-300" onClick={() => {handleSubmit()}}>
                 <h2 className="text-[24px] text-[#070154]">Create Account</h2>
             </button>
         </div>
