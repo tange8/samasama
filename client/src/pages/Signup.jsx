@@ -6,7 +6,7 @@ export default function Signup() {
     return(
         <AuthBackground>
             <div className="flex flex-col items-center justify-center h-screen">
-                <img src={BigLogo} alt="" className="w-auto h-36" />
+                <img src={BigLogo} alt="" className="w-auto h-24" />
                 
                 <SignupForm/>
             </div>
