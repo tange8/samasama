@@ -46,13 +46,13 @@ export default function StudentSignup ({goBack}) {
     }
 
     return (
-        <div className="flex flex-col items-center w-160 bg-[#FFE3CA] border-[3px] border-[#070154] rounded-[11px] relative">
+        <div className="flex flex-col gap-2 items-center w-160 bg-[#FFE3CA] border-[3px] border-[#070154] rounded-[11px] relative">
             <button className="absolute top-4 left-4 border-[3px] border-[#FF4F00] rounded-md cursor-pointer" onClick={() => {goBack()}}>
                 <IoMdArrowBack size={30}/>
             </button>
-            <h1 className="mt-9 text-[32px] font-extrabold">Create Account</h1>
+            <h1 className="mt-6 text-[32px] font-extrabold">Create Account</h1>
             <div className="flex flex-col mt-[11px]">
-                <h2 className="text-[#070154] text-[24px]">Name</h2>
+                <h2 className="text-[#070154] text-[20px]">Name</h2>
                 <input 
                     className="w-100 h-10 border-[3px] border-[#FF4F00] bg-[#FFDCBE] rounded-md p-1.5"
                     type="text"
@@ -60,8 +60,8 @@ export default function StudentSignup ({goBack}) {
                     onChange={(e) => setName(e.target.value)}
                 />
             </div>
-            <div className="flex flex-col mt-8">
-                <h2 className="text-[#070154] text-[24px]">Email Address</h2>
+            <div className="flex flex-col">
+                <h2 className="text-[#070154] text-[20px]">Email Address</h2>
                 <input 
                     className="w-100 h-10 border-[3px] border-[#FF4F00] bg-[#FFDCBE] rounded-md p-1.5"
                     type="email"
@@ -69,8 +69,8 @@ export default function StudentSignup ({goBack}) {
                     onChange={(e) => setEmail(e.target.value)}
                 />
             </div>
-            <div className="flex flex-col mt-8.5">
-                <h2 className="text-[#070154] text-[24px]">Password</h2>
+            <div className="flex flex-col">
+                <h2 className="text-[#070154] text-[20px]">Password</h2>
                 <input 
                     className="w-100 h-10 border-[3px] border-[#FF4F00] bg-[#FFDCBE] rounded-md p-1.5"
                     type="password"
@@ -78,10 +78,11 @@ export default function StudentSignup ({goBack}) {
                     onChange={(e) => setPassword(e.target.value)}
                 />
             </div>
-            <button className="w-50 h-[50px] bg-[#FFE3CA] border-[3px] border-[#FF9B00] rounded-[11px] cursor-pointer mt-8.25 mb-[27px] bg-gradient-to-b from-[#FFE3CA] to-[#F3923B] hover:from-[#F3923B] transition-colors duration-300" onClick={() => {handleSubmit()}}>
-                <h2 className="text-[24px] text-[#070154]">Create Account</h2>
+            <button className="w-50 h-[50px] bg-[#FFE3CA] border-[3px] border-[#FF9B00] rounded-[11px] cursor-pointer my-4 bg-gradient-to-b from-[#FFE3CA] to-[#F3923B] hover:from-[#F3923B] transition-colors duration-300" onClick={() => {handleSubmit()}}>
+                <h2 className="text-[20px] text-[#070154]">Create Account</h2>
             </button>
-            <h3 className="text-red-600 mb-[27px]">{error}</h3>
+            {error && ( <h3 className="text-red-600 mb-2">{error}</h3> )}
+           
         </div>
     )
 }
