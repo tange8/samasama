@@ -28,10 +28,10 @@ router.get('/:role/:id', async (req, res) => {
 router.put('/:role/:id', async (req, res) => {
  const { role, id } = req.params;
  const updates = req.body;
-
+ 
 
  const { data, error } = await supabaseAdmin
-   .from(role)
+   .from('users')
    .update(updates)
    .eq('id', id)
    .select()
