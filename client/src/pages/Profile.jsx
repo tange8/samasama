@@ -32,11 +32,11 @@ export default function Profile() {
                     ...data,
                     profile_image: "https://static.vecteezy.com/system/resources/previews/005/544/718/non_2x/profile-icon-design-free-vector.jpg",
                     tags: [],
-                    instagram: "",
-                    linkedin: "",
-                    facebook: "",
-                    youtube: "",
-                    about: ""
+                    linked_in: data.linked_in || "",
+                    instagram: data.instagram || "",
+                    facebook: data.facebook || "",
+                    youtube: data.youtube || "",
+                    about: data.about || ""
                 };
 
                 setProfile(mappedProfile);
@@ -103,7 +103,7 @@ export default function Profile() {
                 tags={profile.tags || []}
                 email={profile.email}
                 instagram={profile.instagram}
-                linkedin={profile.linkedin}
+                linked_in={profile.linked_in}
                 facebook={profile.facebook}
                 youtube={profile.youtube}
                 about={profile.about}
