@@ -1,9 +1,49 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { X, Calendar, Image, MapPin } from 'lucide-react'
 import { motion } from "framer-motion"
+import { useAuth } from '../../context/AuthContext'
 
 export const PostingDetailModal = ({setIsOpen, selectedPost}) => {
-    
+    const { user } = useAuth()
+    const [saved, setSaved] = useState(false)
+
+    //a use effect for checking if the selected post is already saved by the user, and setting the saved state accordingly
+    useEffect(() => {
+        const checkSaved = async () => {
+            if (!user) return
+            try {
+                const res = await fetch(`http://localhost:3000/api/profiles/user/${user.id}/saved`)
+                const data = await res.json()
+                const isSaved = data.some(post => post.posting_id === selectedPost.id)
+                setSaved(isSaved)
+            } catch (error) {
+                console.error("Error checking saved:", error)
+            }
+        }
+        checkSaved()
+    }, [selectedPost.id, user])
+    //handling saved state for the save button in the modal 
+    const handleSave = async () => {
+        if (!user) return
+        try {
+            if (!saved) {
+                const res = await fetch(`http://localhost:3000/api/profiles/user/${user.id}/saved`, {
+                    method: 'POST',
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ posting_id: selectedPost.id })
+                })
+                if (res.ok) setSaved(true)
+            } else {
+                const res = await fetch(`http://localhost:3000/api/profiles/user/${user.id}/saved/${selectedPost.id}`, {
+                    method: 'DELETE'
+                })
+                if (res.ok) setSaved(false)
+            }
+        } catch (error) {
+            console.error("Error saving post:", error)
+        }
+    }
+
     // Function for formatting selectedPost startTime/endTime (ChatGPT)
     function formatDateTime(startTime, endTime) {
         const start = new Date(startTime)
@@ -106,7 +146,16 @@ export const PostingDetailModal = ({setIsOpen, selectedPost}) => {
                         <Image />
                     )}
                 </div>
-
+                 
+                 <button
+                    onClick={handleSave}
+                    className={`w-full py-3 rounded-xl font-semibold text-black transition-colors duration-200 
+                        ${saved 
+                             ? 'bg-[#F3923B]'
+                            : 'bg-gradient-to-b from-[#FCBE86] to-[#F3923B] hover:from-[#e04500] hover:to-[#e08900]'
+                        }`}>
+                    {saved ? 'Unsave Event' : 'Save Event'}
+                </button>
             </div>
         </div>
     </motion.div>

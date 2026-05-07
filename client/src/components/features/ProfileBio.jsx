@@ -13,21 +13,18 @@ export default function ProfileBio(staticProfile) {
     const [profile, setProfile] = useState(staticProfile);
 
     return (
-	<div class="bg-[#FFDCBE] w-full h-auto border-[3px] border-[#FF4F00] rounded-[6px] flex flex-col justify-between p-4">
-	    {/** Top section **/}
-	    <div class="flex justify-between">
-		<div class="flex flex-col md:flex-row content-start items-center gap-4 px-2 p-4">
-		    <img src={profile.profileImage} class="w-[150px] h-[150px] rounded-[20px]"/>
-		    <div class="flex flex-col justify-between h-full">
-			<h1 class="font-black text-3xl md:text-5xl text-center md:text-start">{profile.first_name} {profile.last_name}</h1>
-			<h2 class="text-xl md:text-2xl font-semibold text-center md:text-start p-2">{profile.role}</h2>
-			<div class="flex flex-wrap gap-4 justify-center md:justify-start">
-			    {profile.tags.map((tag) =>
-				<p class="text-sm md:text-base border-[2px] border-[#FF9B00] rounded-[10px] p-1 px-2 text-center">
-				    {tag}
-				</p>
-			    )}
-			</div>
+	<div class="bg-gradient-to-br from-[#F6921E] to-[#FFDCBE] w-full h-auto border-[3px] border-[#FF4F00] rounded-[6px] flex flex-col justify-between p-4">
+	    <div class="flex flex-col md:flex-row content-start items-center gap-4 px-2 p-4">
+		<img src={profile.profileImage} class="w-[150px] h-[150px] rounded-[20px]"/>
+		<div class="flex flex-col justify-between h-full">
+		    <h1 class="font-black text-3xl md:text-5xl text-center md:text-start">{profile.name}</h1>
+		    <h2 class="text-xl md:text-2xl font-semibold text-center md:text-start p-2">{profile.role}</h2>
+		    <div class="flex flex-wrap gap-4 justify-center md:justify-start">
+			{profile.tags.map((tag) =>
+			    <p class="text-sm md:text-base border-[2px] border-[#FF9B00] rounded-[10px] p-1 px-2 text-center">
+				{tag}
+			    </p>
+			)}
 		    </div>
 		</div>
 		<div>
