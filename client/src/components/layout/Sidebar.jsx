@@ -4,7 +4,7 @@ import samasama_logo from "../../assets/samasama_logo.svg"
 import { useAuth } from "../../context/AuthContext";
 
 export default function Sidebar() {
-    const { logout } = useAuth()
+    const { user, logout } = useAuth()
     const navigate = useNavigate()
 
     const handleLogout = () => {
@@ -54,6 +54,7 @@ export default function Sidebar() {
                 </Link>
             </nav>
 
+    
                 {/* Log out; No functionality right now */}
                 <button 
                     onClick={handleLogout}
@@ -64,7 +65,7 @@ export default function Sidebar() {
                             color="#FFDCBE"
                         />
                     </div>
-                    <p className="hover:text-[#FF1B29] duration-300">Logout</p>
+                    <p className="hover:text-[#FF1B29] duration-300">{user ? "Logout" : "Login"}</p>
                 </button>
             </div>
 
