@@ -36,7 +36,17 @@ export default function ProfileBioEditingModal({ isVisible, onClose, profile = {
   };
 
   const handleSubmit = async () => {
-    const payload = { ...formData };
+    const payload = { ...formData,
+        instagram: formData.instagram && !formData.instagram.startsWith('http') 
+            ? `https://${formData.instagram}` 
+            : formData.instagram,
+        linked_in: formData.linked_in && !formData.linked_in.startsWith('http') 
+            ? `https://${formData.linked_in}` 
+            : formData.linked_in,
+        facebook: formData.facebook && !formData.facebook.startsWith('http') 
+            ? `https://${formData.facebook}` 
+            : formData.facebook,
+    };
 
     try {
       const res = await fetch(`http://localhost:3000/api/profiles/${profile.role}/${profile.id}`, {
