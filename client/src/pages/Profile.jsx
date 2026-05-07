@@ -30,7 +30,6 @@ export default function Profile() {
             .then(data => {
                 const mappedProfile = {
                     ...data,
-                    name: `${data.first_name} ${data.last_name}`,
                     profile_image: "https://static.vecteezy.com/system/resources/previews/005/544/718/non_2x/profile-icon-design-free-vector.jpg",
                     tags: [],
                     instagram: "",
@@ -98,7 +97,8 @@ export default function Profile() {
             
             <ProfileBio 
                 profileImage={profile.profile_image}
-                name={profile.name}
+                first_name={profile.first_name}
+                last_name={profile.last_name}
                 role={profile.role}
                 tags={profile.tags || []}
                 email={profile.email}
@@ -107,6 +107,7 @@ export default function Profile() {
                 facebook={profile.facebook}
                 youtube={profile.youtube}
                 about={profile.about}
+		id={user.id}
             />
 
             <ProfileContent 
