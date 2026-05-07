@@ -14,7 +14,11 @@ export default function Home() {
         const fetchPostings = async () => {
         const res = await fetch('http://localhost:3000/api/postings')
         const data = await res.json()
-        setAllPostings(data)
+        const mapped = data.map(post => ({
+            ...post,
+            created_by: post.group?.name || post.created_by
+        }))
+        setAllPostings(mapped)
         }
 
         fetchPostings()
