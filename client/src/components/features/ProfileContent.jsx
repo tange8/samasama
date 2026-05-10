@@ -2,13 +2,24 @@ import GroupCard from './GroupCard';
 import PostingCard from './PostingCard';
 import { Link } from 'react-router-dom';
 
-export default function ProfileContent({ role, savedOrgs, savedEvents, upcomingEvents, pastEvents, onPostClick }) {
+export default function ProfileContent({
+    role,
+    savedOrgs,
+    savedEvents,
+    upcomingEvents,
+    pastEvents,
+    onPostClick
+}) {
     if (role === 'student') {
         return (
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 w-full mt-6">
-                {/* Left Column: Saved Organizations */}
-                <div className="w-full border-4 border-[#1B1941] rounded-xl p-4 bg-transparent flex flex-col h-full min-h-[500px]">
-                    <h2 className="text-xl font-bold text-center text-[#1B1941] mb-6">Saved Organizations</h2>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 w-full mt-6 mx-6">
+
+                {/* Saved Organizations */}
+                <div className="w-full bg-white rounded-2xl p-5 flex flex-col min-h-[500px] shadow-md">
+                    <h2 className="text-xl font-black text-[#070154] text-center mb-6">
+                        Saved Organizations
+                    </h2>
+
                     <div className="flex flex-col gap-4 flex-grow">
                         {savedOrgs?.map(org => (
                             <GroupCard key={org.id} group={org} />
@@ -16,12 +27,15 @@ export default function ProfileContent({ role, savedOrgs, savedEvents, upcomingE
                     </div>
                 </div>
 
-                {/* Right Column: Saved Events */}
-                <div className="w-full border-4 border-[#EE3F38] rounded-xl p-4 bg-transparent flex flex-col h-full min-h-[500px]">
-                    <h2 className="text-xl font-bold text-center text-[#1B1941] mb-6">Saved Events</h2>
+                {/* Saved Events */}
+                <div className="w-full bg-white rounded-2xl p-5 flex flex-col min-h-[500px] shadow-md">
+                    <h2 className="text-xl font-black text-[#070154] text-center mb-6">
+                        Saved Events
+                    </h2>
+
                     <div className="flex flex-col gap-4 flex-grow">
                         {savedEvents?.slice(0, 3).map(event => (
-                          <div
+                            <div
                                 key={event.id}
                                 onClick={() => onPostClick(event)}
                                 className="cursor-pointer"
@@ -30,13 +44,13 @@ export default function ProfileContent({ role, savedOrgs, savedEvents, upcomingE
                             </div>
                         ))}
                     </div>
-                     {/* adding a button that will route to our saved events page if more than three saved events exist*/}
+
                     {savedEvents?.length > 3 && (
                         <Link
                             to="/events"
-                            className="mt-4 text-center text-sm font-bold text-[#EE3F38] hover:underline"
+                            className="mt-5 text-center text-sm font-semibold text-[#FF4F00] hover:text-[#e04500] transition"
                         >
-                            See more...
+                            See more →
                         </Link>
                     )}
                 </div>
@@ -47,9 +61,13 @@ export default function ProfileContent({ role, savedOrgs, savedEvents, upcomingE
     // Organization / Business Role
     return (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 w-full mt-6">
-            {/* Left Column: Upcoming Events */}
-            <div className="w-full border-4 border-[#1B1941] rounded-xl p-4 bg-transparent flex flex-col h-full min-h-[500px]">
-                <h2 className="text-xl font-bold text-center text-[#1B1941] mb-6">Upcoming Events</h2>
+
+            {/* Upcoming */}
+            <div className="w-full bg-[#FFF4EA] border-2 border-[#FF9B00] rounded-2xl p-5 flex flex-col min-h-[500px] shadow-sm">
+                <h2 className="text-xl font-black text-[#070154] text-center mb-6">
+                    Upcoming Events
+                </h2>
+
                 <div className="flex flex-col gap-4 flex-grow">
                     {upcomingEvents?.map(event => (
                         <PostingCard key={event.id} posting={event} />
@@ -57,9 +75,12 @@ export default function ProfileContent({ role, savedOrgs, savedEvents, upcomingE
                 </div>
             </div>
 
-            {/* Right Column: Past Events */}
-            <div className="w-full border-4 border-[#EE3F38] rounded-xl p-4 bg-transparent flex flex-col h-full min-h-[500px]">
-                <h2 className="text-xl font-bold text-center text-[#1B1941] mb-4">Past Events</h2>
+            {/* Past */}
+            <div className="w-full bg-[#FFF4EA] border-2 border-[#FF4F00] rounded-2xl p-5 flex flex-col min-h-[500px] shadow-sm">
+                <h2 className="text-xl font-black text-[#070154] text-center mb-6">
+                    Past Events
+                </h2>
+
                 <div className="flex flex-col gap-4 flex-grow">
                     {pastEvents?.map(event => (
                         <PostingCard key={event.id} posting={event} />

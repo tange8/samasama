@@ -74,103 +74,125 @@ export default function Home() {
     })
 
     return (
-        <div className="flex flex-col bg-[#FFDDBE] min-h-screen py-6 px-6 gap-5">
-    
-            <div className="flex flex-col gap-4">
-                <h1 className="text-[#070154] text-2xl font-medium">Welcome back, {user?.name || "Guest"}!</h1>
-                <div className="flex gap-5">
-                    <div className="flex flex-col flex-[2] min-w-0 h-full max-h-[calc(100vh-100px)] overflow-y-auto bg-[#FFE3CA] border-3 border-[#FF9B00] rounded-md p-5 gap-4">
-                        {/* Search Bar */}
-                        <div className="flex flex-row bg-[#FFDDBE] border-3 border-[#FF4F00] rounded-md p-2 gap-4">
-                            <Search color="#FF4F00"/>
-                            <input
-                                type="text"
-                                placeholder="Search for clubs, events, etc."
-                                className="bg-transparent outline-none w-full"
-                                value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
-                            />
-                        </div>
-                        {filteredPosts.length > 0 ? (
-                            filteredPosts.map((post) => (
-                                <div
-                                    key={post.id}
-                                    className="w-full"
-                                    onClick={() => {setIsOpen(true); setSelectedPost(post)}}
-                                >
-                                    <PostingCard 
-                                        key={post.id} 
-                                        posting={post} 
-                                    />
-                                </div>
-                            ))
-                        ) : (
-                            allPostings.map((post) => (
-                                <div
-                                    key={post.id}
-                                    className="w-full"
-                                    onClick={() => {setIsOpen(true); setSelectedPost(post)}}
-                                >
-                                    <PostingCard key={post.id} posting={post}/>
-                                </div>
-                            ))
-                        )}
-                        
-                    </div>
-                    <div className="flex flex-col flex-1 min-w-[250px] max-w-[350px] gap-4 items-center">
-                        <Calendar range={range} setRange={setRange}/>
+	<div className="flex flex-col bg-[#FFF4EA] min-h-screen py-6 px-6 gap-6">
 
-                        {/* Alyansa filtering checkboxes */}
-                        <div className="flex flex-col w-full justify-center items-center bg-[#FFE3CA] border-3 border-[#FF4F00] rounded-md p-4 gap-2">
-                            <p className="font-semibold">Alyansa</p>
-                            <div className="grid grid-cols-2 gap-y-2 gap-x-4">
-                                {alyansa.map((org) => (
-                                    <label key={org.name} className="flex flex-row justify-between items-center gap-4 cursor-pointer">
-                                        <div className="flex flex-row items-center gap-2">
-                                            <img
-                                                className="w-[28px] h-[28px] rounded-full"
-                                                src={org.img}
-                                                alt={org.alt}
-                                            />
-                                            <p className="text-[12px]">{org.name}</p>
-                                        </div>
-                                        <input
-                                            onChange={(e) => {
-                                                if (e.target.checked) {
-                                                    setOrgQuery([...orgQuery, org.name]);
-                                                } else {
-                                                    setOrgQuery(orgQuery.filter(o => o !== org.name));
-                                                }
-                                            }}
-                                            type="checkbox"
-                                            className="w-[15px] h-[15px] border-2 border-[#070154] accent-[#070154] cursor-pointer"
-                                        />
-                                    </label>
-                                ))}
-                            </div>
-                        </div>
+	    <div className="flex flex-col gap-5">
 
-                        {/* + button: create post */}
-                        { (user?.type == "business" || user?.type == "org_member") && (
-                            <div className="flex justify-end ml-auto mt-auto">
-                                <button className="flex justify-center items-center bg-[#FF4F00] rounded w-[60px] h-[60px] cursor-pointer" onClick={() => setAddEventOpen(true)}>
-                                    <Plus size={34} color="#FFDCBE"/>
-                                </button>
-                            </div>
-                        )}
-                    </div>
+		{/* Header */}
+		<h1 className="text-[#070154] text-[22px] font-medium">
+		    Welcome back,
+		    <span className="font-extrabold"> {user?.name || "Guest"}!</span>
+		</h1>
 
-                    <AnimatePresence>
-                    {addEventOpen && (
-                        <CreatePostingModal setAddEventOpen={setAddEventOpen}/>
-                    )}
-                    {isOpen && (
-                        <PostingDetailModal setIsOpen={setIsOpen} selectedPost={selectedPost}/>
-                    )}
-                    </AnimatePresence>
-                </div>
-            </div>
-        </div>
-      
-    )
+		<div className="flex gap-5">
+
+		    {/* LEFT: Feed */}
+		    <div className="flex flex-col flex-[2] min-w-0 h-full max-h-[calc(100vh-100px)] overflow-y-auto bg-white rounded-[18px] shadow-lg shadow-black/20 p-5 gap-4">
+
+			{/* Search */}
+			<div className="flex items-center gap-3 bg-[#FFF4EA] rounded-xl px-4 py-3">
+			    <Search className="text-[#070154]" size={18} />
+
+			    <input
+				type="text"
+				placeholder="Search events, clubs, posts..."
+				className="bg-transparent outline-none w-full text-[#070154]"
+				value={searchQuery}
+				onChange={(e) => setSearchQuery(e.target.value)}
+			    />
+			</div>
+
+			{/* Posts */}
+			{(filteredPosts.length > 0 ? filteredPosts : allPostings).map((post) => (
+			    <div
+				key={post.id}
+				className="w-full"
+				onClick={() => {
+				    setIsOpen(true);
+				    setSelectedPost(post);
+				}}
+			    >
+				<PostingCard posting={post} />
+			    </div>
+			))}
+		    </div>
+
+		    {/* RIGHT SIDEBAR */}
+		    <div className="flex flex-col flex-1 min-w-[250px] max-w-[350px] gap-4 items-center">
+
+			<Calendar range={range} setRange={setRange} />
+
+			{/* Alyansa */}
+			<div className="flex flex-col w-full bg-white rounded-[18px] shadow-sm p-4 gap-3">
+
+			    <p className="font-semibold text-[#070154]">
+				Alyansa
+			    </p>
+
+			    <div className="grid grid-cols-2 gap-y-3 gap-x-4">
+
+				{alyansa.map((org) => (
+				    <label
+					key={org.name}
+					className="flex items-center justify-between gap-3 cursor-pointer"
+				    >
+					<div className="flex items-center gap-2 min-w-0">
+					    <img
+						className="w-[28px] h-[28px] rounded-full"
+						src={org.img}
+						alt={org.alt}
+					    />
+					    <p className="text-[12px] text-[#070154] truncate">
+						{org.name}
+					    </p>
+					</div>
+
+					<input
+					    onChange={(e) => {
+						if (e.target.checked) {
+						    setOrgQuery([...orgQuery, org.name]);
+						} else {
+						    setOrgQuery(orgQuery.filter(o => o !== org.name));
+						}
+					    }}
+					    type="checkbox"
+					    className="w-[15px] h-[15px] accent-[#FF1B29] cursor-pointer"
+					/>
+				    </label>
+				))}
+
+			    </div>
+			</div>
+
+			{/* Create Button */}
+			{(user?.type == "business" || user?.type == "org_member") && (
+			    <div className="flex justify-end ml-auto mt-auto">
+
+				<button
+				    className="flex items-center justify-center w-[56px] h-[56px] rounded-xl bg-[#FF1B29] shadow-md hover:bg-[#d91422] active:scale-[0.98] transition-all cursor-pointer"
+				    onClick={() => setAddEventOpen(true)}
+				>
+				    <Plus size={28} color="#FFF4EA" />
+				</button>
+
+			    </div>
+			)}
+
+		    </div>
+		</div>
+	    </div>
+
+	    <AnimatePresence>
+		{addEventOpen && (
+		    <CreatePostingModal setAddEventOpen={setAddEventOpen} />
+		)}
+		{isOpen && (
+		    <PostingDetailModal
+			setIsOpen={setIsOpen}
+			selectedPost={selectedPost}
+		    />
+		)}
+	    </AnimatePresence>
+	</div>
+    );
 }

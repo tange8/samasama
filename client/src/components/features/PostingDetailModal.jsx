@@ -3,11 +3,10 @@ import { X, Calendar, Image, MapPin } from 'lucide-react'
 import { motion } from "framer-motion"
 import { useAuth } from '../../context/AuthContext'
 
-export const PostingDetailModal = ({setIsOpen, selectedPost}) => {
+export const PostingDetailModal = ({ setIsOpen, selectedPost }) => {
     const { user } = useAuth()
     const [saved, setSaved] = useState(false)
 
-    //a use effect for checking if the selected post is already saved by the user, and setting the saved state accordingly
     useEffect(() => {
         const checkSaved = async () => {
             if (!user) return
@@ -22,7 +21,7 @@ export const PostingDetailModal = ({setIsOpen, selectedPost}) => {
         }
         checkSaved()
     }, [selectedPost.id, user])
-    //handling saved state for the save button in the modal 
+
     const handleSave = async () => {
         if (!user) return
         try {
@@ -44,23 +43,17 @@ export const PostingDetailModal = ({setIsOpen, selectedPost}) => {
         }
     }
 
-    // Function for formatting selectedPost startTime/endTime (ChatGPT)
     function formatDateTime(startTime, endTime) {
         const start = new Date(startTime)
         const end = new Date(endTime)
 
         const getSuffix = (day) => {
             if (day >= 11 && day <= 13) return "th"
-
             switch (day % 10) {
-                case 1:
-                    return "st"
-                case 2:
-                    return "nd"
-                case 3:
-                    return "rd"
-                default:
-                    return "th"
+                case 1: return "st"
+                case 2: return "nd"
+                case 3: return "rd"
+                default: return "th"
             }
         }
 
@@ -78,87 +71,116 @@ export const PostingDetailModal = ({setIsOpen, selectedPost}) => {
             minute: "2-digit",
         })
 
-        return `${month} ${day}${getSuffix(day)}, ${year} ${startFormatted}-${endFormatted}`
+        return `${month} ${day}${getSuffix(day)}, ${year} ${startFormatted} - ${endFormatted}`
     }
 
-  return (
-    <div
-        className="fixed inset-0 z-50 bg-black/20"
-        onClick={() => setIsOpen(false)}
-    >
-    {/* Div surrounding entire modal */}
-    <motion.div className="fixed overflow-hidden right-0 top-0 bg-[#FFDCBE] w-[90vw] min-w-[300px] max-w-[600px] h-screen rounded-tl-[50px] rounded-bl-[50px]"
-        initial={{ x: "100%" }}
-        animate={{ x: 0 }}
-        exit={{ x: "100%" }}
-        transition={{ duration: 0.3, ease: "easeOut" }}
+    return (
+        <div
+            className="fixed inset-0 z-50 bg-black/20"
+            onClick={() => setIsOpen(false)}
+        >
+            <motion.div
+                className="fixed right-0 top-0 bg-[#FFF4EA] w-[92vw] max-w-[650px] h-screen rounded-tl-[40px] rounded-bl-[40px] shadow-[-10px_0_40px_rgba(0,0,0,0.15)]"
+                initial={{ x: "100%" }}
+                animate={{ x: 0 }}
+                exit={{ x: "100%" }}
+                transition={{ duration: 0.3, ease: "easeOut" }}
+                onClick={(e) => e.stopPropagation()}
+            >
+                <div className="h-full overflow-y-auto p-8 flex flex-col gap-6">
 
-        onClick={(e) => e.stopPropagation()}
-    >
-        
-        {/* Div surrounding modal content */}
-        <div className="h-full overflow-y-auto p-8">
-            {/* Div surrounding modal header */}
-            <div className="flex flex-row justify-between items-center text-[#FF4F00] text-[32px]">
-                <h1>View Event</h1>
-                <X className="w-[48px] h-[48px]" onClick={() => setIsOpen(false)}></X>
-            </div>
+                    {/* Header */}
+                    <div className="flex justify-between items-center">
+                        <h1 className="text-[28px] font-black text-[#070154]">
+                            Event Details
+                        </h1>
 
-            {/* Div surrounding event information */}
-            <div className="flex flex-col gap-10 p-6"> 
-                <div className="flex flex-col gap-2">
-                    <h1 className="text-black text-2xl">{selectedPost.title}</h1>
-                    <div className="flex flex-row gap-5 text-[#4A4459]">
-                        <Calendar/>
-                        <p>{formatDateTime(selectedPost.start_time, selectedPost.end_time)}</p>            
+                        <button
+                            onClick={() => setIsOpen(false)}
+                            className="w-10 h-10 rounded-xl bg-white shadow-sm flex items-center justify-center text-[#070154] hover:bg-[#FF9B00]/10 transition-all active:scale-95"
+                        >
+                            <X size={20} />
+                        </button>
                     </div>
-                    <div className="flex flex-row gap-5 text-[#4A4459]">
-                        <MapPin/>
-                        <p>{selectedPost.location}</p>
-                    </div>
-                </div>
 
-                <div className="flex flex-col gap-5">
-                    <p>Description:</p>
-                    <p>{selectedPost.description}</p>
-                </div>
-                                        
-                <div className="flex flex-col gap-5">
-                    <h1 className="text-2xl text-[#FF4F00]">Mentions</h1>
-                    <div className="flex flex-row gap-5 items-center">
-                        {/* Placeholder */}
-                        <div className="w-[50px] h-[50px] rounded-full bg-[#FF4F00] text-white flex items-center justify-center">
-                            IMG
+                    {/* Title + Meta */}
+                    <div className="flex flex-col gap-3">
+                        <h2 className="text-[22px] font-bold text-[#070154]">
+                            {selectedPost.title}
+                        </h2>
+
+                        <div className="flex flex-col gap-2 text-[14px] text-[#070154]/70">
+                            <div className="flex items-center gap-2">
+                                <Calendar className="text-[#FF9B00]" size={18} />
+                                <span>
+                                    {formatDateTime(selectedPost.start_time, selectedPost.end_time)}
+                                </span>
+                            </div>
+
+                            <div className="flex items-center gap-2">
+                                <MapPin className="text-[#FF1B29]" size={18} />
+                                <span>{selectedPost.location}</span>
+                            </div>
                         </div>
-                        <p>{selectedPost.created_by}</p>
                     </div>
-                </div>
 
-                <div className="flex items-center justify-center w-full h-[350px] rounded-[10px] bg-gray-300 text-white">
-                    {/* Placeholder */}
-                    {selectedPost.photo_url ? (
-                        <img
-                        src={selectedPost.photo_url}
-                        alt="event"
-                        className="w-full h-full object-cover rounded-[10px]"
-                        />
-                    ) : (
-                        <Image />
-                    )}
+                    {/* Description */}
+                    <div className="flex flex-col gap-2">
+                        <h3 className="text-[#070154] font-semibold">
+                            Description
+                        </h3>
+
+                        <p className="text-[#070154]/80 text-[14px] leading-relaxed">
+                            {selectedPost.description}
+                        </p>
+                    </div>
+
+                    {/* Mentions */}
+                    <div className="flex flex-col gap-3">
+                        <h3 className="text-[18px] font-bold text-[#FF9B00]">
+                            Posted by
+                        </h3>
+
+                        <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 rounded-full bg-[#FF1B29] text-white flex items-center justify-center text-sm font-bold">
+                                {selectedPost.created_by?.[0] || "U"}
+                            </div>
+
+                            <span className="text-[#070154] font-medium">
+                                {selectedPost.created_by}
+                            </span>
+                        </div>
+                    </div>
+
+                    {/* Image */}
+                    <div className="w-full h-[320px] rounded-[14px] bg-[#FFDDBE] overflow-hidden flex items-center justify-center">
+                        {selectedPost.photo_url ? (
+                            <img
+                                src={selectedPost.photo_url}
+                                alt="event"
+                                className="w-full h-full object-cover"
+                            />
+                        ) : (
+                            <Image className="text-[#070154]/40" />
+                        )}
+                    </div>
+
+                    {/* Save Button */}
+                    <button
+                        onClick={handleSave}
+                        className={`
+                            w-full py-3 rounded-xl font-semibold transition-all active:scale-98
+                            ${saved
+                                ? "bg-[#FF1B29] text-white hover:bg-[#e01622]"
+                                : "bg-[#FF9B00] text-white hover:bg-[#e68c00]"
+                            }
+                        `}
+                    >
+                        {saved ? "Unsave Event" : "Save Event"}
+                    </button>
+
                 </div>
-                 
-                 <button
-                    onClick={handleSave}
-                    className={`w-full py-3 rounded-xl font-semibold text-black transition-colors duration-200 
-                        ${saved 
-                             ? 'bg-[#F3923B]'
-                            : 'bg-gradient-to-b from-[#FCBE86] to-[#F3923B] hover:from-[#e04500] hover:to-[#e08900]'
-                        }`}>
-                    {saved ? 'Unsave Event' : 'Save Event'}
-                </button>
-            </div>
+            </motion.div>
         </div>
-    </motion.div>
-    </div>
-  )
+    )
 }
