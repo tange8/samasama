@@ -3,7 +3,7 @@ import ProfileBio from '../components/features/ProfileBio';
 import ProfileContent from '../components/features/ProfileContent';
 import { useAuth } from '../context/AuthContext';
 import { PostingDetailModal } from '../components/features/PostingDetailModal';
-import { AnimatePresence } from 'framer-motion'; //for pop up modal animation
+import { AnimatePresence } from 'framer-motion';
 
 export default function Profile() {
 
@@ -13,18 +13,15 @@ export default function Profile() {
     const [upcomingEvents, setUpcomingEvents] = useState([]);
     const [pastEvents, setPastEvents] = useState([]);
 
-    // debug role switcher
     const [isOpen, setIsOpen] = useState(false);
     const [selectedPost, setSelectedPost] = useState(null);
 
     const [currentRole, setCurrentRole] = useState('student');
-    const { user } = useAuth(); // Added useAuth hook
+    const { user } = useAuth();
 
     useEffect(() => {
-        // Added guard clause to wait for user to load
         if (!user || !user.id) return;
 
-        // Replaced hardcoded userId with user.id
         fetch(`http://localhost:3000/api/profiles/users/${user.id}`)
             .then(res => res.json())
             .then(data => {
@@ -43,36 +40,34 @@ export default function Profile() {
             })
             .catch(console.error);
 
-        // Replaced hardcoded userId with user.id
         fetch(`http://localhost:3000/api/profiles/user/${user.id}/follows`)
             .then(res => res.json())
             .then(data => {
                 const cleaned = data
-                .filter(item => item.groups)
-                .map(item => {    
-                    const group = item.groups;
-                    
-                    return {
-                        id: group.id,
-                        name: group.name,
-                        description: group.description || 'No description provided',
-                        logoUrl: group.photo_url || '', 
-                        type: group.entity_type === 'organization' ? 'Organization' : 'Group',
-                        meeting_time: 'Unknown',
-                        location: 'Unknown'
-                    };
-                });
+                    .filter(item => item.groups)
+                    .map(item => {
+                        const group = item.groups;
+
+                        return {
+                            id: group.id,
+                            name: group.name,
+                            description: group.description || 'No description provided',
+                            logoUrl: group.photo_url || '',
+                            type: group.entity_type === 'organization' ? 'Organization' : 'Group',
+                            meeting_time: 'Unknown',
+                            location: 'Unknown'
+                        };
+                    });
 
                 setSavedOrgs(cleaned);
             })
             .catch(console.error);
 
-        // Replaced hardcoded userId with user.id
         fetch(`http://localhost:3000/api/profiles/user/${user.id}/saved`)
             .then(res => res.json())
             .then(data => {
                 const cleaned = data.map(item => ({
-                    id: item.posting_id,     
+                    id: item.posting_id,
                     photo_url: item.postings.photo_url,
                     title: item.postings.title,
                     description: item.postings.description,
@@ -85,17 +80,25 @@ export default function Profile() {
                 setSavedEvents(cleaned);
             })
             .catch(console.error);
-    }, [user]); // Added user to the dependency array
+
+    }, [user]);
 
     if (!profile) {
-        return <div>Loading...</div>;
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-[#FFF4EA] text-[#070154]">
+                Loading...
+            </div>
+        );
     }
 
     return (
-        <div className="flex flex-col max-w-[1850px] w-full mx-auto gap-8 pb-10 pt-25">
-            <h1 className="text-4xl font-semibold text-[#1B1941]">My SamaSama Profile</h1>
-            
-            <ProfileBio 
+        <div className="min-h-screen bg-[#FFF4EA] flex flex-col w-full max-w-[1650px] mx-auto gap-8 pb-10 pt-24 px-12 items-center">
+
+            <h1 className="text-3xl md:text-4xl font-black text-[#070154] self-center">
+                My SamaSama Profile
+            </h1>
+
+            <ProfileBio
                 profileImage={profile.profile_image}
                 first_name={profile.first_name}
                 last_name={profile.last_name}
@@ -107,16 +110,16 @@ export default function Profile() {
                 facebook={profile.facebook}
                 youtube={profile.youtube}
                 about={profile.about}
-		id={user.id}
+                id={user.id}
             />
 
-            <ProfileContent 
+            <ProfileContent
                 role={profile.role}
                 savedOrgs={savedOrgs}
                 savedEvents={savedEvents}
                 upcomingEvents={upcomingEvents}
                 pastEvents={pastEvents}
-                onPostClick={(post) => {    
+                onPostClick={(post) => {
                     setSelectedPost(post);
                     setIsOpen(true);
                 }}
@@ -130,6 +133,7 @@ export default function Profile() {
                     />
                 )}
             </AnimatePresence>
+
         </div>
     );
 }

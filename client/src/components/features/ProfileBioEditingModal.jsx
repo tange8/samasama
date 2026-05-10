@@ -3,8 +3,6 @@ import { X, Pencil } from "lucide-react";
 import { motion } from "framer-motion";
 
 export default function ProfileBioEditingModal({ isVisible, onClose, profile = {}, setProfile }) {
-  if (!isVisible) return null;
-
   const [formData, setFormData] = useState({
     first_name: "",
     last_name: "",
@@ -162,12 +160,12 @@ export default function ProfileBioEditingModal({ isVisible, onClose, profile = {
             </div>
 
             {/* Save */}
-            <button
-              onClick={handleSubmit}
-              className="mt-6 h-12 rounded-xl bg-[#FF1B29] text-white font-semibold hover:bg-[#d91422] active:scale-[0.98] transition-all"
-            >
-              Save Changes
-            </button>
+	    <button
+	      onClick={handleSubmit}
+	      className="w-full mt-6 h-12 rounded-xl bg-[#FF9B00] text-white font-semibold hover:bg-[#e68c00] active:scale-[0.98] transition-all"
+	    >
+	      Save Changes
+	    </button>
           </div>
         </div>
       </motion.div>
