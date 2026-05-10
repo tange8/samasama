@@ -97,7 +97,7 @@ export default function PostingCard({ posting }) {
 
 
     return (
-        <div className="flex w-full bg-[#FFDCBE] border-3 border-[#070154] rounded-md p-5 gap-4 cursor-pointer">
+        <div className="flex w-full bg-[#FFDCBE] rounded-md p-5 gap-4 cursor-pointer">
             
             {/* Image */}
             <div className="w-[130px] h-[130px] bg-[#D3D3D3] rounded-md flex-shrink-0 overflow-hidden flex items-center justify-center">
