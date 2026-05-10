@@ -76,7 +76,7 @@ export default function SignupForm() {
                 {/* Student */}
                 <button
                     onClick={() => setRole("student")}
-                    className="group bg-white rounded-2xl p-6 text-left shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all cursor-pointer"
+                    className="group bg-white rounded-2xl p-6 text-left shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all cursor-pointer active:scale-98"
                 >
                     <div className="flex justify-between items-center">
                         <div>
@@ -96,7 +96,7 @@ export default function SignupForm() {
                 {/* Business */}
                 <button
                     onClick={() => setRole("business")}
-                    className="group bg-white rounded-2xl p-6 text-left shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all cursor-pointer"
+                    className="group bg-white rounded-2xl p-6 text-left shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all cursor-pointer active:scale-98"
                 >
                     <div className="flex justify-between items-center">
                         <div>
@@ -114,7 +114,7 @@ export default function SignupForm() {
                 </button>
 
                 {/* Organization */}
-                <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
+                <div className="bg-white rounded-2xl shadow-sm overflow-hidden transition-all active:scale-98">
                     
                     <button
                         onClick={() => setDropdown(!dropdown)}
@@ -135,7 +135,15 @@ export default function SignupForm() {
 			/>
                     </button>
 
-                    {dropdown && (
+		    <div
+			className={`
+			    overflow-hidden transition-all duration-500 ease-in-out
+			    ${dropdown
+				? "max-h-96 opacity-100 translate-y-0"
+				: "max-h-0 opacity-0 -translate-y-2"
+			    }
+			`}
+		    >
                         <div className="px-6 pb-6 flex flex-col gap-3">
                             {orgs.map((item) => {
                                 const isSelected = orgSelected === item;
@@ -147,11 +155,7 @@ export default function SignupForm() {
                                             setOrgSelected(item);
                                             setRole("org");
                                         }}
-                                        className={`flex justify-between items-center rounded-xl px-4 py-3 transition-all cursor-pointer border ${
-                                            isSelected
-                                                ? "border-transparent bg-black/[0.03]"
-                                                : "border-transparent hover:bg-black/[0.03]"
-                                        }`}
+                                        className="flex justify-between items-center rounded-xl px-4 py-3 transition-all cursor-pointer border border-transparent hover:bg-black/[0.03] active:scale-98 active:bg-black/[0.05]"
                                     >
                                         <span className="font-medium text-[#070154]">
                                             {item}
@@ -160,7 +164,7 @@ export default function SignupForm() {
                                 );
                             })}
                         </div>
-                    )}
+		    </div>
                 </div>
             </div>
         </div>

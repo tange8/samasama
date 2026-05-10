@@ -126,7 +126,7 @@ export default function OrgSignup({ org, goBack }) {
                 </label>
 
                 <div
-                    className="h-12 rounded-xl bg-white px-4 flex items-center justify-between border border-transparent hover:border-[#FF1B29]/30 focus-within:border-[#FF1B29] transition-all cursor-pointer"
+                    className="h-12 rounded-xl bg-white px-4 flex items-center justify-between border border-transparent hover:border-[#FF1B29]/30 transition-all cursor-pointer"
                     onClick={() => setDropDown(!dropdown)}
                 >
                     <span className={`${orgSelected ? "text-black" : "text-gray-400"}`}>
@@ -140,26 +140,26 @@ export default function OrgSignup({ org, goBack }) {
 		    />
                 </div>
 
-                {dropdown && (
-                    <div className="absolute top-full mt-2 w-full rounded-2xl bg-white shadow-[0_10px_30px_rgba(0,0,0,0.12)] border border-[#FF1B29]/10 overflow-hidden z-50">
-                        {["Kababayan", "FUSION", "PASS", "PUSO"].map((item) => (
-                            <button
-                                key={item}
-                                className={`w-full text-left px-4 py-3 transition-all cursor-pointer ${
-                                    orgSelected === item
-                                        ? "bg-[#FF1B29] text-white"
-                                        : "hover:bg-[#FF1B29]/5 text-[#070154]"
-                                }`}
-                                onClick={() => {
-                                    setOrgSelected(item);
-                                    setDropDown(false);
-                                }}
-                            >
-                                {item}
-                            </button>
-                        ))}
-                    </div>
-                )}
+		<div className={`transition-all transition-500 absolute top-full mt-2 w-full rounded-2xl bg-white shadow-[0_10px_30px_rgba(0,0,0,0.12)] border border-[#FF1B29]/10 overflow-hidden z-50
+		${dropdown ? "opacity-100" : "opacity-0"}`}
+		>
+		    {["Kababayan", "FUSION", "PASS", "PUSO"].map((item) => (
+			<button
+			    key={item}
+			    className={`w-full text-left px-4 py-3 transition-all cursor-pointer ${
+				orgSelected === item
+				    ? "bg-[#FF1B29] text-white"
+				    : "hover:bg-[#FF1B29]/5 text-[#070154]"
+			    }`}
+			    onClick={() => {
+				setOrgSelected(item);
+				setDropDown(false);
+			    }}
+			>
+			    {item}
+			</button>
+		    ))}
+		</div>
             </div>
 
             {/* Submit */}
