@@ -28,7 +28,7 @@ export const PostingDetailModal = ({ setIsOpen, selectedPost }) => {
             try {
                 const res = await fetch(`http://localhost:3000/api/profiles/user/${user.id}/follows`)
                 const data = await res.json()
-                const isFollowing = data.some(post => post.group_id === selectedPost.group_id)
+                const isFollowing = data.some(post => post.groups?.id === selectedPost.group_id)
                 setFollow(isFollowing)
             } catch (error) {
                 console.error("Error checking following: ", error)
@@ -199,9 +199,17 @@ export const PostingDetailModal = ({ setIsOpen, selectedPost }) => {
                                 className='cursor-pointer'
                             >
                                 {follow ? (
-                                    <FiCheckCircle/>
+                                    <FiCheckCircle
+                                        size={20}
+                                        color='#FF9B00'
+                                        strokeWidth={3}
+                                    />
                                 ) : (
-                                    <FiPlusCircle/>
+                                    <FiPlusCircle
+                                        size={20}
+                                        color='#FF9B00'
+                                        strokeWidth={3}
+                                    />
                                 )}
                             </button>
                         </div>
