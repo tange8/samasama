@@ -54,8 +54,8 @@ export default function Profile() {
                             description: group.description || 'No description provided',
                             logoUrl: group.photo_url || '',
                             type: group.entity_type === 'organization' ? 'Organization' : 'Group',
-                            meeting_time: 'Unknown',
-                            location: 'Unknown'
+                            meeting_time: group.meeting_time || 'Unknown',
+                            location: group.location || 'Unknown'
                         };
                     });
 

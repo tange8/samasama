@@ -1,11 +1,14 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { X, Calendar, Image, MapPin } from 'lucide-react'
 import { motion } from "framer-motion"
 import { useAuth } from '../../context/AuthContext'
+import { FiPlusCircle } from "react-icons/fi";
+import { FiCheckCircle } from "react-icons/fi";
 
 export const PostingDetailModal = ({ setIsOpen, selectedPost }) => {
     const { user } = useAuth()
     const [saved, setSaved] = useState(false)
+    const [follow, setFollow] = useState(false)
 
     useEffect(() => {
         const checkSaved = async () => {
@@ -19,7 +22,20 @@ export const PostingDetailModal = ({ setIsOpen, selectedPost }) => {
                 console.error("Error checking saved:", error)
             }
         }
+
+        const checkFollow = async() => {
+            if (!user) return
+            try {
+                const res = await fetch(`http://localhost:3000/api/profiles/user/${user.id}/follows`)
+                const data = await res.json()
+                const isFollowing = data.some(post => post.groups?.id === selectedPost.group_id)
+                setFollow(isFollowing)
+            } catch (error) {
+                console.error("Error checking following: ", error)
+            }
+        }
         checkSaved()
+        checkFollow()
     }, [selectedPost.id, user])
 
     const handleSave = async () => {
@@ -72,6 +88,34 @@ export const PostingDetailModal = ({ setIsOpen, selectedPost }) => {
         })
 
         return `${month} ${day}${getSuffix(day)}, ${year} ${startFormatted} - ${endFormatted}`
+    }
+
+    const handleFollow = async () => {
+
+        if (follow) {
+            try {
+                const res = await fetch(`http://localhost:3000/api/profiles/user/${user.id}/follows/${selectedPost.group_id}`, {
+                    method: 'DELETE'
+                })
+                if (res.ok) setFollow(false)
+            } catch (error) {
+                console.error("Error unfollowing organization: ", error)
+            }
+        } else {
+            try {
+                const res = await fetch(`http://localhost:3000/api/profiles/user/${user.id}/follows`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        group_id: selectedPost.group_id
+                    })
+                })
+                if (res.ok) setFollow(true)
+            } catch (error) {
+                console.error("Error following organization: "), error
+            }
+        }
+        
     }
 
     return (
@@ -149,6 +193,25 @@ export const PostingDetailModal = ({ setIsOpen, selectedPost }) => {
                             <span className="text-[#070154] font-medium">
                                 {selectedPost.created_by}
                             </span>
+
+                            <button 
+                                onClick={handleFollow}
+                                className='cursor-pointer'
+                            >
+                                {follow ? (
+                                    <FiCheckCircle
+                                        size={20}
+                                        color='#FF9B00'
+                                        strokeWidth={3}
+                                    />
+                                ) : (
+                                    <FiPlusCircle
+                                        size={20}
+                                        color='#FF9B00'
+                                        strokeWidth={3}
+                                    />
+                                )}
+                            </button>
                         </div>
                     </div>
 
