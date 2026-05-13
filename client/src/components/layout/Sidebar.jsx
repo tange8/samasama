@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";  // to link to pages
+import { Link, useNavigate } from "react-router-dom";  // to link to pages
 import { House, User, Calendar, LogOut, Users } from "lucide-react"
 import samasama_logo from "../../assets/samasama_logo.svg"
 import { useAuth } from "../../context/AuthContext";
