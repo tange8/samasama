@@ -1,137 +1,139 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ProfileBio from '../components/features/ProfileBio';
 import ProfileContent from '../components/features/ProfileContent';
+import { useAuth } from '../context/AuthContext';
+import { PostingDetailModal } from '../components/features/PostingDetailModal';
+import { AnimatePresence } from 'framer-motion';
 
 export default function Profile() {
-    // Simulates the logged-in user's role. 
-    // You can toggle this to test how ProfileContent is shown for different roles (student, org, business).
+
+    const [profile, setProfile] = useState(null);
+    const [savedOrgs, setSavedOrgs] = useState([]);
+    const [savedEvents, setSavedEvents] = useState([]);
+    const [upcomingEvents, setUpcomingEvents] = useState([]);
+    const [pastEvents, setPastEvents] = useState([]);
+
+    const [isOpen, setIsOpen] = useState(false);
+    const [selectedPost, setSelectedPost] = useState(null);
+
     const [currentRole, setCurrentRole] = useState('student');
+    const { user } = useAuth();
 
-    const mockUserBio = {
-        profileImage: "https://static.vecteezy.com/system/resources/previews/005/544/718/non_2x/profile-icon-design-free-vector.jpg",
-        name: currentRole === 'student' ? "Zuko" : currentRole === 'org' ? "FUSION" : "7 Leaves Cafe",
-        role: currentRole === 'org' ? "Professional" : currentRole.charAt(0).toUpperCase() + currentRole.slice(1),
-        tags: currentRole === 'student' ? ['CS Major', 'FUSION Member'] : currentRole === 'org' ? ['Professional'] : ['Cafe'],
-        email: "example@uci.edu",
-        instagram: "https://www.instagram.com",
-        linkedin: "https://www.linkedin.com",
-        facebook: "https://www.facebook.com",
-        youtube: "https://www.youtube.com",
-        about: "This is a mocked about section simulating what will eventually come from our Supabase database. It contains information about the user, organization, or business."
-    };
+    useEffect(() => {
+        if (!user || !user.id) return;
 
-    const mockSavedOrgs = [
-        {
-            id: 1,
-            name: "Kababayan",
-            description: "Kababayan emphasizes the social, cultural, political, academic and community aspects of the Pilipinx/Pilipinx-American experience.",
-            type: "Organization",
-            meeting_time: "Thursdays, 7-9PM",
-            location: "Dr. White (CCC)",
-            logoUrl: ""
-        },
-        {
-            id: 2,
-            name: "FUSION",
-            description: "FUSION exists to provide a community that fosters the personal and professional growth through the science & engineering field and Filipino culture.",
-            type: "Organization",
-            meeting_time: "Wednesdays, 7-9PM",
-            location: "Dr. White (CCC)",
-            logoUrl: ""
-        }
-    ];
+        fetch(`http://localhost:3000/api/profiles/users/${user.id}`)
+            .then(res => res.json())
+            .then(data => {
+                const mappedProfile = {
+                    ...data,
+                    profile_image: "https://static.vecteezy.com/system/resources/previews/005/544/718/non_2x/profile-icon-design-free-vector.jpg",
+                    tags: [],
+                    linked_in: data.linked_in || "",
+                    instagram: data.instagram || "",
+                    facebook: data.facebook || "",
+                    youtube: data.youtube || "",
+                    about: data.about || ""
+                };
 
-    const mockSavedEvents = [
-        {
-            id: 1,
-            title: "Kababayan General Meeting",
-            description: "Come out to our Week 1 general meeting! Get hyped for fun games, yap sessions, and opportunities to meet other general members.",
-            type: "event",
-            group_name: "Kababayan",
-            start_time: "2026-04-02T19:00:00Z",
-            end_time: "2026-04-02T21:00:00Z",
-            location: "Dr. White (CCC)",
-            image_url: ""
-        }
-    ];
+                setProfile(mappedProfile);
+            })
+            .catch(console.error);
 
-    const mockUpcomingEvents = [
-        {
-            id: 2,
-            title: "FUSION General Meeting #1",
-            description: "Come out to our Week 1 General Meeting where you'll have a chance to build and protect your own egg!",
-            type: "event",
-            group_name: "FUSION",
-            start_time: "2026-04-16T19:00:00Z",
-            end_time: "2026-04-16T21:00:00Z",
-            location: "Dr. White (CCC)",
-            image_url: "https://i.redd.it/k5v48axtppqc1.jpeg"
-        },
-        {
-            id: 3,
-            title: "Boba Fundraiser!",
-            description: "Support our club by buying boba! 15% of proceeds go towards our annual cultural night.",
-            type: "fundraiser",
-            group_name: "7 Leaves Cafe",
-            start_time: "2026-04-20T12:00:00Z",
-            end_time: "2026-04-20T21:00:00Z",
-            location: "7 Leaves Cafe, Irvine",
-            image_url: ""
-        }
-    ];
+        fetch(`http://localhost:3000/api/profiles/user/${user.id}/follows`)
+            .then(res => res.json())
+            .then(data => {
+                const cleaned = data
+                    .filter(item => item.groups)
+                    .map(item => {
+                        const group = item.groups;
 
-    const mockPastEvents = [
-        {
-            id: 4,
-            title: "FUSIONCON 2026",
-            description: "Come see our project teams showcase their work!",
-            type: "event",
-            group_name: "FUSION",
-            start_time: "2026-03-15T18:00:00Z",
-            end_time: "2026-03-15T22:00:00Z",
-            location: "Student Center",
-            image_url: ""
-        }
-    ];
+                        return {
+                            id: group.id,
+                            name: group.name,
+                            description: group.description || 'No description provided',
+                            logoUrl: group.photo_url || '',
+                            type: group.entity_type === 'organization' ? 'Organization' : 'Group',
+                            meeting_time: group.meeting_time || 'Unknown',
+                            location: group.location || 'Unknown'
+                        };
+                    });
+
+                setSavedOrgs(cleaned);
+            })
+            .catch(console.error);
+
+        fetch(`http://localhost:3000/api/profiles/user/${user.id}/saved`)
+            .then(res => res.json())
+            .then(data => {
+                const cleaned = data.map(item => ({
+                    id: item.posting_id,
+                    photo_url: item.postings.photo_url,
+                    title: item.postings.title,
+                    description: item.postings.description,
+                    created_by: item.postings.groups.name,
+                    start_time: item.postings.start_time,
+                    end_time: item.postings.end_time,
+                    location: item.postings.location
+                }));
+
+                setSavedEvents(cleaned);
+            })
+            .catch(console.error);
+
+    }, [user]);
+
+    if (!profile) {
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-[#FFF4EA] text-[#070154]">
+                Loading...
+            </div>
+        );
+    }
 
     return (
-        <div className="flex flex-col w-full max-w-[1200px] mx-auto gap-8 pb-10">
-            
-            {/* DEV TOOL: Role Switcher (Remove this once Supabase auth is wired up!) */}
-            <div className="flex gap-4 justify-center bg-[#FFDCBE] border-2 border-[#FF4F00] p-3 rounded-xl text-[#070154]">
-                <span className="font-bold">Test View As:</span>
-                <label className="cursor-pointer"><input type="radio" name="role" checked={currentRole === 'student'} onChange={() => setCurrentRole('student')} className="mr-1 accent-[#FF4F00]" /> Student</label>
-                <label className="cursor-pointer"><input type="radio" name="role" checked={currentRole === 'org'} onChange={() => setCurrentRole('org')} className="mr-1 accent-[#FF4F00]" /> Organization</label>
-                <label className="cursor-pointer"><input type="radio" name="role" checked={currentRole === 'business'} onChange={() => setCurrentRole('business')} className="mr-1 accent-[#FF4F00]" /> Business</label>
-            </div>
+        <div className="min-h-screen bg-[#FFF4EA] flex flex-col w-full max-w-[1650px] mx-auto gap-8 pb-10 pt-24 px-12 items-center">
 
-            {/* Top Half: Profile Bio */}
-            <div className="w-full">
-                <ProfileBio 
-                    profileImage={mockUserBio.profileImage}
-                    name={mockUserBio.name}
-                    role={mockUserBio.role}
-                    tags={mockUserBio.tags}
-                    email={mockUserBio.email}
-                    instagram={mockUserBio.instagram}
-                    linkedin={mockUserBio.linkedin}
-                    facebook={mockUserBio.facebook}
-                    youtube={mockUserBio.youtube}
-                    about={mockUserBio.about}
-                />
-            </div>
+            <h1 className="text-3xl md:text-4xl font-black text-[#070154] self-center">
+                My SamaSama Profile
+            </h1>
 
-            {/* Bottom Half: Profile Content based on role */}
-            <div className="w-full">
-                <ProfileContent 
-                    role={currentRole}
-                    savedOrgs={mockSavedOrgs}
-                    savedEvents={mockSavedEvents}
-                    upcomingEvents={mockUpcomingEvents}
-                    pastEvents={mockPastEvents}
-                />
-            </div>
-            
+            <ProfileBio
+                profileImage={profile.profile_image}
+                first_name={profile.first_name}
+                last_name={profile.last_name}
+                role={profile.role}
+                tags={profile.tags || []}
+                email={profile.email}
+                instagram={profile.instagram}
+                linked_in={profile.linked_in}
+                facebook={profile.facebook}
+                youtube={profile.youtube}
+                about={profile.about}
+                id={user.id}
+            />
+
+            <ProfileContent
+                role={profile.role}
+                savedOrgs={savedOrgs}
+                savedEvents={savedEvents}
+                upcomingEvents={upcomingEvents}
+                pastEvents={pastEvents}
+                onPostClick={(post) => {
+                    setSelectedPost(post);
+                    setIsOpen(true);
+                }}
+            />
+
+            <AnimatePresence>
+                {isOpen && selectedPost && (
+                    <PostingDetailModal
+                        setIsOpen={setIsOpen}
+                        selectedPost={selectedPost}
+                    />
+                )}
+            </AnimatePresence>
+
         </div>
     );
 }

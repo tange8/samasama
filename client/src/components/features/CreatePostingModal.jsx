@@ -119,7 +119,7 @@ export const CreatePostingModal = ({setAddEventOpen}) => {
         className="fixed inset-0 z-50 bg-black/20"
         onClick={() => setAddEventOpen(false)}
     >
-    <motion.div className="fixed right-0 top-0 bg-[#FFDCBE] w-[90vw] min-w-[300px] max-w-[800px] h-screen rounded-tl-[50px] rounded-bl-[50px] shadow-[-12px_0_20px_rgba(0,0,0,0.15)]"
+    <motion.div className="fixed right-0 top-0 bg-[#FFDCBE] w-[90vw] min-w-[300px] max-w-[600px] h-screen rounded-tl-[50px] rounded-bl-[50px] shadow-[-12px_0_20px_rgba(0,0,0,0.15)]"
         initial={{ x: "100%" }}
         animate={{ x: 0 }}
         exit={{ x: "100%" }}

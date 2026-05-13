@@ -1,16 +1,25 @@
 import { Link } from "react-router-dom";  // to link to pages
 import { House, User, Calendar, LogOut, Users } from "lucide-react"
 import samasama_logo from "../../assets/samasama_logo.svg"
+import { useAuth } from "../../context/AuthContext";
 
 export default function Sidebar() {
+    const { logout } = useAuth()
+    const navigate = useNavigate()
+
+    const handleLogout = () => {
+        logout();
+        navigate("/login")
+    }
+    
     return (
         // sticky: Tells the browser to lock this element in place when scrolling.
         // top-0: Locks it exactly to the top pixel of the monitor.
         // h-screen: Forces the sidebar to span the exact height of the monitor.
         // flex-col: stack items vertically
-        <aside className="w-[300px] bg-[#FFDDBE] border-r border-[#E5C6AB] flex flex-col flex-shrink-0 p-4 sticky top-0 h-screen shadow-lg">
+        <aside className="w-[200px] bg-linear-to-b from-[#FFDDBE] to-[#fff4ea] flex flex-col flex-shrink-0 align-left p-4 sticky top-0 h-screen shadow-lg shadow-black/20">
             
-            <div className="flex flex-col h-[90%] justify-between p-6">
+            <div className="flex flex-col items-start h-full justify-between p-6">
 
             {/* Navigation Links Area */}
             <nav className="flex flex-col items-center gap-6">

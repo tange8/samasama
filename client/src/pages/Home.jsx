@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 import PostingCard from "../components/features/PostingCard"
 import { CreatePostingModal } from "../components/features/CreatePostingModal";
@@ -8,115 +8,21 @@ import { AnimatePresence } from "framer-motion";
 import { Search, Plus } from "lucide-react"
 
 export default function Home() {
+    const [allPostings, setAllPostings] = useState([])
 
-    const dummyData = [
-    {
-        id: "p1",
-        title: "FUSION General Meeting #1",
-        description:
-        "Come join our first general meeting of the quarter! We’ll introduce the board, upcoming events, and socials.",
-        group_id: "a1b2c3d4-1111-1111-1111-111111111111",
-        photo_url: "https://i.redd.it/k5v48axtppqc1.jpeg",
-        start_time: "2026-04-02T17:00:00Z",
-        end_time: "2026-04-02T21:00:00Z",
-        location: "Dr. White Room",
-        created_by: "Fusion",
-        type: "event",
-        collab_group_id: null,
-    },
-    {
-        id: "p2",
-        title: "Boba Fundraiser 🍹",
-        description:
-        "Support Kababayan by buying boba at 7 Leaves! All proceeds go to future cultural events.",
-        group_id: "a1b2c3d4-2222-2222-2222-222222222222",
-        photo_url: "https://tb-static.uber.com/prod/image-proc/processed_images/7ed678eb0be2e2f1ee382620ae0b1d59/783282f6131ef2258e5bcd87c46aa87e.jpeg",
-        start_time: "2026-04-05T12:00:00Z",
-        end_time: "2026-04-05T21:00:00Z",
-        location: "7 Leaves Cafe, Irvine",
-        created_by: "Kababayan",
-        type: "fundraiser",
-        collab_group_id: "a1b2c3d4-1111-1111-1111-111111111111",
-    },
-    {
-        id: "p3",
-        title: "PUSO Dance Workshop",
-        description:
-        "Learn choreography and basics of cultural fusion dance styles. Beginners welcome!",
-        group_id: "a1b2c3d4-3333-3333-3333-333333333333",
-        photo_url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT2chTvOJFLYcOnQZIhEEcmnUrWYRk4LsS9Bg&s",
-        start_time: "2026-04-10T18:00:00Z",
-        end_time: "2026-04-10T20:00:00Z",
-        location: "Student Center Stage",
-        created_by: "Puso",
-        type: "event",
-        collab_group_id: null,
-    },
-    {
-        id: "p4",
-        title: "PASS Karaoke Night 🎤",
-        description:
-        "Come sing your heart out with PASS! Food, music, and community vibes.",
-        group_id: "a1b2c3d4-4444-4444-4444-444444444444",
-        photo_url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSfWQucwmmMTc15vdadYt9zmrtnklbROxCFsQ&s",
-        start_time: "2026-04-12T19:00:00Z",
-        end_time: "2026-04-12T23:00:00Z",
-        location: "APAD Lounge",
-        created_by: "Pass",
-        type: "event",
-        collab_group_id: null,
-    },
-    {
-        id: "p5",
-        title: "Alyansa Cultural Night 🌙",
-        description:
-            "Join all Alyansa orgs for a night of performances, food, and cultural showcases celebrating Filipino heritage and student talent.",
-        group_id: "a1b2c3d4-1111-1111-1111-111111111111",
-        photo_url:
-            "https://images.unsplash.com/photo-1523580494863-6f3031224c94",
-        start_time: "2026-04-18T18:00:00Z",
-        end_time: "2026-04-18T22:00:00Z",
-        location: "UCI Student Center Terrace",
-        created_by: "Fusion",
-        type: "event",
-        collab_group_id: "a1b2c3d4-2222-2222-2222-222222222222",
-    }
-    ];
+    useEffect(() => {
+        const fetchPostings = async () => {
+        const res = await fetch('http://localhost:3000/api/postings')
+        const data = await res.json()
+        const mapped = data.map(post => ({
+            ...post,
+            created_by: post.group?.name || post.created_by
+        }))
+        setAllPostings(mapped)
+        }
 
-    const dummyUsers = [
-        {
-            id: "a1b2c3d4-1111-1111-1111-111111111111",
-            name: "FUSION",
-            description: "Filipinx student cultural organization at UCI",
-            entity_type: "club",
-            created_by: "u1",
-            phone_number: "555-111-2222",
-        },
-        {
-            id: "a1b2c3d4-2222-2222-2222-222222222222",
-            name: "Kababayan",
-            description: "Filipino American cultural organization",
-            entity_type: "club",
-            created_by: "u2",
-            phone_number: "555-222-3333",
-        },
-        {
-            id: "a1b2c3d4-3333-3333-3333-333333333333",
-            name: "PUSO",
-            description: "Performing arts and cultural org",
-            entity_type: "club",
-            created_by: "u3",
-            phone_number: "555-333-4444",
-        },
-        {
-            id: "a1b2c3d4-4444-4444-4444-444444444444",
-            name: "PASS",
-            description: "Philippine American student society",
-            entity_type: "club",
-            created_by: "u4",
-            phone_number: "555-444-5555",
-        },
-    ];
+        fetchPostings()
+    }, [])
 
     const alyansa = [
         {
@@ -144,83 +50,149 @@ export default function Home() {
     const [isOpen, setIsOpen] = useState(false);
     const [selectedPost, setSelectedPost] = useState(null);
     const [range, setRange] = useState(); 
+    const [orgQuery, setOrgQuery] = useState([]);
+    const [searchQuery, setSearchQuery] = useState("");
     const { user } = useAuth();
 
-    return (
-        <div className="flex flex-col bg-[#FFDDBE] min-h-screen h-screen w-full overscroll-none py-6 px-15 gap-5">
+    const filteredPosts = allPostings.filter(post => {
+
+        // Search Bar Filtering
+        const searchResults = post.title.toLowerCase().includes(searchQuery.toLowerCase())
     
-            <div className="flex flex-col w-full gap-4">
-                <h1 className="text-[#070154] text-2xl font-medium">Welcome back, {user?.name || "Guest"}!</h1>
-                <div className="flex flex-row w-full mx-25 gap-15 items-stretch">
-                    <div className="flex flex-col h-full max-h-[calc(100vh-100px)] overflow-y-auto bg-[#FFE3CA] border-3 border-[#FF9B00] rounded-md p-5 gap-4">
-                        {/* Search Bar */}
-                        <div className="flex flex-row bg-[#FFDDBE] border-3 border-[#FF4F00] rounded-md p-2 gap-4">
-                            <Search color="#FF4F00"/>
-                            <input
-                                type="text"
-                                placeholder="Search for clubs, events, etc."
-                                className="bg-transparent outline-none w-full"
-                            />
-                        </div>
-                        {dummyData.map((post) => (
-                            <div
-                                key={post.id}
-                                className="w-full"
-                                onClick={() => {setIsOpen(true); setSelectedPost(post)}}
-                            >
-                            <PostingCard key={post.id} posting={post}/>
-                            </div>
-                        ))}
-                    </div>
-                    <div className="flex flex-col">
-                        <div className="flex flex-col gap-15">
-                        <Calendar range={range} setRange={setRange}/>
+        // Calendar Filtering
+        const start_date = new Date(post.start_time)
+        const end_date = new Date(post.end_time)
+        start_date.setHours(0, 0, 0, 0)
+        end_date.setHours(0, 0, 0, 0)
 
-                        {/* Alyansa filtering checkboxes */}
-                        <div className="flex flex-col w-full justify-center items-center bg-[#FFE3CA] border-3 border-[#FF4F00] rounded-md p-4 gap-4">
-                            <p className="font-semibold">Alyansa</p>
-                            <div className="grid grid-cols-2 gap-x-6">
-                                {alyansa.map((org) => (
-                                    <label key={org.name} className="flex flex-row justify-between items-center gap-4 cursor-pointer">
-                                        <div className="flex flex-row items-center gap-2">
-                                            <img
-                                                className="w-[28px] h-[28px] rounded-full"
-                                                src={org.img}
-                                                alt={org.alt}
-                                            />
-                                            <p>{org.name}</p>
-                                        </div>
-                                        <input
-                                            type="checkbox"
-                                            className="w-[20px] h-[20px] border-2 border-[#070154] accent-[#070154] cursor-pointer"
-                                        />
-                                    </label>
-                                ))}
-                            </div>
-                        </div>
-                        </div>
+        const calendarResults = !range?.from || !range?.to || (end_date <= range?.to) && (start_date >= range?.from)
 
-                        {/* + button: create post */}
-                        { (user?.type == "business" || user?.type == "org_member") && (
-                            <div className="flex justify-end mt-auto">
-                                <button className="flex justify-center items-center bg-[#FF4F00] rounded w-[60px] h-[60px] cursor-pointer" onClick={() => setAddEventOpen(true)}>
-                                    <Plus size={34} color="#FFDCBE"/>
-                                </button>
-                            </div>
-                        )}
-                    </div>
+        // Organization Filtering
+        const orgResults = orgQuery.length === 0 || orgQuery.some(org => post.created_by.toLowerCase().includes(org.toLowerCase()))
 
-                    <AnimatePresence>
-                    {addEventOpen && (
-                        <CreatePostingModal setAddEventOpen={setAddEventOpen}/>
-                    )}
-                    {isOpen && (
-                        <PostingDetailModal setIsOpen={setIsOpen} selectedPost={selectedPost}/>
-                    )}
-                    </AnimatePresence>
-                </div>
-            </div>
-        </div>
-      
-    )
+        return searchResults && calendarResults && orgResults
+    })
+
+    return (
+	<div className="flex flex-col bg-[#FFF4EA] min-h-screen py-6 px-6 gap-6">
+
+	    <div className="flex flex-col gap-5">
+
+		{/* Header */}
+		<h1 className="text-[#070154] text-[22px] font-medium">
+		    Welcome back,
+		    <span className="font-extrabold"> {user?.name || "Guest"}!</span>
+		</h1>
+
+		<div className="flex gap-5">
+
+		    {/* LEFT: Feed */}
+		    <div className="flex flex-col flex-[2] min-w-0 h-full max-h-[calc(100vh-100px)] overflow-y-auto bg-white rounded-[18px] shadow-lg shadow-black/20 p-5 gap-4">
+
+			{/* Search */}
+			<div className="flex items-center gap-3 bg-[#FFF4EA] rounded-xl px-4 py-3">
+			    <Search className="text-[#070154]" size={18} />
+
+			    <input
+				type="text"
+				placeholder="Search events, clubs, posts..."
+				className="bg-transparent outline-none w-full text-[#070154]"
+				value={searchQuery}
+				onChange={(e) => setSearchQuery(e.target.value)}
+			    />
+			</div>
+
+			{/* Posts */}
+			{(filteredPosts.length > 0 ? filteredPosts : allPostings).map((post) => (
+			    <div
+				key={post.id}
+				className="w-full"
+				onClick={() => {
+				    setIsOpen(true);
+				    setSelectedPost(post);
+				}}
+			    >
+				<PostingCard posting={post} />
+			    </div>
+			))}
+		    </div>
+
+		    {/* RIGHT SIDEBAR */}
+		    <div className="flex flex-col flex-1 min-w-[250px] max-w-[350px] gap-4 items-center">
+
+			<Calendar range={range} setRange={setRange} />
+
+			{/* Alyansa */}
+			<div className="flex flex-col w-full bg-white rounded-[18px] shadow-sm p-4 gap-3">
+
+			    <p className="font-semibold text-[#070154]">
+				Alyansa
+			    </p>
+
+			    <div className="grid grid-cols-2 gap-y-3 gap-x-4">
+
+				{alyansa.map((org) => (
+				    <label
+					key={org.name}
+					className="flex items-center justify-between gap-3 cursor-pointer"
+				    >
+					<div className="flex items-center gap-2 min-w-0">
+					    <img
+						className="w-[28px] h-[28px] rounded-full"
+						src={org.img}
+						alt={org.alt}
+					    />
+					    <p className="text-[12px] text-[#070154] truncate">
+						{org.name}
+					    </p>
+					</div>
+
+					<input
+					    onChange={(e) => {
+						if (e.target.checked) {
+						    setOrgQuery([...orgQuery, org.name]);
+						} else {
+						    setOrgQuery(orgQuery.filter(o => o !== org.name));
+						}
+					    }}
+					    type="checkbox"
+					    className="w-[15px] h-[15px] accent-[#FF1B29] cursor-pointer"
+					/>
+				    </label>
+				))}
+
+			    </div>
+			</div>
+
+			{/* Create Button */}
+			{(user?.type == "business" || user?.type == "org_member") && (
+			    <div className="flex justify-end ml-auto mt-auto">
+
+				<button
+				    className="flex items-center justify-center w-[56px] h-[56px] rounded-xl bg-[#FF1B29] shadow-md hover:bg-[#d91422] active:scale-[0.98] transition-all cursor-pointer"
+				    onClick={() => setAddEventOpen(true)}
+				>
+				    <Plus size={28} color="#FFF4EA" />
+				</button>
+
+			    </div>
+			)}
+
+		    </div>
+		</div>
+	    </div>
+
+	    <AnimatePresence>
+		{addEventOpen && (
+		    <CreatePostingModal setAddEventOpen={setAddEventOpen} />
+		)}
+		{isOpen && (
+		    <PostingDetailModal
+			setIsOpen={setIsOpen}
+			selectedPost={selectedPost}
+		    />
+		)}
+	    </AnimatePresence>
+	</div>
+    );
 }
