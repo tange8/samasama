@@ -1,5 +1,5 @@
-import { Link, useNavigate } from "react-router-dom";  // to link to pages
-import { House, User, Calendar, LogOut } from "lucide-react"
+import { Link } from "react-router-dom";  // to link to pages
+import { House, User, Calendar, LogOut, Users } from "lucide-react"
 import samasama_logo from "../../assets/samasama_logo.svg"
 import { useAuth } from "../../context/AuthContext";
 
@@ -23,49 +23,60 @@ export default function Sidebar() {
 
             {/* Navigation Links Area */}
             <nav className="flex flex-col items-center gap-6">
-                {/* Links will go here */}
-                <Link to="/" className="pb-6">
-                    <img src={samasama_logo} alt="SamaSama logo" width="110" />
+                
+                <Link to="/" className="mb-4">
+                    <img src={samasama_logo} alt="SamaSama logo" width="125" />
                 </Link>
-                <Link to="/" className="flex flex-row gap-2 justify-center items-center">
-                    <div className="bg-[#070154] p-2 rounded-[10px]">
+
+                {/* Added w-40 and justify-start to align icons perfectly */}
+                <Link to="/" className="flex flex-row gap-3 justify-start items-center w-40">
+                    <div className="bg-[#070154] p-2 rounded">
                         <House
                             color="#FFDCBE"
                         />
                     </div>
-                    <p className="hover:text-[#070154] duration-300">Home</p>
+                    <p className="hover:text-[#070154] duration-300 font-medium">Home</p>
                 </Link>
-                <Link to="/profile" className="flex flex-row gap-2 justify-center items-center">
-                    <div className="bg-[#FF1B29] p-2 rounded-[10px]">
+                
+                <Link to="/profile" className="flex flex-row gap-3 justify-start items-center w-40">
+                    <div className="bg-[#FF1B29] p-2 rounded">
                         <User
                             color="#FFDCBE"
                         />
                     </div>
-                    <p className="hover:text-[#FF1B29] duration-300">Profile</p>
+                    <p className="hover:text-[#FF1B29] duration-300 font-medium">Profile</p>
                 </Link>
 
-                <Link to="/events" className="flex flex-row gap-2 justify-center items-center">
-                    <div className="bg-[#FF4F00] p-2 rounded-[10px]">
+                <Link to="/events" className="flex flex-row gap-3 justify-start items-center w-40">
+                    <div className="bg-[#FF4F00] p-2 rounded">
                         <Calendar
                             color="#FFDCBE"
                         />
                     </div>
-                    <p className="hover:text-[#FF4F00] duration-300">Events</p>
+                    <p className="hover:text-[#FF4F00] duration-300 font-medium">Events</p>
                 </Link>
-            </nav>
-
-                {/* Log out; No functionality right now */}
-                <button 
-                    onClick={handleLogout}
-                    className="flex flex-row gap-2 justify-center items-center cursor-pointer"
-                >
-                    <div className="bg-[#FF1B29] p-2 rounded-[10px]">
-                        <LogOut
+                
+                <Link to="/meet-team" className="flex flex-row gap-3 justify-start items-center w-40">
+                    <div className="bg-[#FF9B00] p-2 rounded">
+                        <Users
                             color="#FFDCBE"
                         />
                     </div>
-                    <p className="hover:text-[#FF1B29] duration-300">Logout</p>
-                </button>
+                    <p className="hover:text-[#FF9B00] duration-300 font-medium">Dev Team</p>
+                </Link>
+            </nav>
+
+                {/* Wrapped logout in an items-center div to match the nav alignment */}
+                <div className="flex flex-col items-center">
+                    <div className="flex flex-row gap-3 justify-start items-center cursor-pointer w-40">
+                        <div className="bg-[#FF1B29] p-2 rounded">
+                            <LogOut
+                                color="#FFDCBE"
+                            />
+                        </div>
+                        <p className="hover:text-[#FF1B29] duration-300 font-medium">Logout</p>
+                    </div>
+                </div>
             </div>
 
         </aside>
