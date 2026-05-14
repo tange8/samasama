@@ -4,7 +4,7 @@ import samasama_logo from "../../assets/samasama_logo.svg"
 import { useAuth } from "../../context/AuthContext";
 
 export default function Sidebar() {
-    const { logout } = useAuth()
+    const { user, logout } = useAuth()
     const navigate = useNavigate()
 
     const handleLogout = () => {
@@ -55,28 +55,21 @@ export default function Sidebar() {
                     </div>
                     <p className="hover:text-[#FF4F00] duration-300 font-medium">Events</p>
                 </Link>
-                
-                <Link to="/meet-team" className="flex flex-row gap-3 justify-start items-center w-40">
-                    <div className="bg-[#FF9B00] p-2 rounded">
-                        <Users
+            </nav>
+
+    
+                {/* Log out; No functionality right now */}
+                <button 
+                    onClick={handleLogout}
+                    className="flex flex-row gap-2 justify-center items-center cursor-pointer"
+                >
+                    <div className="bg-[#FF1B29] p-2 rounded">
+                        <LogOut
                             color="#FFDCBE"
                         />
                     </div>
-                    <p className="hover:text-[#FF9B00] duration-300 font-medium">Dev Team</p>
-                </Link>
-            </nav>
-
-                {/* Wrapped logout in an items-center div to match the nav alignment */}
-                <div className="flex flex-col items-center">
-                    <div className="flex flex-row gap-3 justify-start items-center cursor-pointer w-40">
-                        <div className="bg-[#FF1B29] p-2 rounded">
-                            <LogOut
-                                color="#FFDCBE"
-                            />
-                        </div>
-                        <p className="hover:text-[#FF1B29] duration-300 font-medium">Logout</p>
-                    </div>
-                </div>
+                    <p className="hover:text-[#FF1B29] duration-300">{user ? "Logout" : "Login"}</p>
+                </button>
             </div>
 
         </aside>
