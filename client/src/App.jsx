@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
+import ProtectedRoute from "./components/features/ProtectedRoute";
 import Layout from "./components/layout/Layout";
 import Profile from "./pages/Profile"
 
@@ -16,30 +17,28 @@ function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
-
-
-      {/* Header on all pages */}
-        <div className="flex flex-col h-screen overflow-hidden">
+      <div className="flex flex-col h-screen overflow-hidden">
           <img src={Header} alt="" className="w-full z-50 block flex-shrink-0" />
 
           <div className="flex-1 min-h-0 ">  
-
             <Routes>
-              {/* Step 2: Add more routes here */}
               
-              {/* ── Routes WITH a Navbar ── */}
-              <Route element={<Layout />}>
+              {/* ── PUBLIC ROUTES ── */}
+              <Route path="/login" element={<Login/>}/>
+              <Route path="/signup" element={<Signup/>}/>
+
+              {/* ── PRIVATE ROUTES ── */}
+              <Route element={
+                <ProtectedRoute>
+                  <Layout />
+                </ProtectedRoute>
+              }>
                 <Route path="/" element={<Home />} />
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/events" element={<Events />} />
-                  <Route path="/meet-team" element={<MeetTeam />} /> 
+                <Route path="/meet-team" element={<MeetTeam />} /> 
               </Route>
 
-              {/* ── Routes WITHOUT a Navbar ── */}
-              {/* e.g. <Route path="/login" element={<Login />} /> */}
-              <Route path="/login" element={<Login/>}/>
-              <Route path="/signup" element={<Signup/>}/>
-              
             </Routes>
           </div>
         </div>
