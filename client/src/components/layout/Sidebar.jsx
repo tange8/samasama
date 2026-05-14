@@ -4,7 +4,7 @@ import samasama_logo from "../../assets/samasama_logo.svg"
 import { useAuth } from "../../context/AuthContext";
 
 export default function Sidebar() {
-    const { user, logout } = useAuth()
+    const { logout } = useAuth()
     const navigate = useNavigate()
 
     const handleLogout = () => {
@@ -17,7 +17,7 @@ export default function Sidebar() {
         // top-0: Locks it exactly to the top pixel of the monitor.
         // h-screen: Forces the sidebar to span the exact height of the monitor.
         // flex-col: stack items vertically
-        <aside className="w-[200px] bg-linear-to-b from-[#FFDDBE] to-[#fff4ea] flex flex-col flex-shrink-0 align-left p-4 sticky top-0 h-screen shadow-lg shadow-black/20">
+        <aside className="w-[200px] bg-linear-to-b from-[#FFDDBE] to-[#fff4ea] flex flex-col flex-shrink-0 h-full p-4 shadow-lg shadow-black/20">
             
             <div className="flex flex-col items-start h-full justify-between p-6">
 
@@ -55,21 +55,28 @@ export default function Sidebar() {
                     </div>
                     <p className="hover:text-[#FF4F00] duration-300 font-medium">Events</p>
                 </Link>
-            </nav>
-
-    
-                {/* Log out; No functionality right now */}
-                <button 
-                    onClick={handleLogout}
-                    className="flex flex-row gap-2 justify-center items-center cursor-pointer"
-                >
-                    <div className="bg-[#FF1B29] p-2 rounded">
-                        <LogOut
+                
+                <Link to="/meet-team" className="flex flex-row gap-3 justify-start items-center w-40">
+                    <div className="bg-[#FF9B00] p-2 rounded">
+                        <Users
                             color="#FFDCBE"
                         />
                     </div>
-                    <p className="hover:text-[#FF1B29] duration-300">{user ? "Logout" : "Login"}</p>
-                </button>
+                    <p className="hover:text-[#FF9B00] duration-300 font-medium">About Us</p>
+                </Link>
+            </nav>
+
+                {/* Wrapped logout in an items-center div to match the nav alignment */}
+                <div className="flex flex-col items-center">
+                    <div className="flex flex-row gap-3 justify-start items-center cursor-pointer w-40">
+                        <div className="bg-[#FF1B29] p-2 rounded">
+                            <LogOut
+                                color="#FFDCBE"
+                            />
+                        </div>
+                        <p className="hover:text-[#FF1B29] duration-300 font-medium">Logout</p>
+                    </div>
+                </div>
             </div>
 
         </aside>

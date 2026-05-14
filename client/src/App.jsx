@@ -16,10 +16,13 @@ function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
+
+
       {/* Header on all pages */}
         <div className="flex flex-col h-screen overflow-hidden">
-          <img src={Header} alt="" className="w-full z-50 block" />
-          <div className="flex-1 min-h-0">  
+          <img src={Header} alt="" className="w-full z-50 block flex-shrink-0" />
+
+          <div className="flex-1 min-h-0 ">  
 
             <Routes>
               {/* Step 2: Add more routes here */}
