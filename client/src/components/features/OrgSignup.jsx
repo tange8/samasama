@@ -1,54 +1,54 @@
 import { useState } from "react";
-import { IoMdArrowBack, IoMdArrowDropdown } from "react-icons/io";
+import { IoMdArrowBack } from "react-icons/io";
+import { ChevronDown } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 
-export default function OrgSignup ({org, goBack}) {
+export default function OrgSignup({ org, goBack }) {
     const navigate = useNavigate();
-    const { login } = useAuth()
+    const { login } = useAuth();
 
     const [orgSelected, setOrgSelected] = useState(org);
-    const [dropdown, setDropDown] = useState(false)
+    const [dropdown, setDropDown] = useState(false);
 
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
 
     const handleSubmit = async () => {
-        const names = name.split(" ")
+        const names = name.trim().split(" ");
 
         try {
             const res = await fetch("http://localhost:3000/api/auth/register", {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
                     email,
                     password,
                     first_name: names[0],
-                    last_name: names[1],
+                    last_name: names.slice(1).join(" "),
                     role: "org_member",
-                    org: orgSelected
-                })
-            })
+                    org: orgSelected,
+                }),
+            });
 
-            const data = await res.json()
+            const data = await res.json();
 
             if (!res.ok) {
-                setError(data.message)
-                return
+                setError(data.message);
+                return;
             }
 
-            login(data.user)
-            navigate("/")
+            login(data.user);
+            navigate("/");
         } catch (error) {
-            setError(error)
-            console.error("Error signing up: ", error);
+            setError("Something went wrong");
+            console.error("Error signing up:", error);
         }
-    }
-
-    
+    };
 
     return (
         <div className="flex flex-col gap-2 items-center w-full max-w-[540px] h-[460px] bg-[#FFE3CA] border-[3px] border-[#070154] rounded-[11px] relative">
@@ -63,6 +63,7 @@ export default function OrgSignup ({org, goBack}) {
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
+                    placeholder="John Doe"
                 />
             </div>
             <div className="flex flex-col w-[80%]">
@@ -72,6 +73,7 @@ export default function OrgSignup ({org, goBack}) {
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
+                    placeholder="you@example.com"
                 />
             </div>
             <div className="flex flex-col w-[80%]">
@@ -81,6 +83,7 @@ export default function OrgSignup ({org, goBack}) {
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
+                    placeholder="Create a password"
                 />
             </div>
             <div className="flex flex-col w-[80%] relative">
@@ -113,5 +116,5 @@ export default function OrgSignup ({org, goBack}) {
                 <h2 className="text-[20px] text-[#070154]">Create Account</h2>
             </button>
         </div>
-    )
+    );
 }

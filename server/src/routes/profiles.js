@@ -62,6 +62,27 @@ router.get('/user/:id/follows', async (req, res) => {
  res.status(200).json(data);
 });
 
+// POST /user/:id/follows
+router.post('/user/:id/follows', async (req, res) => {
+  const { id } = req.params;
+  const { group_id } = req.body;
+
+  const { data, error } = await supabaseAdmin
+    .from('follows')
+    .insert([
+      {
+        user_id: id,
+        group_id
+      }
+    ])
+
+  if ( error ) {
+    console.error("Error following group: ", error)
+    return res.status(500).json({ error: error})
+  }
+  return res.status(200).json(data)
+})
+
 
 // DELETE /user/:id/follows/:groupId
 router.delete('/user/:id/follows/:groupId', async (req, res) => {
@@ -90,7 +111,7 @@ router.get('/user/:id/saved', async (req, res) => {
    .from('saved_posts')
    .select(`
      *,
-     postings (title, description, group_id, photo_url, start_time, end_time, location, type, groups!group_id(*))
+     postings (id, title, description, group_id, photo_url, start_time, end_time, location, type, groups!group_id(*))
    `)
    .eq('user_id', id);
 

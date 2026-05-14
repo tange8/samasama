@@ -1,25 +1,58 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import StudentSignup from "./StudentSignup";
 import BusinessSignup from "./BusinessSignup";
 import OrgSignup from "./OrgSignup";
+import { ChevronDown } from "lucide-react";
+import samasama_logo_long from "../../assets/samasama_logo_long.png";
 
 const buttonBase = "bg-gradient-to-b from-[#FFE3CA] to-[#F3923B] hover:from-[#F3923B] transition-colors duration-300"
 
 export default function SignupForm() {
     const [role, setRole] = useState("");
-    const [errMsg, setErrMsg] = useState("")
-    const [select, setSelect] = useState(true);
     const [orgSelected, setOrgSelected] = useState("");
-    const [dropdown, setDropDown] = useState(false)
-    console.log(role)
+    const [dropdown, setDropdown] = useState(false);
 
-    const handleNext = () => {
-        if (role) {
-            setSelect(false);
-        } else {
-            setErrMsg("Must select a role before moving forward")
-        }
+    const orgs = ["Kababayan", "FUSION", "PASS", "PUSO"];
+
+    if (role === "student") {
+        return <>
+	    <a href="/">
+		<img src={samasama_logo_long} class="absolute top-10 left-10 cursor-pointer" width="165" />
+	    </a>
+            <StudentSignup
+                goBack={() => {
+                    setRole("");
+                }}
+            />
+        </>;
+    }
+
+    if (role === "business") {
+        return <>
+	    <a href="/">
+		<img src={samasama_logo_long} class="absolute top-10 left-10 cursor-pointer" width="165" />
+	    </a>
+            <BusinessSignup
+                goBack={() => {
+                    setRole("");
+                }}
+            />
+        </>;
+    }
+
+    if (role === "org") {
+        return <>
+	    <a href="/">
+		<img src={samasama_logo_long} class="absolute top-10 left-10 cursor-pointer" width="165" />
+	    </a>
+            <OrgSignup
+                org={orgSelected}
+                goBack={() => {
+                    setRole("");
+                    setOrgSelected("");
+                }}
+            />
+        </>;
     }
 
     return (
@@ -78,6 +111,11 @@ export default function SignupForm() {
                             </div>
                         )}  
                     </div>
+                </button>
+
+                {/* Organization */}
+                <div className="bg-white rounded-2xl shadow-sm overflow-hidden transition-all active:scale-98">
+                    
                     <button
                         className={`${buttonBase} w-30 h-12 bg-[#FFE3CA] border-[3px] border-[#FF9B00] rounded-[11px] cursor-pointer mt-[27px] ml-[454px]`}
                         onClick={handleNext}
@@ -88,13 +126,7 @@ export default function SignupForm() {
                         <p className="text-red-600 mb-3">{errMsg}</p>   
                     )}
                 </div>
-            ) : 
-                <>
-                    {role === "student" && <StudentSignup goBack={() => { setSelect(true); setRole("")}}/>}
-                    {role === "business" && <BusinessSignup goBack={() => { setSelect(true); setRole("")}}/>}
-                    {role === "org" && <OrgSignup org={orgSelected} goBack={() => { setSelect(true); setRole("")}}/>}
-                </>
-            }
-        </>
-    )
+            </div>
+        </div>
+    );
 }

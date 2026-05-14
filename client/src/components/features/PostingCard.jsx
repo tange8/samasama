@@ -95,65 +95,84 @@ export default function PostingCard({ posting }) {
         }
     }
 
-
     return (
-        <div className="flex w-full bg-[#FFDCBE] border-3 border-[#070154] rounded-md p-5 gap-4 cursor-pointer">
-            
-            {/* Image */}
-            <div className="w-[130px] h-[130px] bg-[#D3D3D3] rounded-md flex-shrink-0 overflow-hidden flex items-center justify-center">
-                {posting.photo_url ? (
-                    <img
-                        src={posting.photo_url}
-                        alt="posting"
-                        className="w-full h-full object-cover"
-                    />
-                ) : (
-                    <CiImageOn className="text-white text-4xl" />
-                )}
-            </div>
+	<div className="flex w-full bg-[#FFF4EA] rounded-[10px] p-5 gap-5 cursor-pointer hover:bg-[#fff0e0] transition-all active:scale-98">
+	    
+	    {/* Image */}
+	    <div className="w-[130px] h-[130px] bg-[#FFDDBE] rounded-[10px] flex-shrink-0 overflow-hidden flex items-center justify-center">
+		{posting.photo_url ? (
+		    <img
+			src={posting.photo_url}
+			alt="posting"
+			className="w-full h-full object-cover"
+		    />
+		) : (
+		    <CiImageOn className="text-[#070154]/40 text-4xl" />
+		)}
+	    </div>
 
+	    {/* Title + Description */}
+	    <div className="flex-1 min-w-0 flex flex-col">
+		<h2 className="text-[22px] font-bold text-[#070154] truncate">
+		    {posting.title}
+		</h2>
 
-            {/* Title + Description */}
-            <div className="flex-1 min-w-0 flex flex-col gap-1">
-                <h2 className="text-lg font-bold text-[#070154] truncate">
-                    {posting.title}
-                </h2>
-                <p className="text-sm text-gray-800 overflow-hidden"
-                style={{
-                    display: "-webkit-box",
-                    WebkitBoxOrient: "vertical",
-                    WebkitLineClamp: 5,
-                }}
-                >
-                    {posting.description}
-                </p>
-            </div>
+		<p 
+		    className="text-[15px] text-[#070154]/75 mt-2 overflow-hidden leading-relaxed"
+		    style={{
+			display: "-webkit-box",
+			WebkitBoxOrient: "vertical",
+			WebkitLineClamp: 5,
+		    }}
+		>
+		    {posting.description}
+		</p>
+	    </div>
 
+	    {/* Right Side */}
+	    <div className="flex flex-col max-w-[220px] justify-between flex-shrink-0">
+		
+		{/* Save */}
+		<div 
+		    className="ml-auto"
+		    onClick={(e) => {e.stopPropagation()}}
+		>
+		    <Rating
+			max={1}
+			value={saved ? 1 : 0}
+			onChange={handleSaved}
+			sx={{
+			    '& .MuiRating-iconFilled': {
+				color: '#FF9B00',
+			    },
+			    '& .MuiRating-iconEmpty': {
+				color: '#07015433',
+			    },
+			}}
+		    />
+		</div>
 
-            {/* Group Name + Date Range + Location */}
-            <div className="flex flex-col max-w-[180px] justify-between text-sm text-gray-700 flex-shrink-0">
-                <div 
-                    className="ml-auto" 
-                    onClick={(e) => e.stopPropagation()}
-                >
-                    <Rating
-                        max={1}
-                        value={saved ? 1 : 0}
-                        onChange={handleSaved}
-                    />
-                </div>
-                <div className="flex items-center gap-2">
-                    <HiOutlineUserGroup className="text-red-500 text-xl flex-shrink-0" /> {posting.created_by}
-                </div>
-                <div className="flex items-center gap-2">
-                    <HiOutlineClock className="text-orange-600 text-xl flex-shrink-0" /> {formatTime(posting.start_time)} - {formatTime(posting.end_time)}
-                </div>
-                <div className="flex items-center gap-2">
-                    <HiOutlineLocationMarker className="text-orange-400 text-xl flex-shrink-0" /> {posting.location}
-                </div>
-            </div>
+		{/* Creator */}
+		<div className="flex items-center gap-2 text-[#070154]/80 text-[14px]">
+		    <HiOutlineUserGroup className="text-[#FF1B29] text-[20px] flex-shrink-0" />
+		    <span className="truncate">{posting.created_by}</span>
+		</div>
 
+		{/* Time */}
+		<div className="flex items-center gap-2 text-[#070154]/80 text-[14px]">
+		    <HiOutlineClock className="text-[#FF4F00] text-[20px] flex-shrink-0" />
+		    <span>
+			{formatTime(posting.start_time)} - {formatTime(posting.end_time)}
+		    </span>
+		</div>
 
-        </div>
+		{/* Location */}
+		<div className="flex items-center gap-2 text-[#070154]/80 text-[14px]">
+		    <HiOutlineLocationMarker className="text-[#FF9B00] text-[20px] flex-shrink-0" />
+		    <span className="truncate">{posting.location}</span>
+		</div>
+	    </div>
+
+	</div>
     );
 }

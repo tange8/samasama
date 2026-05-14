@@ -8,6 +8,7 @@ import Home from './pages/Home'
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Events from "./pages/Events";
+import MeetTeam from "./pages/MeetTeam"
 
 import Header from "./assets/Header.svg";
 
@@ -28,6 +29,7 @@ function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/events" element={<Events />} />
+                  <Route path="/meet-team" element={<MeetTeam />} /> 
               </Route>
 
               {/* ── Routes WITHOUT a Navbar ── */}

@@ -3,50 +3,51 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 
-export default function BusinessSignup ({goBack}) {
+export default function BusinessSignup({ goBack }) {
     const navigate = useNavigate();
-    const { login } = useAuth()
+    const { login } = useAuth();
 
     const [name, setName] = useState("");
     const [business, setBusiness] = useState("");
     const [email, setEmail] = useState("");
     const [phone, setPhone] = useState("");
     const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
 
     const handleSubmit = async () => {
-        const names = name.split(" ")
+        const names = name.trim().split(" ");
 
         try {
             const res = await fetch("http://localhost:3000/api/auth/register", {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
                     email,
                     password,
                     first_name: names[0],
-                    last_name: names[1],
+                    last_name: names.slice(1).join(" "),
                     role: "business",
                     businessName: business,
-                    phoneNumber: phone
-                })
-            })
+                    phoneNumber: phone,
+                }),
+            });
 
-            const data = await res.json()
+            const data = await res.json();
 
             if (!res.ok) {
-                setError(data.message)
-                return
+                setError(data.message);
+                return;
             }
 
-            login(data.user)
-            navigate("/")
+            login(data.user);
+            navigate("/");
         } catch (error) {
-            setError(error)
-            console.error("Error signing up: ", error);
+            setError("Something went wrong");
+            console.error("Error signing up:", error);
         }
-    }
+    };
 
     return (
         <div className="flex flex-col items-center w-fit gap-2 bg-[#FFE3CA] border-[3px] border-[#070154] rounded-[11px] relative">
@@ -62,6 +63,7 @@ export default function BusinessSignup ({goBack}) {
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
+                    placeholder="John Doe"
                 />
             </div>
             <div className="flex flex-col">
@@ -71,6 +73,7 @@ export default function BusinessSignup ({goBack}) {
                     type="text"
                     value={business}
                     onChange={(e) => setBusiness(e.target.value)}
+                    placeholder="Your business"
                 />
             </div>
             <div className="flex flex-col">
@@ -80,6 +83,7 @@ export default function BusinessSignup ({goBack}) {
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
+                    placeholder="you@example.com"
                 />
             </div>
             <div className="flex flex-col">
@@ -89,6 +93,7 @@ export default function BusinessSignup ({goBack}) {
                     type="tel"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
+                    placeholder="(555) 123-4567"
                 />
             </div>
             </div>
@@ -99,11 +104,12 @@ export default function BusinessSignup ({goBack}) {
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
+                    placeholder="Create a password"
                 />
             </div>
             <button className="w-50 h-[50px] bg-[#FFE3CA] border-[3px] border-[#FF9B00] rounded-[11px] cursor-pointer mt-[25px] mb-[23px] bg-gradient-to-b from-[#FFE3CA] to-[#F3923B] hover:from-[#F3923B] transition-colors duration-300" onClick={() => {handleSubmit()}}>
                 <h2 className="text-[20px] text-[#070154]">Create Account</h2>
             </button>
         </div>
-    )
+    );
 }

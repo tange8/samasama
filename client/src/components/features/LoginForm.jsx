@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import samasama_logo_long from "../../assets/samasama_logo_long.png";
 
 export default function LoginForm() {
-    const [ email, setEmail ] = useState("")
-    const [ password, setPassword ] = useState("")
-    const [ error, setError ] = useState("")
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
 
     const navigate = useNavigate();
     const { login } = useAuth();
@@ -23,29 +24,27 @@ export default function LoginForm() {
             const res = await fetch("http://localhost:3000/api/auth/login", {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
                     email,
-                    password
-                })
-            })
+                    password,
+                }),
+            });
 
-            const data = await res.json()
+            const data = await res.json();
 
             if (!res.ok) {
-                setError(data.message)
-                return
+                setError(data.message);
+                return;
             }
 
-            login(data.user)
-            navigate("/")
-
-            
+            login(data.user);
+            navigate("/");
         } catch (error) {
-            console.error("Error logging in: ", error.message)
+            console.error("Error logging in:", error.message);
         }
-    }
+    };
 
     return (
         <div className="flex flex-col items-center h-100 w-140 bg-[#FFE3CA] border-[3px] border-[#070154] rounded-[11px] ">
@@ -57,6 +56,7 @@ export default function LoginForm() {
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
+                    placeholder="you@example.com"
                 />
             </div>
             <div className="flex flex-col mt-6.25">
@@ -66,6 +66,7 @@ export default function LoginForm() {
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
+                    placeholder="Enter your password"
                 />
             </div>
             <button className="w-37.5 h-12.5 bg-gradient-to-b from-[#FFE3CA] to-[#F3923B] hover:from-[#F3923B] transition-colors duration-300 border-[3px] border-[#FF9B00] rounded-[11px] mt-7 cursor-pointer" onClick={() => {handleLogin()}}>
@@ -76,5 +77,5 @@ export default function LoginForm() {
                 <h2 className="text-[20px] text-[#070154] hover:text-[#FF4F00] transition-colors duration-300">Don't have an account? Sign up here</h2>
             </button>
         </div>
-    )
+    );
 }

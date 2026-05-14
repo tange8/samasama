@@ -3,47 +3,47 @@ import { IoMdArrowBack } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 
-export default function StudentSignup ({goBack}) {
+export default function StudentSignup({ goBack }) {
     const navigate = useNavigate();
-    const { login } = useAuth()
+    const { login } = useAuth();
 
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [error, setError] = useState("")
+    const [error, setError] = useState("");
 
     const handleSubmit = async () => {
-        const names = name.split(" ")
+        const names = name.trim().split(" ");
 
         try {
             const res = await fetch("http://localhost:3000/api/auth/register", {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
                     email,
                     password,
                     first_name: names[0],
-                    last_name: names[1],
-                    role: "student"
-                })
-            })
+                    last_name: names.slice(1).join(" "),
+                    role: "student",
+                }),
+            });
 
-            const data = await res.json()
+            const data = await res.json();
 
             if (!res.ok) {
-                setError(data.message)
-                return
+                setError(data.message);
+                return;
             }
 
-            login(data.user)
-            navigate("/")
+            login(data.user);
+            navigate("/");
         } catch (error) {
-            setError(error)
-            console.error("Error signing up: ", error);
+            setError("Something went wrong");
+            console.error("Error signing up:", error);
         }
-    }
+    };
 
     return (
         <div className="flex flex-col gap-2 items-center w-160 bg-[#FFE3CA] border-[3px] border-[#070154] rounded-[11px] relative">
@@ -58,6 +58,7 @@ export default function StudentSignup ({goBack}) {
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
+                    placeholder="John Doe"
                 />
             </div>
             <div className="flex flex-col">
@@ -67,6 +68,7 @@ export default function StudentSignup ({goBack}) {
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
+                    placeholder="you@example.com"
                 />
             </div>
             <div className="flex flex-col">
@@ -76,6 +78,7 @@ export default function StudentSignup ({goBack}) {
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
+                    placeholder="Create a password"
                 />
             </div>
             <button className="w-50 h-[50px] bg-[#FFE3CA] border-[3px] border-[#FF9B00] rounded-[11px] cursor-pointer my-4 bg-gradient-to-b from-[#FFE3CA] to-[#F3923B] hover:from-[#F3923B] transition-colors duration-300" onClick={() => {handleSubmit()}}>
@@ -84,5 +87,5 @@ export default function StudentSignup ({goBack}) {
             {error && ( <h3 className="text-red-600 mb-2">{error}</h3> )}
            
         </div>
-    )
+    );
 }

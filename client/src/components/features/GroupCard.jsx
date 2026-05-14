@@ -1,4 +1,19 @@
 export default function GroupCard({ group }) {
+    const formatMeetingTime = (time) => {
+        if (!time) return "";
+
+        const [hours, minutes] = time.split(":");
+        const date = new Date();
+
+        date.setHours(hours);
+        date.setMinutes(minutes);
+
+        return date.toLocaleTimeString("en-US", {
+            hour: "numeric",
+            minute: "2-digit",
+            hour12: true,
+        });
+    };
     return (
         <div className="flex w-full bg-[#FCE3CC] border-[4px] border-[#1B1941] rounded-xl p-5 gap-6 items-center">
             
@@ -42,7 +57,7 @@ export default function GroupCard({ group }) {
                         <circle cx="12" cy="12" r="10"/>
                         <polyline points="12 6 12 12 16 14"/>
                     </svg>
-                    <span className="truncate">{group.meeting_time}</span>
+                    <span className="truncate">{formatMeetingTime(group.meeting_time)}</span>
                 </div>
                 
                 {/* Location */}
