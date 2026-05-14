@@ -111,7 +111,7 @@ router.get('/user/:id/saved', async (req, res) => {
    .from('saved_posts')
    .select(`
      *,
-     postings (title, description, group_id, photo_url, start_time, end_time, location, type, groups!group_id(*))
+     postings (id, title, description, group_id, photo_url, start_time, end_time, location, type, groups!group_id(*))
    `)
    .eq('user_id', id);
 
