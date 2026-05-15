@@ -24,13 +24,13 @@ const teamMembers = [
         linkedin: "https://www.linkedin.com/in/vivienne-anne-catarroja/",
     },
     {
-        name: "Bryant",
+        name: "Bryant Dang",
         role: "Sub Design Lead",
         year: "4th year",
         pronouns: "he/him",
         major: "Software Engineering",
-        photo: "placeholder3.jpg",
-        linkedin: "https://www.linkedin.com/in/placeholder-three",
+        photo: "bryant.jpg",
+        linkedin: "https://www.linkedin.com/in/bryantdang/",
     },
     {
         name: "Grace Jong",
@@ -65,8 +65,8 @@ const teamMembers = [
         year: "4th year",
         pronouns: "she/her",
         major: "Software Engineering",
-        photo: "placeholder1.jpg",
-        linkedin: "https://www.linkedin.com/in/placeholder-one",
+        photo: "emily.jpg",
+        linkedin: "https://www.linkedin.com/in/emilytang427/",
     },
     {
         name: "Farin Soriano",
@@ -75,7 +75,7 @@ const teamMembers = [
         pronouns: "he/him",
         major: "Computer Science",
         photo: "farin.jpg",
-        linkedin: "https://www.linkedin.com/in/placeholder-two",
+        linkedin: "https://www.linkedin.com/in/farinsoriano/",
     },
     {
         name: "Kalia Miyasaki",
@@ -93,7 +93,7 @@ const teamMembers = [
         pronouns: "he/him",
         major: "Computer Science",
         photo: "seb.jpg",
-        linkedin: "https://www.linkedin.com/in/placeholder-six",
+        linkedin: "https://www.linkedin.com/in/jonsebastiancapuyan/",
     },
     {
         name: "Ethan Chao",
@@ -102,7 +102,7 @@ const teamMembers = [
         pronouns: "he/him",
         major: "Software Engineering",
         photo: "ethan.jpg",
-        linkedin: "https://www.linkedin.com/in/placeholder-seven",
+        linkedin: "https://www.linkedin.com/in/ethanchaoo/",
     },
     {
         name: "Mailee Dizon",
