@@ -2,159 +2,171 @@ import { useState } from "react";
 import StudentSignup from "./StudentSignup";
 import BusinessSignup from "./BusinessSignup";
 import OrgSignup from "./OrgSignup";
-import samasama_logo_long from "../../assets/samasama_logo_long.png";
- 
-const buttonBase = "bg-gradient-to-b from-[#FFE3CA] to-[#F3923B] hover:from-[#F3923B] transition-colors duration-300";
- 
+import { ChevronDown } from "lucide-react";
+
+
 export default function SignupForm() {
     const [role, setRole] = useState("");
     const [orgSelected, setOrgSelected] = useState("");
     const [dropdown, setDropdown] = useState(false);
-    const [errMsg, setErrMsg] = useState("");
- 
+
     const orgs = ["Kababayan", "FUSION", "PASS", "PUSO"];
- 
-    const handleNext = () => {
-        if (!role) {
-            setErrMsg("Please select a role.");
-            return;
-        }
-        if (role === "org" && !orgSelected) {
-            setErrMsg("Please select an organization.");
-            return;
-        }
-        setErrMsg("");
-    };
- 
+
     if (role === "student") {
-        return (
-            <>
-                <a href="/">
-                    <img src={samasama_logo_long} className="absolute top-10 left-10 cursor-pointer" width="165" />
-                </a>
-                <StudentSignup goBack={() => setRole("")} />
-            </>
-        );
+        return <>
+	    <a href="/">
+		
+	    </a>
+            <StudentSignup
+                goBack={() => {
+                    setRole("");
+                }}
+            />
+        </>;
     }
- 
+
     if (role === "business") {
-        return (
-            <>
-                <a href="/">
-                    <img src={samasama_logo_long} className="absolute top-10 left-10 cursor-pointer" width="165" />
-                </a>
-                <BusinessSignup goBack={() => setRole("")} />
-            </>
-        );
+        return <>
+	    <a href="/">
+		
+	    </a>
+            <BusinessSignup
+                goBack={() => {
+                    setRole("");
+                }}
+            />
+        </>;
     }
- 
+
     if (role === "org") {
-        return (
-            <>
-                <a href="/">
-                    <img src={samasama_logo_long} className="absolute top-10 left-10 cursor-pointer" width="165" />
-                </a>
-                <OrgSignup
-                    org={orgSelected}
-                    goBack={() => {
-                        setRole("");
-                        setOrgSelected("");
-                    }}
-                />
-            </>
-        );
+        return <>
+	    <a href="/">
+
+	    </a>
+            <OrgSignup
+                org={orgSelected}
+                goBack={() => {
+                    setRole("");
+                    setOrgSelected("");
+                }}
+            />
+        </>;
     }
- 
+
     return (
-        <div className="flex flex-col items-center h-[440px] w-160 bg-[#FFE3CA] border-[3px] border-[#070154] rounded-[11px] overflow-visible">
-            <h1 className="mt-6 text-[32px] font-extrabold">Select Role</h1>
- 
-            {/* Student */}
-            <button
-                className={`w-75 h-15 border-[3px] border-[#FF9B00] rounded-[11px] cursor-pointer mt-[28px] transition-colors duration-300 ${
-                    role === "student" ? "bg-[#F3923B]" : "bg-gradient-to-b from-[#FFE3CA] to-[#F3923B]"
-                }`}
-                onClick={() => {
-                    setDropdown(false);
-                    setRole(role === "student" ? "" : "student");
-                }}
-            >
-                <h2 className="text-[20px] text-[#070154]">Student</h2>
-            </button>
- 
-            {/* Business */}
-            <button
-                className={`w-75 h-15 border-[3px] border-[#FF9B00] rounded-[11px] cursor-pointer mt-[24px] transition-colors duration-300 ${
-                    role === "business" ? "bg-[#F3923B]" : "bg-gradient-to-b from-[#FFE3CA] to-[#F3923B]"
-                }`}
-                onClick={() => {
-                    setDropdown(false);
-                    setRole(role === "business" ? "" : "business");
-                }}
-            >
-                <h2 className="text-[20px] text-[#070154]">Business</h2>
-            </button>
- 
-            {/* Organization */}
-            <div className="relative">
+        <div className="w-full max-w-[520px] rounded-[28px] bg-[#FFF4EA] shadow-[0_10px_40px_rgba(0,0,0,0.2)] p-10 flex flex-col">
+	    <a href="/">
+		
+	    </a>
+
+            {/* Header */}
+            <div className="flex flex-col gap-3 mb-10">
+                <h1 className="text-[38px] font-black text-[#070154] leading-none">
+                    Create Account
+                </h1>
+
+                <p className="text-[#070154]/60 text-[16px]">
+                    Choose how you want to use the platform.
+                </p>
+            </div>
+
+            {/* Role Cards */}
+            <div className="flex flex-col gap-5">
+
+                {/* Student */}
                 <button
-                    className={`w-75 h-15 border-[3px] border-[#FF9B00] rounded-[11px] cursor-pointer mt-[24px] transition-colors duration-300 ${
-                        role === "org" ? "bg-[#F3923B]" : "bg-gradient-to-b from-[#FFE3CA] to-[#F3923B]"
-                    }`}
-                    onClick={() => setDropdown(!dropdown)}
+                    onClick={() => setRole("student")}
+                    className="group bg-white rounded-2xl p-6 text-left shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all cursor-pointer active:scale-98"
                 >
-                    <h2 className="text-[20px] text-[#070154]">Organization</h2>
+                    <div className="flex justify-between items-center">
+                        <div>
+                            <h2 className="text-[24px] font-bold text-[#070154]">
+                                Student
+                            </h2>
+
+                            <p className="text-[#070154]/60 mt-1">
+                                Join clubs, events, and campus communities.
+                            </p>
+                        </div>
+
+                        <div className="w-4 h-4 rounded-full bg-[#FF9B00] opacity-60 group-hover:scale-125 transition-all" />
+                    </div>
                 </button>
- 
-                {dropdown && (
-                    <div className="absolute top-full -mt-3 bg-[#FFE3CA] border-[#FF9B00] border-[3px] w-[300px] rounded-b-[11px] pt-[16px] pb-[10px]">
-                        <div className="flex flex-col gap-[5px]">
+
+                {/* Business */}
+                <button
+                    onClick={() => setRole("business")}
+                    className="group bg-white rounded-2xl p-6 text-left shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all cursor-pointer active:scale-98"
+                >
+                    <div className="flex justify-between items-center">
+                        <div>
+                            <h2 className="text-[24px] font-bold text-[#070154]">
+                                Business
+                            </h2>
+
+                            <p className="text-[#070154]/60 mt-1">
+                                Promote opportunities and connect with students.
+                            </p>
+                        </div>
+
+                        <div className="w-4 h-4 rounded-full bg-[#FF4F00] opacity-70 group-hover:scale-125 transition-all" />
+                    </div>
+                </button>
+
+                {/* Organization */}
+                <div className="bg-white rounded-2xl shadow-sm overflow-hidden transition-all active:scale-98">
+                    
+                    <button
+                        onClick={() => setDropdown(!dropdown)}
+                        className="w-full p-6 flex justify-between items-center hover:bg-black/[0.02] transition-all cursor-pointer"
+                    >
+                        <div className="text-left">
+                            <h2 className="text-[24px] font-bold text-[#070154]">
+                                Organization
+                            </h2>
+
+                            <p className="text-[#070154]/60 mt-1">
+                                Manage a student organization or club.
+                            </p>
+                        </div>
+
+			<div
+			    className="w-4 h-4 rounded-full bg-[#FF1B29]"
+			/>
+                    </button>
+
+		    <div
+			className={`
+			    overflow-hidden transition-all duration-500 ease-in-out
+			    ${dropdown
+				? "max-h-96 opacity-100 translate-y-0"
+				: "max-h-0 opacity-0 -translate-y-2"
+			    }
+			`}
+		    >
+                        <div className="px-6 pb-6 flex flex-col gap-3">
                             {orgs.map((item) => {
-                                const orgColors = {
-                                    Kababayan: "#070154",
-                                    FUSION: "#FF4F00",
-                                    PASS: "#FF9B00",
-                                    PUSO: "#FF1B29",
-                                };
                                 const isSelected = orgSelected === item;
+
                                 return (
-                                    <div
-                                        className="cursor-pointer ml-[38px]"
+                                    <button
                                         key={item}
                                         onClick={() => {
                                             setOrgSelected(item);
                                             setRole("org");
-                                            setDropdown(false);
                                         }}
+                                        className="flex justify-between items-center rounded-xl px-4 py-3 transition-all cursor-pointer border border-transparent hover:bg-black/[0.03] active:scale-98 active:bg-black/[0.05]"
                                     >
-                                        <div className="flex flex-row justify-between mr-[21px] items-center">
-                                            <h3 className="text-[16px]">{item}</h3>
-                                            <div
-                                                className="border-[3px] h-[20px] w-[20px] rounded-xs"
-                                                style={{
-                                                    backgroundColor: isSelected ? orgColors[item] : "transparent",
-                                                    borderColor: orgColors[item],
-                                                }}
-                                            />
-                                        </div>
-                                    </div>
+                                        <span className="font-medium text-[#070154]">
+                                            {item}
+                                        </span>
+                                    </button>
                                 );
                             })}
                         </div>
-                    </div>
-                )}
+		    </div>
+                </div>
             </div>
- 
-            {/* Next button */}
-            <button
-                className={`${buttonBase} w-30 h-12 border-[3px] border-[#FF9B00] rounded-[11px] cursor-pointer mt-[27px]`}
-                onClick={handleNext}
-            >
-                <h2 className="text-[18px] text-[#070154]">Next</h2>
-            </button>
- 
-            {errMsg && <p className="text-red-600 mt-2">{errMsg}</p>}
         </div>
     );
 }
- 

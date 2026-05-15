@@ -3,12 +3,15 @@ import Sidebar from "./Sidebar";
 
 export default function Layout() {
     return (
-        <div className="flex w-full h-full">
+        <div className="flex h-full w-full">
             <Sidebar />
             
-            <main className="flex-1 overflow-y-auto bg-[#FFDDBE]">
-                <Outlet />
+            <main className="flex-grow flex flex-col items-center bg-[#FFF4EA]">
+                <div className="w-full">
+                    <Outlet />
+                </div>
             </main>
+
         </div>
     );
 }
