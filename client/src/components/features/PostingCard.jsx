@@ -5,11 +5,6 @@ import { Rating } from '@mui/material';
 import { useState, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
 
-
-
-
-
-
 export default function PostingCard({ posting }) {
     const { user } = useAuth()
     const [saved, setSaved] = useState(false);
