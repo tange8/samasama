@@ -6,7 +6,7 @@ export default function Layout() {
         <div className="flex h-full w-full">
             <Sidebar />
             
-            <main className="flex-grow flex flex-col items-center bg-[#FFF4EA]">
+            <main className="flex-1 overflow-y-auto items-center bg-[#FFF4EA]">
                 <div className="w-full">
                     <Outlet />
                 </div>
