@@ -3,7 +3,7 @@ import { AnimatePresence } from "framer-motion";
 import { Pencil, Mail } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import instagramIcon from '../../assets/instagramIcon.svg';
-import linkedinIcon from '../../assets/linkedinIcon.svg';
+import linkedinIcon from '../../assets/mdi_linkedin.svg';
 import facebookIcon from '../../assets/facebookIcon.svg';
 
 export default function ProfileBio(staticProfile) {
@@ -96,7 +96,7 @@ export default function ProfileBio(staticProfile) {
                             rel="noopener noreferrer"
                             className="hover:scale-105 transition"
                         >
-                            <img src={linkedinIcon} className="w-[36px] h-[36px]" />
+                            <img src={linkedinIcon} className="w-[45px] h-[45px]" />
                         </a>
 
                         <a

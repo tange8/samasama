@@ -2,6 +2,19 @@ import { HiOutlineUserGroup, HiOutlineClock } from "react-icons/hi2";
 import { HiOutlineLocationMarker } from "react-icons/hi";
 import { CiImageOn } from "react-icons/ci";
 
+
+import pusoLogo from "../../assets/PUSO.jpg";
+import fusionLogo from "../../assets/FUSION.jpg";
+import kababayanLogo from "../../assets/kaba.jpg";
+import passLogo from "../../assets/PASS.jpg";
+
+const ORG_LOGOS = {
+    "PUSO": pusoLogo,
+    "FUSION": fusionLogo,
+    "Kababayan": kababayanLogo,
+    "PASS": passLogo,
+};
+
 export default function GroupCard({ group }) {
     const formatMeetingTime = (time) => {
         if (!time) return "";
@@ -19,12 +32,15 @@ export default function GroupCard({ group }) {
         });
     };
 
+    const logo = ORG_LOGOS[group.name];
+
+
     return (
         <div className="flex w-full bg-[#FFF4EA] rounded-[10px] p-5 gap-5 cursor-pointer hover:bg-[#fff0e0] transition-all active:scale-98">
             
             <div className="w-[130px] h-[130px] bg-[#FFDDBE] rounded-[10px] flex-shrink-0 overflow-hidden flex items-center justify-center">
-                {group.logoUrl ? (
-                    <img src={group.logoUrl} alt={group.name} className="object-cover w-full h-full" />
+                {logo ? (
+                    <img src={logo} alt={group.name} className="object-cover w-full h-full" />
                 ) : (
                     <CiImageOn className="text-[#070154]/40 text-4xl" />
                 )}
