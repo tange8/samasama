@@ -86,7 +86,8 @@ router.post("/register", async(req, res) => {
                     first_name,
                     last_name,
                     type: role,
-                    org
+                    org,
+                    group_id: orgData.id
                 },
                 session: data.session
             })
@@ -138,7 +139,8 @@ router.post("/register", async(req, res) => {
                     last_name,
                     type: role,
                     businessName,
-                    phoneNumber
+                    phoneNumber,
+                    group_id: busData.id
                 },
                 session: data.session
             })
@@ -164,55 +166,70 @@ router.post("/register", async(req, res) => {
 })
 
 router.post("/login", async (req, res) => {
-    try {
-        const { email, password } = req.body
-        console.log("Email: ", email)
-        console.log("Password: ", password)
-        
-        if (!email || !password) {
-            return res.status(400).json({ message: "Need email and password" })
-        }
+    try {
+        const { email, password } = req.body
+        console.log("Email: ", email)
+        console.log("Password: ", password)
+        
+        if (!email || !password) {
+            return res.status(400).json({ message: "Need email and password" })
+        }
 
-        const { data, error } = await supabaseAdmin.auth.signInWithPassword({
-            email,
-            password
-        })
+        const { data, error } = await supabaseAdmin.auth.signInWithPassword({
+            email,
+            password
+        })
 
-        if (error) {
-            console.error("Error: ", error.message)
-            return res.status(401).json({ message: error.message })
-        }
+        if (error) {
+            console.error("Error: ", error.message)
+            return res.status(401).json({ message: error.message })
+        }
 
-        const { data: profile, error: profileError } = await supabaseAdmin
-            .from("users")
-            .select("*")
-            .eq("id", data.user.id)
-            .single()
+        const { data: profile, error: profileError } = await supabaseAdmin
+            .from("users")
+            .select("*")
+            .eq("id", data.user.id)
+            .single()
 
-        console.log(profile)
+        console.log(profile)
 
-        if (profileError) {
-            console.error("Error: ", profileError.message)
-            return res.status(401).json({ message: profileError.message })
-        }
+        if (profileError) {
+            console.error("Error: ", profileError.message)
+            return res.status(401).json({ message: profileError.message })
+        }
 
-        return res.status(200).json({
-            message: "Logged in",
-            user: {
-                id: data.user.id,
-                email: data.user.email,
-                name: `${profile.first_name} ${profile.last_name}`,
-                first_name: profile.first_name,
-                last_name: profile.last_name,
-                type: profile.role
-            },
-            session: data.session
-        })
+        let groupId = null;
 
-    } catch (error) {
-        console.error("Error: ", error.message)
-        res.status(500).json({ error: "Internal server error"})
-    }
+        if (profile.role === "org_member" || profile.role === "business") {
+            const { data: membership } = await supabaseAdmin
+                .from("memberships")
+                .select("group_id")
+                .eq("user_id", data.user.id)
+                .single()
+
+            if (membership) {
+                groupId = membership.group_id; 
+            }
+        }
+
+        return res.status(200).json({
+            message: "Logged in",
+            user: {
+                id: data.user.id,
+                email: data.user.email,
+                name: `${profile.first_name} ${profile.last_name}`,
+                first_name: profile.first_name,
+                last_name: profile.last_name,
+                type: profile.role,
+                group_id: groupId // Now this will work!
+            },
+            session: data.session
+        })
+
+    } catch (error) {
+        console.error("Error: ", error.message)
+        res.status(500).json({ error: "Internal server error"})
+    }
 })
 
 router.post("/logout", async (req, res) => {
