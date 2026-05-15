@@ -10,8 +10,7 @@ export default function Profile() {
     const [profile, setProfile] = useState(null);
     const [savedOrgs, setSavedOrgs] = useState([]);
     const [savedEvents, setSavedEvents] = useState([]);
-    const [upcomingEvents, setUpcomingEvents] = useState([]);
-    const [pastEvents, setPastEvents] = useState([]);
+    const [groupEvents, setGroupEvents] = useState([]);
 
     const [isOpen, setIsOpen] = useState(false);
     const [selectedPost, setSelectedPost] = useState(null);
@@ -37,6 +36,25 @@ export default function Profile() {
                 };
 
                 setProfile(mappedProfile);
+
+                if (user.group_id) {
+                    fetch(`http://localhost:3000/api/postings`)
+                        .then(res => res.json())
+                        .then(postings => {
+                            const filtered = postings
+                                .filter(post => post.group_id === user.group_id)
+                                .map(post => ({
+                                    ...post,
+                                    created_by: post.groups?.name
+                                        ?.split(' ')
+                                        .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+                                        .join(' ') || 'Unknown Group'
+                                }));
+
+                            setGroupEvents(filtered);
+                        })
+                        .catch(console.error);
+                }
             })
             .catch(console.error);
 
@@ -117,8 +135,7 @@ export default function Profile() {
                 role={profile.role}
                 savedOrgs={savedOrgs}
                 savedEvents={savedEvents}
-                upcomingEvents={upcomingEvents}
-                pastEvents={pastEvents}
+                groupEvents={groupEvents}
                 onPostClick={(post) => {
                     setSelectedPost(post);
                     setIsOpen(true);

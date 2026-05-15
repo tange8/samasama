@@ -6,8 +6,7 @@ export default function ProfileContent({
     role,
     savedOrgs,
     savedEvents,
-    upcomingEvents,
-    pastEvents,
+    groupEvents = [],
     onPostClick
 }) {
     if (role === 'student') {
@@ -58,9 +57,13 @@ export default function ProfileContent({
         );
     }
 
-    // Organization / Business Role
+    const now = new Date();
+    
+    const upcomingEvents = groupEvents.filter(event => new Date(event.end_time) >= now);
+    const pastEvents = groupEvents.filter(event => new Date(event.end_time) < now);
+
     return (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 w-full mt-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 w-full mt-6 mx-6">
 
             {/* Upcoming */}
             <div className="w-full bg-[#FFF4EA] border-2 border-[#FF9B00] rounded-2xl p-5 flex flex-col min-h-[500px] shadow-sm">
@@ -69,10 +72,25 @@ export default function ProfileContent({
                 </h2>
 
                 <div className="flex flex-col gap-4 flex-grow">
-                    {upcomingEvents?.map(event => (
-                        <PostingCard key={event.id} posting={event} />
+                    {upcomingEvents.slice(0, 3).map(event => (
+                        <div
+                            key={event.id}
+                            onClick={() => onPostClick(event)}
+                            className="cursor-pointer"
+                        >
+                            <PostingCard posting={event} />
+                        </div>
                     ))}
                 </div>
+                
+                {upcomingEvents.length > 3 && (
+                    <Link
+                        to="/events"
+                        className="mt-5 text-center text-sm font-semibold text-[#FF9B00] hover:text-[#e68a00] transition"
+                    >
+                        See more →
+                    </Link>
+                )}
             </div>
 
             {/* Past */}
@@ -82,10 +100,25 @@ export default function ProfileContent({
                 </h2>
 
                 <div className="flex flex-col gap-4 flex-grow">
-                    {pastEvents?.map(event => (
-                        <PostingCard key={event.id} posting={event} />
+                    {pastEvents.slice(0, 3).map(event => (
+                        <div
+                            key={event.id}
+                            onClick={() => onPostClick(event)}
+                            className="cursor-pointer"
+                        >
+                            <PostingCard posting={event} />
+                        </div>
                     ))}
                 </div>
+                
+                {pastEvents.length > 3 && (
+                    <Link
+                        to="/events"
+                        className="mt-5 text-center text-sm font-semibold text-[#FF4F00] hover:text-[#e04500] transition"
+                    >
+                        See more →
+                    </Link>
+                )}
             </div>
         </div>
     );

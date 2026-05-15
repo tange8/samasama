@@ -68,14 +68,14 @@ export default function Sidebar() {
 
                 {/* Wrapped logout in an items-center div to match the nav alignment */}
                 <div className="flex flex-col items-center">
-                    <div className="flex flex-row gap-3 justify-start items-center cursor-pointer w-40">
+                    <button onClick={handleLogout} className="flex flex-row gap-3 justify-start items-center cursor-pointer w-40">
                         <div className="bg-[#FF1B29] p-2 rounded">
                             <LogOut
                                 color="#FFDCBE"
                             />
                         </div>
                         <p className="hover:text-[#FF1B29] duration-300 font-medium">Logout</p>
-                    </div>
+                    </button>
                 </div>
             </div>
 

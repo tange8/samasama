@@ -7,10 +7,12 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import dayjs from 'dayjs'
 import advancedFormat from 'dayjs/plugin/advancedFormat'
+import { useAuth } from '../../context/AuthContext' // <-- Added import
 dayjs.extend(advancedFormat)
 
 export const CreatePostingModal = ({setAddEventOpen}) => {
   const options = ['Kababayan', 'Fusion', 'Pass', 'Puso'];
+  const { user } = useAuth(); // <-- Get current user
 
   const [errors, setErrors] = useState({
     title: '',
@@ -19,6 +21,7 @@ export const CreatePostingModal = ({setAddEventOpen}) => {
     startClock: '',
     endClock: '',
   })
+  
   // States for frontend
   const [formData, setFormData] = useState({
     title: '',
@@ -29,8 +32,9 @@ export const CreatePostingModal = ({setAddEventOpen}) => {
     startClock: null,
     endClock: null,
     mentionOrgs: [],
-    attachment: null
+    photoUrl: '' 
   })
+  
   const updateField = (field, value) => {
     setFormData(prev => ({
         ...prev,
@@ -102,15 +106,39 @@ export const CreatePostingModal = ({setAddEventOpen}) => {
     const startTime = combineDateTime(formData.startDate, formData.startClock)
     const endTime = combineDateTime(formData.endDate, formData.endClock)
     
+    // Match the backend req.body exactly
     const payload = {
         title: formData.title,
         description: formData.description,
-        photo_link: formData.attachment,
+        location: formData.location,
+        photo_url: formData.photoUrl,
         start_time: startTime.toISOString(),
-        end_time: endTime.toISOString()
+        end_time: endTime.toISOString(),
+        created_by: user.id,
+        type: user?.type === "business" ? "fundraiser" : "event",
+        group_id: user?.group_id 
     }
-    // TO DO: replace with API push logic
-    console.log(payload)
+    
+    try {
+        const res = await fetch("http://localhost:3000/api/postings", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(payload)
+        });
+
+        if (!res.ok) {
+            const errorData = await res.json();
+            console.error("Failed to create posting:", errorData.message);
+            return;
+        }
+
+        setAddEventOpen(false);
+        
+    } catch (error) {
+        console.error("Network error connecting to backend:", error);
+    }
   }
 
     return (
@@ -126,39 +154,31 @@ export const CreatePostingModal = ({setAddEventOpen}) => {
         transition={{ duration: 0.3, ease: "easeOut" }}
         onClick={(e) => e.stopPropagation()}
     >    
-        {/* Div surrounding modal content */}
         <div className="h-full overflow-y-auto p-8">
-            {/* Div surrounding modal header: 
-                **TO DO**: Change header based on user type
-                    Business -> Fundraiser
-                    Org -> Event
-            */}
             <div className="flex flex-row gap-5 items-center pb-4">
                 <div className="w-[50px] h-[50px] rounded-full bg-[#FF4F00] text-white flex items-center justify-center">
                     IMG
                 </div>
                 <div>
-                    <p>Org/business name</p>
+                    <p>{user?.org || user?.businessName || user?.name}</p>
                 </div>
             </div>
             <div className="flex flex-row w-full items-center justify-between text-[#FF4F00] text-[32px]">
-                <h1>New Event</h1>
-                <X className="w-[48px] h-[48px]" onClick={() => setAddEventOpen(false)}></X>
+                <h1>New {user?.type === "business" ? "Fundraiser" : "Event"}</h1>
+                <X className="w-[48px] h-[48px] cursor-pointer" onClick={() => setAddEventOpen(false)}></X>
             </div>
 
-            {/* Div surrounding event information */}
             <div className="flex flex-col gap-6">
 
-                {/* Div for name, org, description inputs */}
                 <div className="flex flex-col items-center justify-center gap-8 py-2 px-15">
                     
-                    {/* Title: Non-null input */}
                     <div className="flex flex-col justify-start w-full relative">
                     <label className="flex flex-row justify-between w-full py-2 px-4 text-[#79747E] bg-white border border-[#FF4F00] rounded-[20px]">
                         <input
                         type='text'
                         placeholder='Name your event...'
                         className="w-full outline-none"
+                        value={formData.title}
                         onChange={(e) => updateField('title', e.target.value)}
                         />
                         <Pencil/>
@@ -172,6 +192,8 @@ export const CreatePostingModal = ({setAddEventOpen}) => {
                         type='text'
                         placeholder='Enter location...'
                         className="w-full outline-none"
+                        value={formData.location}
+                        onChange={(e) => updateField('location', e.target.value)}
                         />
                         <Pencil/>
                     </label>
@@ -181,22 +203,20 @@ export const CreatePostingModal = ({setAddEventOpen}) => {
                         rows={4}
                         placeholder='Description...'
                         className="w-full h-full outline-none resize-none"
+                        value={formData.description}
                         onChange={(e) => updateField('description', e.target.value)}
                         />
                         <Pencil/>
                     </label>
                 </div>
 
-                {/* Start/End Date/Time (MUI X Components) */}
                 <div className="text-[#FF4F00] text-[24px]">Duration and time?</div>
                 
                 <div className="flex flex-col justify-center items-center gap-4">
                     
-                    {/* Start/end date: Non-null input(s) */}
                     <div className="flex flex-col w-full max-w-[630px] justify-start relative">
                     <div className="flex flex-row justify-between items-center py-2 px-4 text-[#79747E] bg-white border border-[#FF4F00] rounded-[20px]">
                         
-                        {/* May change -> New calendar component */}
                         <DatePicker 
                             label="Start Date"
                             value={formData.startDate}
@@ -286,14 +306,11 @@ export const CreatePostingModal = ({setAddEventOpen}) => {
                     </div>
                 </div>
             
-                {/* Mentions */}
                 <div className="flex flex-col gap-6">
                     <h1 className="text-[#FF4F00] text-[24px]">Mentions</h1>
                     <p className="text-[#4A4459]">Want to collaborate with another organization?</p>
 
-                    {/* Org select dropdown and displayed selected orgs */}
                     <div className="flex flex-col gap-4 justify-center items-center">
-                        {/* Org multi-select */}
                         <select
                             onChange={handleOrgSelect}
                             defaultValue=''
@@ -305,12 +322,11 @@ export const CreatePostingModal = ({setAddEventOpen}) => {
                             ))}
                         </select>
 
-                        {/* Map out selected tags */}
                         <div className="flex flex-row gap-2">
                             {formData.mentionOrgs.map((org)=> (
                                 <div key={org} className="flex flex-row gap-2 p-2 w-fit text-white bg-[#FF4F00] rounded-[10px]"> 
                                     <p>{org}</p>
-                                    <X onClick={() => removeMentionedOrg(org)}/>
+                                    <X onClick={() => removeMentionedOrg(org)} className="cursor-pointer"/>
                                 </div>
                             ))}
 
@@ -318,21 +334,21 @@ export const CreatePostingModal = ({setAddEventOpen}) => {
                     </div>
                 </div>
 
-                <div className="flex justify-center items-center w-full max-w-[630px] min-h-[45px] mx-auto px-4 text-[#79747E] bg-white border border-[#FF4F00] rounded-[20px]">
-                    <label>
-                        <input 
-                        type='file' 
-                        accept="image/*" 
-                        className="hidden"
-                        onChange={(e) => updateField('attachment', e.target.files[0])}
+                <div className="flex flex-col justify-start w-full max-w-[630px] mx-auto relative">
+                    <label className="flex flex-row justify-between w-full py-2 px-4 text-[#79747E] bg-white border border-[#FF4F00] rounded-[20px]">
+                        <input
+                        type='text'
+                        placeholder='Enter photo URL...'
+                        className="w-full outline-none"
+                        value={formData.photoUrl}
+                        onChange={(e) => updateField('photoUrl', e.target.value)}
                         />
-                        <span>Add an attachment</span>
+                        <Pencil/>
                     </label>
                 </div>
 
-                {/* onClick => Close modal, send push to database, update events */}
                 <div className="flex justify-center items-center">
-                    <button className="w-[339px] h-[76px] rounded-[10px] text-[24px] text-[#FF4F00] border border-[#FF4F00] hover:bg-[#FF4F00] hover:text-white"
+                    <button className="w-[339px] h-[76px] rounded-[10px] text-[24px] text-[#FF4F00] border border-[#FF4F00] hover:bg-[#FF4F00] hover:text-white transition-all cursor-pointer"
                         onClick={handleSubmit}
                     >
                         Post listing

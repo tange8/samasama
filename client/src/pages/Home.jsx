@@ -15,9 +15,9 @@ export default function Home() {
         const res = await fetch('http://localhost:3000/api/postings')
         const data = await res.json()
         const mapped = data.map(post => ({
-            ...post,
-            created_by: post.group?.name || post.created_by
-        }))
+		...post,
+			created_by: post.group?.name || "Unknown Group" 
+		}))
         setAllPostings(mapped)
         }
 
