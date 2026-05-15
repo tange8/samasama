@@ -17,7 +17,7 @@ export default function Sidebar() {
         // top-0: Locks it exactly to the top pixel of the monitor.
         // h-screen: Forces the sidebar to span the exact height of the monitor.
         // flex-col: stack items vertically
-        <aside className="w-[200px] bg-linear-to-b from-[#FFDDBE] to-[#fff4ea] flex flex-col flex-shrink-0 align-left p-4 sticky top-0 h-screen shadow-lg shadow-black/20">
+        <aside className="w-[200px] bg-linear-to-b from-[#FFDDBE] to-[#fff4ea] flex flex-col flex-shrink-0 h-full p-4 shadow-lg shadow-black/20">
             
             <div className="flex flex-col items-start h-full justify-between p-6">
 
@@ -62,7 +62,7 @@ export default function Sidebar() {
                             color="#FFDCBE"
                         />
                     </div>
-                    <p className="hover:text-[#FF9B00] duration-300 font-medium">Dev Team</p>
+                    <p className="hover:text-[#FF9B00] duration-300 font-medium">About Us</p>
                 </Link>
             </nav>
 

@@ -3,7 +3,7 @@ import StudentSignup from "./StudentSignup";
 import BusinessSignup from "./BusinessSignup";
 import OrgSignup from "./OrgSignup";
 import { ChevronDown } from "lucide-react";
-import samasama_logo_long from "../../assets/samasama_logo_long.png";
+
 
 export default function SignupForm() {
     const [role, setRole] = useState("");
@@ -15,7 +15,7 @@ export default function SignupForm() {
     if (role === "student") {
         return <>
 	    <a href="/">
-		<img src={samasama_logo_long} class="absolute top-10 left-10 cursor-pointer" width="165" />
+		
 	    </a>
             <StudentSignup
                 goBack={() => {
@@ -28,7 +28,7 @@ export default function SignupForm() {
     if (role === "business") {
         return <>
 	    <a href="/">
-		<img src={samasama_logo_long} class="absolute top-10 left-10 cursor-pointer" width="165" />
+		
 	    </a>
             <BusinessSignup
                 goBack={() => {
@@ -41,7 +41,7 @@ export default function SignupForm() {
     if (role === "org") {
         return <>
 	    <a href="/">
-		<img src={samasama_logo_long} class="absolute top-10 left-10 cursor-pointer" width="165" />
+
 	    </a>
             <OrgSignup
                 org={orgSelected}
@@ -56,7 +56,7 @@ export default function SignupForm() {
     return (
         <div className="w-full max-w-[520px] rounded-[28px] bg-[#FFF4EA] shadow-[0_10px_40px_rgba(0,0,0,0.2)] p-10 flex flex-col">
 	    <a href="/">
-		<img src={samasama_logo_long} class="absolute top-10 left-10 cursor-pointer" width="165" />
+		
 	    </a>
 
             {/* Header */}
