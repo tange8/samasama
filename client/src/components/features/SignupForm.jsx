@@ -10,7 +10,7 @@ export default function SignupForm() {
     const [orgSelected, setOrgSelected] = useState("");
     const [dropdown, setDropdown] = useState(false);
 
-    const orgs = ["Kababayan", "FUSION", "PASS", "PUSO"];
+    const orgs = ["KABABAYAN", "FUSION", "PASS", "PUSO"];
 
     if (role === "student") {
         return <>

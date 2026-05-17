@@ -5,7 +5,7 @@ export default function Profile() {
     const dummyOrgs = [
         {
             id: 1,
-            name: "Kababayan",
+            name: "KABABAYAN",
             description: "Kababayan emphasizes the social, cultural, political, academic and community aspects of the Pilipinx/Pilipinx-American experience.",
             type: "Organization",
             meeting_time: "Thursdays, 7-9PM",

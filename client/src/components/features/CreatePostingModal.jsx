@@ -11,7 +11,7 @@ import { useAuth } from '../../context/AuthContext'
 dayjs.extend(advancedFormat)
 
 export const CreatePostingModal = ({ setAddEventOpen }) => {
-    const options = ['Kababayan', 'Fusion', 'Pass', 'Puso'];
+    const options = ['KABABAYAN', 'FUSION', 'PASS', 'PUSO'];
     const { user } = useAuth();
 
     const [errors, setErrors] = useState({

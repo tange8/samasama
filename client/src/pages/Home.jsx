@@ -26,22 +26,22 @@ export default function Home() {
 
     const alyansa = [
         {
-            name: "Kababayan",
+            name: "KABABAYAN",
             img: "https://media.licdn.com/dms/image/v2/C5603AQFdCPmV7sIXFA/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1547835337493?e=2147483647&v=beta&t=kH-UVCpU8xytbigEcKay2JOKVi3TXKtzTBx_IEc3cAQ",
             alt: "kaba_pfp",
         },
         {
-            name: "Fusion",
+            name: "FUSION",
             img: "https://media.licdn.com/dms/image/v2/C560BAQEOlDm_F7INwA/company-logo_200_200/company-logo_200_200/0/1630650698220/fusionuci_logo?e=2147483647&v=beta&t=7QYSb0PKtVoMMCfVFgQjZFOT-zojH_d5Bbxd7GsE5sY",
             alt: "fusion_pfp",
         },
         {
-            name: "Puso",
+            name: "PUSO",
             img: "https://static.wixstatic.com/media/e18f91_03b9463843b049bdb9f55b4658b944dc~mv2.png/v1/fill/w_238,h_237,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Group%205.png",
             alt: "puso_pfp",
         },
         {
-            name: "Pass",
+            name: "PASS",
             img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTr9ocvgVN9sxu0V-nPpn1cYaBer6gV1h_WvA&s",
             alt: "pass_pfp",
         },

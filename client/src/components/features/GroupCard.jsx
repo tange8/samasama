@@ -11,7 +11,7 @@ import passLogo from "../../assets/PASS.jpg";
 const ORG_LOGOS = {
     "PUSO": pusoLogo,
     "FUSION": fusionLogo,
-    "Kababayan": kababayanLogo,
+    "KABABAYAN": kababayanLogo,
     "PASS": passLogo,
 };
 

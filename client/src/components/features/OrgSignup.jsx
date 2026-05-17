@@ -150,7 +150,7 @@ export default function OrgSignup({ org, goBack }) {
                 ${dropdown ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}
                 >
 		
-		    {["Kababayan", "FUSION", "PASS", "PUSO"].map((item) => (
+		    {["KABABAYAN", "FUSION", "PASS", "PUSO"].map((item) => (
 			<button
 			    key={item}
 			    className={`w
