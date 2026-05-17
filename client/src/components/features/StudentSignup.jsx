@@ -58,7 +58,7 @@ export default function StudentSignup({ goBack }) {
             {/* Header */}
             <div className="flex flex-col gap-3 mb-4 mt-6">
                 <h1 className="text-[38px] font-black text-[#070154] leading-none">
-                    Student Signup
+                    Student Sign Up
                 </h1>
             </div>
 

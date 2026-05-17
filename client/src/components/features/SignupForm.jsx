@@ -85,7 +85,7 @@ export default function SignupForm() {
                             </h2>
 
                             <p className="text-[#070154]/60 mt-1">
-                                Join clubs, events, and campus communities.
+                                Browse and connect with Alyansa events.
                             </p>
                         </div>
 
@@ -126,7 +126,7 @@ export default function SignupForm() {
                             </h2>
 
                             <p className="text-[#070154]/60 mt-1">
-                                Manage a student organization or club.
+                                Manage an Alyansa organization on campus.
                             </p>
                         </div>
 

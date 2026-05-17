@@ -6,8 +6,8 @@ export default function Layout() {
         <div className="flex h-full w-full">
             <Sidebar />
             
-            <main className="flex-1 overflow-y-auto items-center bg-[#FFF4EA]">
-                <div className="w-full">
+            <main className="flex-1 overflow-hidden items-center bg-[#FFF4EA]">
+                <div className="w-full h-full">
                     <Outlet />
                 </div>
             </main>

@@ -24,6 +24,7 @@ export default function Profile() {
         fetch(`http://localhost:3000/api/profiles/users/${user.id}`)
             .then(res => res.json())
             .then(data => {
+
                 const mappedProfile = {
                     ...data,
                     profile_image: "https://static.vecteezy.com/system/resources/previews/005/544/718/non_2x/profile-icon-design-free-vector.jpg",
@@ -45,7 +46,7 @@ export default function Profile() {
                                 .filter(post => post.group_id === user.group_id)
                                 .map(post => ({
                                     ...post,
-                                    created_by: post.groups?.name
+                                    created_by: post.group?.name
                                         ?.split(' ')
                                         .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
                                         .join(' ') || 'Unknown Group'
@@ -84,12 +85,16 @@ export default function Profile() {
         fetch(`http://localhost:3000/api/profiles/user/${user.id}/saved`)
             .then(res => res.json())
             .then(data => {
+                data.forEach(item => {
+            console.log("groups:", item.postings.groups)
+            console.log("name:", item.postings.groups?.name)
+        })
                 const cleaned = data.map(item => ({
                     id: item.posting_id,
                     photo_url: item.postings.photo_url,
                     title: item.postings.title,
                     description: item.postings.description,
-                    created_by: item.postings.groups.name,
+                    created_by: item.postings.groups?.name || "Unknown",
                     start_time: item.postings.start_time,
                     end_time: item.postings.end_time,
                     location: item.postings.location
@@ -110,8 +115,7 @@ export default function Profile() {
     }
 
     return (
-        <div className="min-h-screen bg-[#FFF4EA] flex flex-col w-full max-w-[1650px] mx-auto gap-8 pb-10 pt-24 px-12 items-center">
-
+        <div className="h-full overflow-y-auto bg-[#FFF4EA] flex flex-col w-full max-w-[1650px] mx-auto gap-8 pb-10 pt-24 px-12 items-center">
             <h1 className="text-3xl md:text-4xl font-black text-[#070154] self-center">
                 My SamaSama Profile
             </h1>

@@ -24,8 +24,8 @@ export default function Sidebar() {
             {/* Navigation Links Area */}
             <nav className="flex flex-col items-center gap-6">
                 
-                <Link to="/" className="mb-4">
-                    <img src={samasama_logo} alt="SamaSama logo" width="125" />
+                <Link to="/" className="mb-4 w-40">
+                    <img src={samasama_logo} alt="SamaSama logo" className="w-30" />
                 </Link>
 
                 {/* Added w-40 and justify-start to align icons perfectly */}

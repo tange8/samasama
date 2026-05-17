@@ -17,6 +17,11 @@ export default function OrgSignup({ org, goBack }) {
     const [error, setError] = useState("");
 
     const handleSubmit = async () => {
+        if (!name || !email || !password || !orgSelected) {
+        setError("Please fill in all fields");
+        return;
+        }   
+
         const names = name.trim().split(" ");
 
         try {
@@ -36,7 +41,8 @@ export default function OrgSignup({ org, goBack }) {
             });
 
             const data = await res.json();
-
+            console.log("Register response:", data)  // ← add this
+            console.log("res.ok:", res.ok)  
             if (!res.ok) {
                 setError(data.message);
                 return;
@@ -63,7 +69,7 @@ export default function OrgSignup({ org, goBack }) {
             {/* Header */}
             <div className="flex flex-col gap-3 mb-4 mt-6">
                 <h1 className="text-[38px] font-black text-[#070154] leading-none">
-                    Organization Signup
+                    Organization Sign Up
                 </h1>
             </div>
 
@@ -140,21 +146,24 @@ export default function OrgSignup({ org, goBack }) {
 		    />
                 </div>
 
-		<div className={`transition-all transition-500 absolute top-full mt-2 w-full rounded-2xl bg-white shadow-[0_10px_30px_rgba(0,0,0,0.12)] border border-[#FF1B29]/10 overflow-hidden z-50
-		${dropdown ? "opacity-100" : "opacity-0"}`}
-		>
+            <div className={`transition-all transition-500 absolute top-full mt-2 w-full rounded-2xl bg-white shadow-[0_10px_30px_rgba(0,0,0,0.12)] border border-[#FF1B29]/10 overflow-hidden z-50
+                ${dropdown ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}
+                >
+		
 		    {["Kababayan", "FUSION", "PASS", "PUSO"].map((item) => (
 			<button
 			    key={item}
-			    className={`w-full text-left px-4 py-3 transition-all cursor-pointer ${
+			    className={`w
+                    -full text-left px-4 py-3 transition-all cursor-pointer ${
 				orgSelected === item
 				    ? "bg-[#FF1B29] text-white"
 				    : "hover:bg-[#FF1B29]/5 text-[#070154]"
 			    }`}
-			    onClick={() => {
-				setOrgSelected(item);
-				setDropDown(false);
-			    }}
+			onClick={(e) => {
+                e.stopPropagation()  
+                setOrgSelected(item);
+                setDropDown(false);
+            }}
 			>
 			    {item}
 			</button>

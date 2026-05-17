@@ -63,7 +63,7 @@ export default function BusinessSignup({ goBack }) {
             {/* Header */}
             <div className="flex flex-col gap-3 mb-4 mt-6">
                 <h1 className="text-[38px] font-black text-[#070154] leading-none">
-                    Business Signup
+                    Business Sign Up
                 </h1>
             </div>
 

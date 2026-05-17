@@ -39,7 +39,7 @@ export default function Events() {
     }, [user])
 
     return (
-        <div className="flex flex-col py-6 px-6 gap-5 w-full">
+        <div className="flex flex-col py-6 px-6 gap-5 w-full h-full overflow-y-auto">
 
             {/* Header */}
             <h1 className="text-[#070154] text-[22px] font-extrabold text-center">

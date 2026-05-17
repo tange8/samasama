@@ -25,7 +25,7 @@ const teamMembers = [
     },
     {
         name: "Bryant Dang",
-        role: "Sub Design Lead",
+        role: "Design Lead",
         year: "4th year",
         pronouns: "he/him",
         major: "Software Engineering",
@@ -70,7 +70,7 @@ const teamMembers = [
     },
     {
         name: "Farin Soriano",
-        role: "Sub Developer Lead",
+        role: "Developer Lead",
         year: "4th year",
         pronouns: "he/him",
         major: "Computer Science",
@@ -246,17 +246,17 @@ export default function MeetTeam() {
 
     return (
         <div
-            className="flex flex-col items-center w-full min-h-full"
+            className="flex flex-col items-center w-full h-full overflow-y-auto"
             style={{
                 background:
-                    "linear-gradient(to bottom, #F0E0C0 0%, #E8B090 25%, #E08050 50%, #F06020 75%, #F85008 100%)",
+                   "linear-gradient(to bottom, #F0E0C0 0%, #eca886 50%, #f4a05b 80%)",
             }}
         >
             {/*INTRO*/}
             <section className="w-full max-w-5xl px-6 md:px-12 pt-12 pb-8">
                 <div className="text-center">
                     <h1 className="text-4xl md:text-5xl font-bold text-[#070154] mb-3 flex flex-wrap items-center justify-center gap-x-3 gap-y-2">
-                        <span>Who is</span>
+                        <span>What is</span>
                         <img
                             src={samasamaLogoMark}
                             alt="Sama Sama"
@@ -266,12 +266,14 @@ export default function MeetTeam() {
                     </h1>
                     <div className="h-1 w-24 bg-[#FF9B00] rounded-full mx-auto mb-6" />
                     <p className="text-base md:text-lg text-[#1B1941]/85 max-w-3xl mx-auto leading-relaxed">
-                        Sama Sama is a centralized home for UCI Kababayan's{" "}
-                        <span className="font-semibold text-[#070154]">Alyansa</span> —
-                        the coalition of Filipino-American student orgs on campus
-                        (Kababayan, FUSION, PUSO, and PASS). News, events, and
-                        opportunities from every org land in one feed, so nothing slips
-                        through the cracks of scattered group chats and Instagram stories.
+                    SamaSama serves as a centralized platform for all news and updates within UCI Kababayan's 
+                    {" "}
+                        <span className="font-semibold text-[#070154]">Alyansa</span>.
+                    While Alyansa offers a wide range of events and programs, fragmented social media updates result in a level of difficulty 
+                    for some students. Rather than having to venture to specific social media profiles or coming across these opportunities by 
+                    chance, students can use SamaSama to discover events, initiatives, and community resources in one unified, purpose-built platform.
+
+
                     </p>
                 </div>
             </section>

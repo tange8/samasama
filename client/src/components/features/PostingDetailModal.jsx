@@ -5,6 +5,18 @@ import { useAuth } from '../../context/AuthContext'
 import { FiPlusCircle } from "react-icons/fi";
 import { FiCheckCircle } from "react-icons/fi";
 
+import pusoLogo from "../../assets/PUSO.jpg";
+import fusionLogo from "../../assets/FUSION.jpg";
+import kababayanLogo from "../../assets/kaba.jpg";
+import passLogo from "../../assets/PASS.jpg";
+
+const ORG_LOGOS = {
+    "PUSO": pusoLogo,
+    "FUSION": fusionLogo,
+    "Kababayan": kababayanLogo,
+    "PASS": passLogo,
+};
+
 export const PostingDetailModal = ({ setIsOpen, selectedPost }) => {
     const { user } = useAuth()
     const [saved, setSaved] = useState(false)
@@ -186,13 +198,22 @@ export const PostingDetailModal = ({ setIsOpen, selectedPost }) => {
                         </h3>
 
                         <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 rounded-full bg-[#FF1B29] text-white flex items-center justify-center text-sm font-bold">
-                                {selectedPost.created_by?.[0] || "U"}
+                            <div className="w-10 h-10 rounded-full overflow-hidden bg-[#FF1B29] flex items-center justify-center text-white text-sm font-bold flex-shrink-0">
+                                {ORG_LOGOS[selectedPost.created_by] ? (
+                                    <img
+                                        src={ORG_LOGOS[selectedPost.created_by]}
+                                        alt={selectedPost.created_by}
+                                        className="w-full h-full object-cover"
+                                    />
+                                ) : (
+                                    selectedPost.created_by?.[0] || "U"
+                                )}
                             </div>
+                            
 
-                            <span className="text-[#070154] font-medium">
-                                {selectedPost.created_by}
-                            </span>
+                        <span className="text-[#070154] font-medium">
+                            {selectedPost.created_by}
+                        </span>
 
                             <button 
                                 onClick={handleFollow}
@@ -216,7 +237,7 @@ export const PostingDetailModal = ({ setIsOpen, selectedPost }) => {
                     </div>
 
                     {/* Image */}
-                    <div className="w-full h-[320px] rounded-[14px] bg-[#FFDDBE] overflow-hidden flex items-center justify-center">
+                    <div className="w-full aspect-square rounded-[14px] bg-[#FFDDBE] overflow-hidden flex items-center justify-center">
                         {selectedPost.photo_url ? (
                             <img
                                 src={selectedPost.photo_url}
