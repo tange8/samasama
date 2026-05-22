@@ -74,7 +74,6 @@ The app will be running at **http://localhost:5173**
 
 ## Acknowledgements
 
-**Designers & Developers**
 A special thank you to our designers: Vivienne Catarroja, Bryant Dang, Tawann Alvarez, Grace Jong, Maiella Nuqui
 And our developers: Emily Tang, Farin Soriano, Kaila Miyasaki, Julianna Alderete, Mailee Dizon, Christopher Walden, Sebastian Capuyan, Ethan Chao
 
